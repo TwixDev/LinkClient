@@ -1,3 +1,6 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.entity;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,26 +10,18 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 
 public interface IMerchant {
-	void setCustomer(EntityPlayer p_70932_1_);
+    public void setCustomer(EntityPlayer var1);
 
-	EntityPlayer getCustomer();
+    public EntityPlayer getCustomer();
 
-	MerchantRecipeList getRecipes(EntityPlayer p_70934_1_);
+    public MerchantRecipeList getRecipes(EntityPlayer var1);
 
-	void setRecipes(MerchantRecipeList recipeList);
+    public void setRecipes(MerchantRecipeList var1);
 
-	void useRecipe(MerchantRecipe recipe);
+    public void useRecipe(MerchantRecipe var1);
 
-	/**
-	 * Notifies the merchant of a possible merchantrecipe being fulfilled or not.
-	 * Usually, this is just a sound byte being played depending if the suggested
-	 * itemstack is not null.
-	 */
-	void verifySellingItem(ItemStack stack);
+    public void verifySellingItem(ItemStack var1);
 
-	/**
-	 * Get the formatted ChatComponent that will be used for the sender's username
-	 * in chat
-	 */
-	IChatComponent getDisplayName();
+    public IChatComponent getDisplayName();
 }
+

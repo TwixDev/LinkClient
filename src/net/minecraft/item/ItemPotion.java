@@ -1,15 +1,13 @@
 package net.minecraft.item;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
@@ -28,7 +26,8 @@ import net.minecraft.world.World;
 
 public class ItemPotion extends Item {
 	private Map<Integer, List<PotionEffect>> effectCache = Maps.<Integer, List<PotionEffect>>newHashMap();
-	private static final Map<List<PotionEffect>, Integer> SUB_ITEMS_CACHE = Maps.<List<PotionEffect>, Integer>newLinkedHashMap();
+	private static final Map<List<PotionEffect>, Integer> SUB_ITEMS_CACHE = Maps
+			.<List<PotionEffect>, Integer>newLinkedHashMap();
 
 	public ItemPotion() {
 		this.setMaxStackSize(1);
@@ -218,13 +217,17 @@ public class ItemPotion extends Item {
 					if (map != null && map.size() > 0) {
 						for (Entry<IAttribute, AttributeModifier> entry : map.entrySet()) {
 							AttributeModifier attributemodifier = (AttributeModifier) entry.getValue();
-							AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(), potion.getAttributeModifierAmount(potioneffect.getAmplifier(), attributemodifier), attributemodifier.getOperation());
-							multimap.put(((IAttribute) entry.getKey()).getAttributeUnlocalizedName(), attributemodifier1);
+							AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(),
+									potion.getAttributeModifierAmount(potioneffect.getAmplifier(), attributemodifier),
+									attributemodifier.getOperation());
+							multimap.put(((IAttribute) entry.getKey()).getAttributeUnlocalizedName(),
+									attributemodifier1);
 						}
 					}
 
 					if (potioneffect.getAmplifier() > 0) {
-						s1 = s1 + " " + StatCollector.translateToLocal("potion.potency." + potioneffect.getAmplifier()).trim();
+						s1 = s1 + " " + StatCollector.translateToLocal("potion.potency." + potioneffect.getAmplifier())
+								.trim();
 					}
 
 					if (potioneffect.getDuration() > 20) {
@@ -244,7 +247,8 @@ public class ItemPotion extends Item {
 
 			if (!multimap.isEmpty()) {
 				tooltip.add("");
-				tooltip.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("potion.effects.whenDrank"));
+				tooltip.add(
+						EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("potion.effects.whenDrank"));
 
 				for (Entry<String, AttributeModifier> entry1 : multimap.entries()) {
 					AttributeModifier attributemodifier2 = (AttributeModifier) entry1.getValue();
@@ -258,10 +262,16 @@ public class ItemPotion extends Item {
 					}
 
 					if (d0 > 0.0D) {
-						tooltip.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted("attribute.modifier.plus." + attributemodifier2.getOperation(), new Object[] { ItemStack.DECIMALFORMAT.format(d1), StatCollector.translateToLocal("attribute.name." + (String) entry1.getKey()) }));
+						tooltip.add(EnumChatFormatting.BLUE + StatCollector.translateToLocalFormatted(
+								"attribute.modifier.plus." + attributemodifier2.getOperation(),
+								new Object[] { ItemStack.DECIMALFORMAT.format(d1), StatCollector
+										.translateToLocal("attribute.name." + (String) entry1.getKey()) }));
 					} else if (d0 < 0.0D) {
 						d1 = d1 * -1.0D;
-						tooltip.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("attribute.modifier.take." + attributemodifier2.getOperation(), new Object[] { ItemStack.DECIMALFORMAT.format(d1), StatCollector.translateToLocal("attribute.name." + (String) entry1.getKey()) }));
+						tooltip.add(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted(
+								"attribute.modifier.take." + attributemodifier2.getOperation(),
+								new Object[] { ItemStack.DECIMALFORMAT.format(d1), StatCollector
+										.translateToLocal("attribute.name." + (String) entry1.getKey()) }));
 					}
 				}
 			}

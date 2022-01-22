@@ -1,7 +1,6 @@
 package net.minecraft.entity.item;
 
 import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -131,7 +130,8 @@ public class EntityArmorStand extends EntityLivingBase {
 			}
 		}
 
-		if (itemStackIn != null && EntityLiving.getArmorPosition(itemStackIn) != i && (i != 4 || !(itemStackIn.getItem() instanceof ItemBlock))) {
+		if (itemStackIn != null && EntityLiving.getArmorPosition(itemStackIn) != i
+				&& (i != 4 || !(itemStackIn.getItem() instanceof ItemBlock))) {
 			return false;
 		} else {
 			this.setCurrentItemOrArmor(i, itemStackIn);
@@ -158,7 +158,8 @@ public class EntityArmorStand extends EntityLivingBase {
 
 		tagCompound.setTag("Equipment", nbttaglist);
 
-		if (this.getAlwaysRenderNameTag() && (this.getCustomNameTag() == null || this.getCustomNameTag().length() == 0)) {
+		if (this.getAlwaysRenderNameTag()
+				&& (this.getCustomNameTag() == null || this.getCustomNameTag().length() == 0)) {
 			tagCompound.setBoolean("CustomNameVisible", this.getAlwaysRenderNameTag());
 		}
 
@@ -304,7 +305,9 @@ public class EntityArmorStand extends EntityLivingBase {
 			for (int i = 0; i < list.size(); ++i) {
 				Entity entity = (Entity) list.get(i);
 
-				if (entity instanceof EntityMinecart && ((EntityMinecart) entity).getMinecartType() == EntityMinecart.EnumMinecartType.RIDEABLE && this.getDistanceSqToEntity(entity) <= 0.2D) {
+				if (entity instanceof EntityMinecart
+						&& ((EntityMinecart) entity).getMinecartType() == EntityMinecart.EnumMinecartType.RIDEABLE
+						&& this.getDistanceSqToEntity(entity) <= 0.2D) {
 					entity.applyEntityCollision(this);
 				}
 			}
@@ -337,7 +340,8 @@ public class EntityArmorStand extends EntityLivingBase {
 				}
 			}
 
-			if (flag && (itemstack.getItem() == Items.skull || itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin))) {
+			if (flag && (itemstack.getItem() == Items.skull
+					|| itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin))) {
 				i = 4;
 			}
 
@@ -351,7 +355,8 @@ public class EntityArmorStand extends EntityLivingBase {
 
 			if (d3 >= 0.1D && d3 < 0.1D + (flag1 ? 0.8D : 0.45D) && this.contents[1] != null) {
 				j = 1;
-			} else if (d3 >= 0.9D + (flag1 ? 0.3D : 0.0D) && d3 < 0.9D + (flag1 ? 1.0D : 0.7D) && this.contents[3] != null) {
+			} else if (d3 >= 0.9D + (flag1 ? 0.3D : 0.0D) && d3 < 0.9D + (flag1 ? 1.0D : 0.7D)
+					&& this.contents[3] != null) {
 				j = 3;
 			} else if (d3 >= 0.4D && d3 < 0.4D + (flag1 ? 1.0D : 0.8D) && this.contents[2] != null) {
 				j = 2;
@@ -397,7 +402,9 @@ public class EntityArmorStand extends EntityLivingBase {
 				int i = p_175422_1_.inventory.currentItem;
 				ItemStack itemstack1 = p_175422_1_.inventory.getStackInSlot(i);
 
-				if (p_175422_1_.capabilities.isCreativeMode && (itemstack == null || itemstack.getItem() == Item.getItemFromBlock(Blocks.air)) && itemstack1 != null) {
+				if (p_175422_1_.capabilities.isCreativeMode
+						&& (itemstack == null || itemstack.getItem() == Item.getItemFromBlock(Blocks.air))
+						&& itemstack1 != null) {
 					ItemStack itemstack3 = itemstack1.copy();
 					itemstack3.stackSize = 1;
 					this.setCurrentItemOrArmor(p_175422_2_, itemstack3);
@@ -452,7 +459,8 @@ public class EntityArmorStand extends EntityLivingBase {
 						source.getSourceOfDamage().setDead();
 					}
 
-					if (source.getEntity() instanceof EntityPlayer && !((EntityPlayer) source.getEntity()).capabilities.allowEdit) {
+					if (source.getEntity() instanceof EntityPlayer
+							&& !((EntityPlayer) source.getEntity()).capabilities.allowEdit) {
 						return false;
 					} else if (source.isCreativePlayer()) {
 						this.playParticles();
@@ -496,7 +504,10 @@ public class EntityArmorStand extends EntityLivingBase {
 
 	private void playParticles() {
 		if (this.worldObj instanceof WorldServer) {
-			((WorldServer) this.worldObj).spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX, this.posY + (double) this.height / 1.5D, this.posZ, 10, (double) (this.width / 4.0F), (double) (this.height / 4.0F), (double) (this.width / 4.0F), 0.05D, new int[] { Block.getStateId(Blocks.planks.getDefaultState()) });
+			((WorldServer) this.worldObj).spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX,
+					this.posY + (double) this.height / 1.5D, this.posZ, 10, (double) (this.width / 4.0F),
+					(double) (this.height / 4.0F), (double) (this.width / 4.0F), 0.05D,
+					new int[] { Block.getStateId(Blocks.planks.getDefaultState()) });
 		}
 	}
 

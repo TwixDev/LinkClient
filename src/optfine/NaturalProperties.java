@@ -1,11 +1,14 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package optfine;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
-
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
+import optfine.Config;
 
 public class NaturalProperties {
 	public int rotation = 1;
@@ -74,40 +77,29 @@ public class NaturalProperties {
 
 	private int[] fixVertexData(int[] p_fixVertexData_1_, int p_fixVertexData_2_, boolean p_fixVertexData_3_) {
 		int[] aint = new int[p_fixVertexData_1_.length];
-
 		for (int i = 0; i < p_fixVertexData_1_.length; ++i) {
 			aint[i] = p_fixVertexData_1_[i];
 		}
-
 		int i1 = 4 - p_fixVertexData_2_;
-
 		if (p_fixVertexData_3_) {
 			i1 += 3;
 		}
-
-		i1 = i1 % 4;
-
+		i1 %= 4;
 		for (int j = 0; j < 4; ++j) {
 			int k = j * 7;
 			int l = i1 * 7;
 			aint[l + 4] = p_fixVertexData_1_[k + 4];
 			aint[l + 4 + 1] = p_fixVertexData_1_[k + 4 + 1];
-
 			if (p_fixVertexData_3_) {
-				--i1;
-
-				if (i1 < 0) {
-					i1 = 3;
-				}
-			} else {
-				++i1;
-
-				if (i1 > 3) {
-					i1 = 0;
-				}
+				if (--i1 >= 0)
+					continue;
+				i1 = 3;
+				continue;
 			}
+			if (++i1 <= 3)
+				continue;
+			i1 = 0;
 		}
-
 		return aint;
 	}
 }

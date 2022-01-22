@@ -1,7 +1,16 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.item;
 
-public class ItemSimpleFoiled extends Item {
-	public boolean hasEffect(ItemStack stack) {
-		return true;
-	}
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+
+public class ItemSimpleFoiled
+extends Item {
+    @Override
+    public boolean hasEffect(ItemStack stack) {
+        return true;
+    }
 }
+

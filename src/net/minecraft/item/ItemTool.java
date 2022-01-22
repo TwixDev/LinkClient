@@ -1,9 +1,7 @@
 package net.minecraft.item;
 
-import java.util.Set;
-
 import com.google.common.collect.Multimap;
-
+import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,13 +12,13 @@ import net.minecraft.world.World;
 
 public class ItemTool extends Item {
 	private Set<Block> effectiveBlocks;
-	protected float efficiencyOnProperMaterial = 4.0F;
+	public float efficiencyOnProperMaterial = 4.0F;
 
 	/** Damage versus entities. */
 	private float damageVsEntity;
 
 	/** The material this tool is made from. */
-	protected Item.ToolMaterial toolMaterial;
+	public Item.ToolMaterial toolMaterial;
 
 	protected ItemTool(float attackDamage, Item.ToolMaterial material, Set<Block> effectiveBlocks) {
 		this.toolMaterial = material;
@@ -49,7 +47,8 @@ public class ItemTool extends Item {
 	 * Called when a Block is destroyed using this Item. Return true to trigger the
 	 * "Use Item" statistic.
 	 */
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos,
+			EntityLivingBase playerIn) {
 		if ((double) blockIn.getBlockHardness(worldIn, pos) != 0.0D) {
 			stack.damageItem(1, playerIn);
 		}
@@ -92,7 +91,8 @@ public class ItemTool extends Item {
 
 	public Multimap<String, AttributeModifier> getItemAttributeModifiers() {
 		Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers();
-		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Tool modifier", (double) this.damageVsEntity, 0));
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+				new AttributeModifier(itemModifierUUID, "Tool modifier", (double) this.damageVsEntity, 0));
 		return multimap;
 	}
 }

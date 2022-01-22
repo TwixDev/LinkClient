@@ -1,25 +1,35 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.dispenser;
 
-public class PositionImpl implements IPosition {
-	protected final double x;
-	protected final double y;
-	protected final double z;
+import net.minecraft.dispenser.IPosition;
 
-	public PositionImpl(double xCoord, double yCoord, double zCoord) {
-		this.x = xCoord;
-		this.y = yCoord;
-		this.z = zCoord;
-	}
+public class PositionImpl
+implements IPosition {
+    protected final double x;
+    protected final double y;
+    protected final double z;
 
-	public double getX() {
-		return this.x;
-	}
+    public PositionImpl(double xCoord, double yCoord, double zCoord) {
+        this.x = xCoord;
+        this.y = yCoord;
+        this.z = zCoord;
+    }
 
-	public double getY() {
-		return this.y;
-	}
+    @Override
+    public double getX() {
+        return this.x;
+    }
 
-	public double getZ() {
-		return this.z;
-	}
+    @Override
+    public double getY() {
+        return this.y;
+    }
+
+    @Override
+    public double getZ() {
+        return this.z;
+    }
 }
+

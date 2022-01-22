@@ -1,10 +1,12 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.util;
 
-public interface IRegistry<K, V> extends Iterable<V> {
-	V getObject(K name);
+public interface IRegistry<K, V>
+extends Iterable<V> {
+    public V getObject(K var1);
 
-	/**
-	 * Register an object on this registry.
-	 */
-	void putObject(K p_82595_1_, V p_82595_2_);
+    public void putObject(K var1, V var2);
 }
+

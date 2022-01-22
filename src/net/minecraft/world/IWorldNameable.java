@@ -1,21 +1,15 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.world;
 
 import net.minecraft.util.IChatComponent;
 
 public interface IWorldNameable {
-	/**
-	 * Gets the name of this command sender (usually username, but possibly "Rcon")
-	 */
-	String getName();
+    public String getName();
 
-	/**
-	 * Returns true if this thing is named
-	 */
-	boolean hasCustomName();
+    public boolean hasCustomName();
 
-	/**
-	 * Get the formatted ChatComponent that will be used for the sender's username
-	 * in chat
-	 */
-	IChatComponent getDisplayName();
+    public IChatComponent getDisplayName();
 }
+

@@ -1,5 +1,11 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.client.resources;
 
+import net.minecraft.client.resources.IResourceManager;
+
 public interface IResourceManagerReloadListener {
-	void onResourceManagerReload(IResourceManager resourceManager);
+    public void onResourceManagerReload(IResourceManager var1);
 }
+

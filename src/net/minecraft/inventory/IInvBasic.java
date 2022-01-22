@@ -1,9 +1,11 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.inventory;
 
+import net.minecraft.inventory.InventoryBasic;
+
 public interface IInvBasic {
-	/**
-	 * Called by InventoryBasic.onInventoryChanged() on a array that is never
-	 * filled.
-	 */
-	void onInventoryChanged(InventoryBasic p_76316_1_);
+    public void onInventoryChanged(InventoryBasic var1);
 }
+

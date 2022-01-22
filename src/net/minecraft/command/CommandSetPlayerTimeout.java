@@ -1,39 +1,40 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.command;
 
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 
-public class CommandSetPlayerTimeout extends CommandBase {
-	/**
-	 * Gets the name of the command
-	 */
-	public String getCommandName() {
-		return "setidletimeout";
-	}
+public class CommandSetPlayerTimeout
+extends CommandBase {
+    @Override
+    public String getCommandName() {
+        return "setidletimeout";
+    }
 
-	/**
-	 * Return the required permission level for this command.
-	 */
-	public int getRequiredPermissionLevel() {
-		return 3;
-	}
+    @Override
+    public int getRequiredPermissionLevel() {
+        return 3;
+    }
 
-	/**
-	 * Gets the usage string for the command.
-	 */
-	public String getCommandUsage(ICommandSender sender) {
-		return "commands.setidletimeout.usage";
-	}
+    @Override
+    public String getCommandUsage(ICommandSender sender) {
+        return "commands.setidletimeout.usage";
+    }
 
-	/**
-	 * Callback when the command is invoked
-	 */
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-		if (args.length != 1) {
-			throw new WrongUsageException("commands.setidletimeout.usage", new Object[0]);
-		} else {
-			int i = parseInt(args[0], 0);
-			MinecraftServer.getServer().setPlayerIdleTimeout(i);
-			notifyOperators(sender, this, "commands.setidletimeout.success", new Object[] { Integer.valueOf(i) });
-		}
-	}
+    @Override
+    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+        if (args.length != 1) {
+            throw new WrongUsageException("commands.setidletimeout.usage", new Object[0]);
+        }
+        int i = CommandSetPlayerTimeout.parseInt(args[0], 0);
+        MinecraftServer.getServer().setPlayerIdleTimeout(i);
+        CommandSetPlayerTimeout.notifyOperators(sender, (ICommand)this, "commands.setidletimeout.success", i);
+    }
 }
+

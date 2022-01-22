@@ -1,7 +1,6 @@
 package net.minecraft.entity.passive;
 
 import com.google.common.base.Predicate;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -73,11 +72,12 @@ public class EntityWolf extends EntityTameable {
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate<Entity>() {
-			public boolean apply(Entity p_apply_1_) {
-				return p_apply_1_ instanceof EntitySheep || p_apply_1_ instanceof EntityRabbit;
-			}
-		}));
+		this.targetTasks.addTask(4,
+				new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate<Entity>() {
+					public boolean apply(Entity p_apply_1_) {
+						return p_apply_1_ instanceof EntitySheep || p_apply_1_ instanceof EntityRabbit;
+					}
+				}));
 		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget(this, EntitySkeleton.class, false));
 		this.setTamed(false);
 	}
@@ -149,7 +149,11 @@ public class EntityWolf extends EntityTameable {
 	 * Returns the sound this mob makes while it's alive.
 	 */
 	protected String getLivingSound() {
-		return this.isAngry() ? "mob.wolf.growl" : (this.rand.nextInt(3) == 0 ? (this.isTamed() && this.dataWatcher.getWatchableObjectFloat(18) < 10.0F ? "mob.wolf.whine" : "mob.wolf.panting") : "mob.wolf.bark");
+		return this.isAngry() ? "mob.wolf.growl"
+				: (this.rand.nextInt(3) == 0
+						? (this.isTamed() && this.dataWatcher.getWatchableObjectFloat(18) < 10.0F ? "mob.wolf.whine"
+								: "mob.wolf.panting")
+						: "mob.wolf.bark");
 	}
 
 	/**
@@ -217,7 +221,8 @@ public class EntityWolf extends EntityTameable {
 			this.prevTimeWolfIsShaking = 0.0F;
 		} else if ((this.isWet || this.isShaking) && this.isShaking) {
 			if (this.timeWolfIsShaking == 0.0F) {
-				this.playSound("mob.wolf.shake", this.getSoundVolume(), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+				this.playSound("mob.wolf.shake", this.getSoundVolume(),
+						(this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
 			}
 
 			this.prevTimeWolfIsShaking = this.timeWolfIsShaking;
@@ -237,7 +242,9 @@ public class EntityWolf extends EntityTameable {
 				for (int j = 0; j < i; ++j) {
 					float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
 					float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-					this.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double) f1, (double) (f + 0.8F), this.posZ + (double) f2, this.motionX, this.motionY, this.motionZ, new int[0]);
+					this.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double) f1,
+							(double) (f + 0.8F), this.posZ + (double) f2, this.motionX, this.motionY, this.motionZ,
+							new int[0]);
 				}
 			}
 		}
@@ -254,11 +261,13 @@ public class EntityWolf extends EntityTameable {
 	 * Used when calculating the amount of shading to apply while the wolf is wet.
 	 */
 	public float getShadingWhileWet(float p_70915_1_) {
-		return 0.75F + (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70915_1_) / 2.0F * 0.25F;
+		return 0.75F + (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70915_1_)
+				/ 2.0F * 0.25F;
 	}
 
 	public float getShakeAngle(float p_70923_1_, float p_70923_2_) {
-		float f = (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70923_1_ + p_70923_2_) / 1.8F;
+		float f = (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70923_1_
+				+ p_70923_2_) / 1.8F;
 
 		if (f < 0.0F) {
 			f = 0.0F;
@@ -266,11 +275,13 @@ public class EntityWolf extends EntityTameable {
 			f = 1.0F;
 		}
 
-		return MathHelper.sin(f * (float) Math.PI) * MathHelper.sin(f * (float) Math.PI * 11.0F) * 0.15F * (float) Math.PI;
+		return MathHelper.sin(f * (float) Math.PI) * MathHelper.sin(f * (float) Math.PI * 11.0F) * 0.15F
+				* (float) Math.PI;
 	}
 
 	public float getInterestedAngle(float p_70917_1_) {
-		return (this.headRotationCourseOld + (this.headRotationCourse - this.headRotationCourseOld) * p_70917_1_) * 0.15F * (float) Math.PI;
+		return (this.headRotationCourseOld + (this.headRotationCourse - this.headRotationCourseOld) * p_70917_1_)
+				* 0.15F * (float) Math.PI;
 	}
 
 	public float getEyeHeight() {
@@ -304,7 +315,8 @@ public class EntityWolf extends EntityTameable {
 	}
 
 	public boolean attackEntityAsMob(Entity entityIn) {
-		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue()));
+		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this),
+				(float) ((int) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue()));
 
 		if (flag) {
 			this.applyEnchantments(this, entityIn);
@@ -413,7 +425,10 @@ public class EntityWolf extends EntityTameable {
 	}
 
 	public float getTailRotation() {
-		return this.isAngry() ? 1.5393804F : (this.isTamed() ? (0.55F - (20.0F - this.dataWatcher.getWatchableObjectFloat(18)) * 0.02F) * (float) Math.PI : ((float) Math.PI / 5F));
+		return this.isAngry() ? 1.5393804F
+				: (this.isTamed()
+						? (0.55F - (20.0F - this.dataWatcher.getWatchableObjectFloat(18)) * 0.02F) * (float) Math.PI
+						: ((float) Math.PI / 5F));
 	}
 
 	/**
@@ -421,7 +436,8 @@ public class EntityWolf extends EntityTameable {
 	 * (wheat, carrots or seeds depending on the animal type)
 	 */
 	public boolean isBreedingItem(ItemStack stack) {
-		return stack == null ? false : (!(stack.getItem() instanceof ItemFood) ? false : ((ItemFood) stack.getItem()).isWolfsFavoriteMeat());
+		return stack == null ? false
+				: (!(stack.getItem() instanceof ItemFood) ? false : ((ItemFood) stack.getItem()).isWolfsFavoriteMeat());
 	}
 
 	/**
@@ -491,7 +507,8 @@ public class EntityWolf extends EntityTameable {
 			return false;
 		} else {
 			EntityWolf entitywolf = (EntityWolf) otherAnimal;
-			return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove());
+			return !entitywolf.isTamed() ? false
+					: (entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove());
 		}
 	}
 
@@ -516,7 +533,9 @@ public class EntityWolf extends EntityTameable {
 				}
 			}
 
-			return p_142018_1_ instanceof EntityPlayer && p_142018_2_ instanceof EntityPlayer && !((EntityPlayer) p_142018_2_).canAttackPlayer((EntityPlayer) p_142018_1_) ? false : !(p_142018_1_ instanceof EntityHorse) || !((EntityHorse) p_142018_1_).isTame();
+			return p_142018_1_ instanceof EntityPlayer && p_142018_2_ instanceof EntityPlayer
+					&& !((EntityPlayer) p_142018_2_).canAttackPlayer((EntityPlayer) p_142018_1_) ? false
+							: !(p_142018_1_ instanceof EntityHorse) || !((EntityHorse) p_142018_1_).isTame();
 		} else {
 			return false;
 		}

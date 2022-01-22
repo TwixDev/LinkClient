@@ -33,7 +33,8 @@ public class IntHashMap<V> {
 	public V lookup(int p_76041_1_) {
 		int i = computeHash(p_76041_1_);
 
-		for (IntHashMap.Entry<V> entry = this.slots[getSlotIndex(i, this.slots.length)]; entry != null; entry = entry.nextEntry) {
+		for (IntHashMap.Entry<V> entry = this.slots[getSlotIndex(i,
+				this.slots.length)]; entry != null; entry = entry.nextEntry) {
 			if (entry.hashEntry == p_76041_1_) {
 				return entry.valueEntry;
 			}
@@ -52,7 +53,8 @@ public class IntHashMap<V> {
 	final IntHashMap.Entry<V> lookupEntry(int p_76045_1_) {
 		int i = computeHash(p_76045_1_);
 
-		for (IntHashMap.Entry<V> entry = this.slots[getSlotIndex(i, this.slots.length)]; entry != null; entry = entry.nextEntry) {
+		for (IntHashMap.Entry<V> entry = this.slots[getSlotIndex(i,
+				this.slots.length)]; entry != null; entry = entry.nextEntry) {
 			if (entry.hashEntry == p_76045_1_) {
 				return entry;
 			}

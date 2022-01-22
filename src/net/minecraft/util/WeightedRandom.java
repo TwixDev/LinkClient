@@ -1,52 +1,46 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.util;
 
 import java.util.Collection;
 import java.util.Random;
 
 public class WeightedRandom {
-	/**
-	 * Returns the total weight of all items in a collection.
-	 */
-	public static int getTotalWeight(Collection<? extends WeightedRandom.Item> collection) {
-		int i = 0;
+    public static int getTotalWeight(Collection<? extends Item> collection) {
+        int i = 0;
+        for (Item item : collection) {
+            i += item.itemWeight;
+        }
+        return i;
+    }
 
-		for (WeightedRandom.Item weightedrandom$item : collection) {
-			i += weightedrandom$item.itemWeight;
-		}
+    public static <T extends Item> T getRandomItem(Random random, Collection<T> collection, int totalWeight) {
+        if (totalWeight <= 0) {
+            throw new IllegalArgumentException();
+        }
+        int i = random.nextInt(totalWeight);
+        return WeightedRandom.getRandomItem(collection, i);
+    }
 
-		return i;
-	}
+    public static <T extends Item> T getRandomItem(Collection<T> collection, int weight) {
+        for (Item t : collection) {
+            if ((weight -= t.itemWeight) >= 0) continue;
+            return (T)t;
+        }
+        return (T)((Item)null);
+    }
 
-	public static <T extends WeightedRandom.Item> T getRandomItem(Random random, Collection<T> collection, int totalWeight) {
-		if (totalWeight <= 0) {
-			throw new IllegalArgumentException();
-		} else {
-			int i = random.nextInt(totalWeight);
-			return getRandomItem(collection, i);
-		}
-	}
+    public static <T extends Item> T getRandomItem(Random random, Collection<T> collection) {
+        return WeightedRandom.getRandomItem(random, collection, WeightedRandom.getTotalWeight(collection));
+    }
 
-	public static <T extends WeightedRandom.Item> T getRandomItem(Collection<T> collection, int weight) {
-		for (T t : collection) {
-			weight -= t.itemWeight;
+    public static class Item {
+        protected int itemWeight;
 
-			if (weight < 0) {
-				return t;
-			}
-		}
-
-		return (T) null;
-	}
-
-	public static <T extends WeightedRandom.Item> T getRandomItem(Random random, Collection<T> collection) {
-		return getRandomItem(random, collection, getTotalWeight(collection));
-	}
-
-	public static class Item {
-		protected int itemWeight;
-
-		public Item(int itemWeightIn) {
-			this.itemWeight = itemWeightIn;
-		}
-	}
+        public Item(int itemWeightIn) {
+            this.itemWeight = itemWeightIn;
+        }
+    }
 }
+

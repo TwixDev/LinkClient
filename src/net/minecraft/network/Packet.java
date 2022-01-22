@@ -1,20 +1,17 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.network;
 
 import java.io.IOException;
+import net.minecraft.network.INetHandler;
+import net.minecraft.network.PacketBuffer;
 
 public interface Packet<T extends INetHandler> {
-	/**
-	 * Reads the raw packet data from the data stream.
-	 */
-	void readPacketData(PacketBuffer buf) throws IOException;
+    public void readPacketData(PacketBuffer var1) throws IOException;
 
-	/**
-	 * Writes the raw packet data to the data stream.
-	 */
-	void writePacketData(PacketBuffer buf) throws IOException;
+    public void writePacketData(PacketBuffer var1) throws IOException;
 
-	/**
-	 * Passes this Packet on to the NetHandler for processing.
-	 */
-	void processPacket(T handler);
+    public void processPacket(T var1);
 }
+

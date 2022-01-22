@@ -1,5 +1,9 @@
 package net.minecraft.util;
 
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -18,21 +22,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
-
+import net.minecraft.server.MinecraftServer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
-import net.minecraft.server.MinecraftServer;
-
 public class HttpUtil {
-	public static final ListeningExecutorService field_180193_a = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool((new ThreadFactoryBuilder()).setDaemon(true).setNameFormat("Downloader %d").build()));
+	public static final ListeningExecutorService field_180193_a = MoreExecutors.listeningDecorator(Executors
+			.newCachedThreadPool((new ThreadFactoryBuilder()).setDaemon(true).setNameFormat("Downloader %d").build()));
 
 	/** The number of download threads that we have started so far. */
 	private static final AtomicInteger downloadThreadsStarted = new AtomicInteger(0);
@@ -99,7 +97,8 @@ public class HttpUtil {
 			dataoutputstream.writeBytes(content);
 			dataoutputstream.flush();
 			dataoutputstream.close();
-			BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(httpurlconnection.getInputStream()));
+			BufferedReader bufferedreader = new BufferedReader(
+					new InputStreamReader(httpurlconnection.getInputStream()));
 			StringBuffer stringbuffer = new StringBuffer();
 			String s;
 
@@ -119,7 +118,9 @@ public class HttpUtil {
 		}
 	}
 
-	public static ListenableFuture<Object> downloadResourcePack(final File saveFile, final String packUrl, final Map<String, String> p_180192_2_, final int maxSize, final IProgressUpdate p_180192_4_, final Proxy p_180192_5_) {
+	public static ListenableFuture<Object> downloadResourcePack(final File saveFile, final String packUrl,
+			final Map<String, String> p_180192_2_, final int maxSize, final IProgressUpdate p_180192_4_,
+			final Proxy p_180192_5_) {
 		ListenableFuture<?> listenablefuture = field_180193_a.submit(new Runnable() {
 			public void run() {
 				HttpURLConnection httpurlconnection = null;
@@ -152,7 +153,8 @@ public class HttpUtil {
 						int i = httpurlconnection.getContentLength();
 
 						if (p_180192_4_ != null) {
-							p_180192_4_.displayLoadingString(String.format("Downloading file (%.2f MB)...", new Object[] { Float.valueOf(f1 / 1000.0F / 1000.0F) }));
+							p_180192_4_.displayLoadingString(String.format("Downloading file (%.2f MB)...",
+									new Object[] { Float.valueOf(f1 / 1000.0F / 1000.0F) }));
 						}
 
 						if (saveFile.exists()) {
@@ -166,7 +168,8 @@ public class HttpUtil {
 								return;
 							}
 
-							HttpUtil.logger.warn("Deleting " + saveFile + " as it does not match what we currently have (" + i + " vs our " + j + ").");
+							HttpUtil.logger.warn("Deleting " + saveFile
+									+ " as it does not match what we currently have (" + i + " vs our " + j + ").");
 							FileUtils.deleteQuietly(saveFile);
 						} else if (saveFile.getParentFile() != null) {
 							saveFile.getParentFile().mkdirs();
@@ -179,7 +182,8 @@ public class HttpUtil {
 								p_180192_4_.setDoneWorking();
 							}
 
-							throw new IOException("Filesize is bigger than maximum allowed (file is " + f + ", limit is " + maxSize + ")");
+							throw new IOException("Filesize is bigger than maximum allowed (file is " + f
+									+ ", limit is " + maxSize + ")");
 						}
 
 						int k = 0;
@@ -196,7 +200,8 @@ public class HttpUtil {
 									p_180192_4_.setDoneWorking();
 								}
 
-								throw new IOException("Filesize was bigger than maximum allowed (got >= " + f + ", limit was " + maxSize + ")");
+								throw new IOException("Filesize was bigger than maximum allowed (got >= " + f
+										+ ", limit was " + maxSize + ")");
 							}
 
 							if (Thread.interrupted()) {

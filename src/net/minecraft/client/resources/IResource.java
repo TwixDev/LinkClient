@@ -1,18 +1,21 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.client.resources;
 
 import java.io.InputStream;
-
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.util.ResourceLocation;
 
 public interface IResource {
-	ResourceLocation getResourceLocation();
+    public ResourceLocation getResourceLocation();
 
-	InputStream getInputStream();
+    public InputStream getInputStream();
 
-	boolean hasMetadata();
+    public boolean hasMetadata();
 
-	<T extends IMetadataSection> T getMetadata(String p_110526_1_);
+    public <T extends IMetadataSection> T getMetadata(String var1);
 
-	String getResourcePackName();
+    public String getResourcePackName();
 }
+

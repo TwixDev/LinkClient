@@ -4,8 +4,8 @@ package javax.jnlp;
 
 public interface FileOpenService {
 
-  public FileContents openFileDialog(String pathHint, String[] extensions) throws java.io.IOException;
-  public FileContents[] openMultiFileDialog(String pathHint, String[] extensions) throws java.io.IOException;
+  public FileContents openFileDialog(java.lang.String pathHint, java.lang.String[] extensions) throws java.io.IOException;
+  public FileContents[] openMultiFileDialog(java.lang.String pathHint, java.lang.String[] extensions) throws java.io.IOException;
 
 }
 

@@ -1,10 +1,8 @@
 package net.minecraft.command;
 
+import com.google.common.collect.Lists;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -50,24 +48,28 @@ public class CommandClone extends CommandBase {
 			BlockPos blockpos1 = parseBlockPos(sender, args, 3, false);
 			BlockPos blockpos2 = parseBlockPos(sender, args, 6, false);
 			StructureBoundingBox structureboundingbox = new StructureBoundingBox(blockpos, blockpos1);
-			StructureBoundingBox structureboundingbox1 = new StructureBoundingBox(blockpos2, blockpos2.add(structureboundingbox.func_175896_b()));
+			StructureBoundingBox structureboundingbox1 = new StructureBoundingBox(blockpos2,
+					blockpos2.add(structureboundingbox.func_175896_b()));
 			int i = structureboundingbox.getXSize() * structureboundingbox.getYSize() * structureboundingbox.getZSize();
 
 			if (i > 32768) {
-				throw new CommandException("commands.clone.tooManyBlocks", new Object[] { Integer.valueOf(i), Integer.valueOf(32768) });
+				throw new CommandException("commands.clone.tooManyBlocks",
+						new Object[] { Integer.valueOf(i), Integer.valueOf(32768) });
 			} else {
 				boolean flag = false;
 				Block block = null;
 				int j = -1;
 
-				if ((args.length < 11 || !args[10].equals("force") && !args[10].equals("move")) && structureboundingbox.intersectsWith(structureboundingbox1)) {
+				if ((args.length < 11 || !args[10].equals("force") && !args[10].equals("move"))
+						&& structureboundingbox.intersectsWith(structureboundingbox1)) {
 					throw new CommandException("commands.clone.noOverlap", new Object[0]);
 				} else {
 					if (args.length >= 11 && args[10].equals("move")) {
 						flag = true;
 					}
 
-					if (structureboundingbox.minY >= 0 && structureboundingbox.maxY < 256 && structureboundingbox1.minY >= 0 && structureboundingbox1.maxY < 256) {
+					if (structureboundingbox.minY >= 0 && structureboundingbox.maxY < 256
+							&& structureboundingbox1.minY >= 0 && structureboundingbox1.maxY < 256) {
 						World world = sender.getEntityWorld();
 
 						if (world.isAreaLoaded(structureboundingbox) && world.isAreaLoaded(structureboundingbox1)) {
@@ -93,7 +95,9 @@ public class CommandClone extends CommandBase {
 							List<CommandClone.StaticCloneData> list1 = Lists.<CommandClone.StaticCloneData>newArrayList();
 							List<CommandClone.StaticCloneData> list2 = Lists.<CommandClone.StaticCloneData>newArrayList();
 							LinkedList<BlockPos> linkedlist = Lists.<BlockPos>newLinkedList();
-							BlockPos blockpos3 = new BlockPos(structureboundingbox1.minX - structureboundingbox.minX, structureboundingbox1.minY - structureboundingbox.minY, structureboundingbox1.minZ - structureboundingbox.minZ);
+							BlockPos blockpos3 = new BlockPos(structureboundingbox1.minX - structureboundingbox.minX,
+									structureboundingbox1.minY - structureboundingbox.minY,
+									structureboundingbox1.minZ - structureboundingbox.minZ);
 
 							for (int k = structureboundingbox.minZ; k <= structureboundingbox.maxZ; ++k) {
 								for (int l = structureboundingbox.minY; l <= structureboundingbox.maxY; ++l) {
@@ -102,19 +106,25 @@ public class CommandClone extends CommandBase {
 										BlockPos blockpos5 = blockpos4.add(blockpos3);
 										IBlockState iblockstate = world.getBlockState(blockpos4);
 
-										if ((!flag1 || iblockstate.getBlock() != Blocks.air) && (block == null || iblockstate.getBlock() == block && (j < 0 || iblockstate.getBlock().getMetaFromState(iblockstate) == j))) {
+										if ((!flag1 || iblockstate.getBlock() != Blocks.air) && (block == null
+												|| iblockstate.getBlock() == block && (j < 0 || iblockstate.getBlock()
+														.getMetaFromState(iblockstate) == j))) {
 											TileEntity tileentity = world.getTileEntity(blockpos4);
 
 											if (tileentity != null) {
 												NBTTagCompound nbttagcompound = new NBTTagCompound();
 												tileentity.writeToNBT(nbttagcompound);
-												list1.add(new CommandClone.StaticCloneData(blockpos5, iblockstate, nbttagcompound));
+												list1.add(new CommandClone.StaticCloneData(blockpos5, iblockstate,
+														nbttagcompound));
 												linkedlist.addLast(blockpos4);
-											} else if (!iblockstate.getBlock().isFullBlock() && !iblockstate.getBlock().isFullCube()) {
-												list2.add(new CommandClone.StaticCloneData(blockpos5, iblockstate, (NBTTagCompound) null));
+											} else if (!iblockstate.getBlock().isFullBlock()
+													&& !iblockstate.getBlock().isFullCube()) {
+												list2.add(new CommandClone.StaticCloneData(blockpos5, iblockstate,
+														(NBTTagCompound) null));
 												linkedlist.addFirst(blockpos4);
 											} else {
-												list.add(new CommandClone.StaticCloneData(blockpos5, iblockstate, (NBTTagCompound) null));
+												list.add(new CommandClone.StaticCloneData(blockpos5, iblockstate,
+														(NBTTagCompound) null));
 												linkedlist.addLast(blockpos4);
 											}
 										}
@@ -142,42 +152,52 @@ public class CommandClone extends CommandBase {
 							list3.addAll(list);
 							list3.addAll(list1);
 							list3.addAll(list2);
-							List<CommandClone.StaticCloneData> list4 = Lists.<CommandClone.StaticCloneData>reverse(list3);
+							List<CommandClone.StaticCloneData> list4 = Lists.<CommandClone.StaticCloneData>reverse(
+									list3);
 
 							for (CommandClone.StaticCloneData commandclone$staticclonedata : list4) {
-								TileEntity tileentity2 = world.getTileEntity(commandclone$staticclonedata.field_179537_a);
+								TileEntity tileentity2 = world
+										.getTileEntity(commandclone$staticclonedata.field_179537_a);
 
 								if (tileentity2 instanceof IInventory) {
 									((IInventory) tileentity2).clear();
 								}
 
-								world.setBlockState(commandclone$staticclonedata.field_179537_a, Blocks.barrier.getDefaultState(), 2);
+								world.setBlockState(commandclone$staticclonedata.field_179537_a,
+										Blocks.barrier.getDefaultState(), 2);
 							}
 
 							i = 0;
 
 							for (CommandClone.StaticCloneData commandclone$staticclonedata1 : list3) {
-								if (world.setBlockState(commandclone$staticclonedata1.field_179537_a, commandclone$staticclonedata1.blockState, 2)) {
+								if (world.setBlockState(commandclone$staticclonedata1.field_179537_a,
+										commandclone$staticclonedata1.blockState, 2)) {
 									++i;
 								}
 							}
 
 							for (CommandClone.StaticCloneData commandclone$staticclonedata2 : list1) {
-								TileEntity tileentity3 = world.getTileEntity(commandclone$staticclonedata2.field_179537_a);
+								TileEntity tileentity3 = world
+										.getTileEntity(commandclone$staticclonedata2.field_179537_a);
 
 								if (commandclone$staticclonedata2.field_179536_c != null && tileentity3 != null) {
-									commandclone$staticclonedata2.field_179536_c.setInteger("x", commandclone$staticclonedata2.field_179537_a.getX());
-									commandclone$staticclonedata2.field_179536_c.setInteger("y", commandclone$staticclonedata2.field_179537_a.getY());
-									commandclone$staticclonedata2.field_179536_c.setInteger("z", commandclone$staticclonedata2.field_179537_a.getZ());
+									commandclone$staticclonedata2.field_179536_c.setInteger("x",
+											commandclone$staticclonedata2.field_179537_a.getX());
+									commandclone$staticclonedata2.field_179536_c.setInteger("y",
+											commandclone$staticclonedata2.field_179537_a.getY());
+									commandclone$staticclonedata2.field_179536_c.setInteger("z",
+											commandclone$staticclonedata2.field_179537_a.getZ());
 									tileentity3.readFromNBT(commandclone$staticclonedata2.field_179536_c);
 									tileentity3.markDirty();
 								}
 
-								world.setBlockState(commandclone$staticclonedata2.field_179537_a, commandclone$staticclonedata2.blockState, 2);
+								world.setBlockState(commandclone$staticclonedata2.field_179537_a,
+										commandclone$staticclonedata2.blockState, 2);
 							}
 
 							for (CommandClone.StaticCloneData commandclone$staticclonedata3 : list4) {
-								world.notifyNeighborsRespectDebug(commandclone$staticclonedata3.field_179537_a, commandclone$staticclonedata3.blockState.getBlock());
+								world.notifyNeighborsRespectDebug(commandclone$staticclonedata3.field_179537_a,
+										commandclone$staticclonedata3.blockState.getBlock());
 							}
 
 							List<NextTickListEntry> list5 = world.func_175712_a(structureboundingbox, false);
@@ -186,7 +206,10 @@ public class CommandClone extends CommandBase {
 								for (NextTickListEntry nextticklistentry : list5) {
 									if (structureboundingbox.isVecInside(nextticklistentry.position)) {
 										BlockPos blockpos8 = nextticklistentry.position.add(blockpos3);
-										world.scheduleBlockUpdate(blockpos8, nextticklistentry.getBlock(), (int) (nextticklistentry.scheduledTime - world.getWorldInfo().getWorldTotalTime()), nextticklistentry.priority);
+										world.scheduleBlockUpdate(blockpos8, nextticklistentry.getBlock(),
+												(int) (nextticklistentry.scheduledTime
+														- world.getWorldInfo().getWorldTotalTime()),
+												nextticklistentry.priority);
 									}
 								}
 							}
@@ -195,7 +218,8 @@ public class CommandClone extends CommandBase {
 								throw new CommandException("commands.clone.failed", new Object[0]);
 							} else {
 								sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, i);
-								notifyOperators(sender, this, "commands.clone.success", new Object[] { Integer.valueOf(i) });
+								notifyOperators(sender, this, "commands.clone.success",
+										new Object[] { Integer.valueOf(i) });
 							}
 						} else {
 							throw new CommandException("commands.clone.outOfWorld", new Object[0]);
@@ -209,7 +233,23 @@ public class CommandClone extends CommandBase {
 	}
 
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-		return args.length > 0 && args.length <= 3 ? func_175771_a(args, 0, pos) : (args.length > 3 && args.length <= 6 ? func_175771_a(args, 3, pos) : (args.length > 6 && args.length <= 9 ? func_175771_a(args, 6, pos) : (args.length == 10 ? getListOfStringsMatchingLastWord(args, new String[] { "replace", "masked", "filtered" }) : (args.length == 11 ? getListOfStringsMatchingLastWord(args, new String[] { "normal", "force", "move" }) : (args.length == 12 && "filtered".equals(args[9]) ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : null)))));
+		return args.length > 0
+				&& args.length <= 3
+						? func_175771_a(args, 0, pos)
+						: (args.length > 3
+								&& args.length <= 6
+										? func_175771_a(args, 3, pos)
+										: (args.length > 6 && args.length <= 9 ? func_175771_a(args, 6, pos)
+												: (args.length == 10
+														? getListOfStringsMatchingLastWord(args,
+																new String[] { "replace", "masked", "filtered" })
+														: (args.length == 11
+																? getListOfStringsMatchingLastWord(args,
+																		new String[] { "normal", "force", "move" })
+																: (args.length == 12 && "filtered".equals(args[9])
+																		? getListOfStringsMatchingLastWord(args,
+																				Block.blockRegistry.getKeys())
+																		: null)))));
 	}
 
 	static class StaticCloneData {

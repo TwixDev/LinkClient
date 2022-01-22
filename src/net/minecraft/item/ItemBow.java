@@ -1,3 +1,6 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.item;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -6,117 +9,90 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
-public class ItemBow extends Item {
-	public static final String[] bowPullIconNameArray = new String[] { "pulling_0", "pulling_1", "pulling_2" };
+public class ItemBow
+extends Item {
+    public static final String[] bowPullIconNameArray = new String[]{"pulling_0", "pulling_1", "pulling_2"};
 
-	public ItemBow() {
-		this.maxStackSize = 1;
-		this.setMaxDamage(384);
-		this.setCreativeTab(CreativeTabs.tabCombat);
-	}
+    public ItemBow() {
+        this.maxStackSize = 1;
+        this.setMaxDamage(384);
+        this.setCreativeTab(CreativeTabs.tabCombat);
+    }
 
-	/**
-	 * Called when the player stops using an Item (stops holding the right mouse
-	 * button).
-	 */
-	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft) {
-		boolean flag = playerIn.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
+    @Override
+    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft) {
+        boolean flag;
+        boolean bl = flag = playerIn.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
+        if (flag || playerIn.inventory.hasItem(Items.arrow)) {
+            int k;
+            int j;
+            int i = this.getMaxItemUseDuration(stack) - timeLeft;
+            float f = (float)i / 20.0f;
+            if ((double)(f = (f * f + f * 2.0f) / 3.0f) < 0.1) {
+                return;
+            }
+            if (f > 1.0f) {
+                f = 1.0f;
+            }
+            EntityArrow entityarrow = new EntityArrow(worldIn, playerIn, f * 2.0f);
+            if (f == 1.0f) {
+                entityarrow.setIsCritical(true);
+            }
+            if ((j = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, stack)) > 0) {
+                entityarrow.setDamage(entityarrow.getDamage() + (double)j * 0.5 + 0.5);
+            }
+            if ((k = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, stack)) > 0) {
+                entityarrow.setKnockbackStrength(k);
+            }
+            if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, stack) > 0) {
+                entityarrow.setFire(100);
+            }
+            stack.damageItem(1, playerIn);
+            worldIn.playSoundAtEntity(playerIn, "random.bow", 1.0f, 1.0f / (itemRand.nextFloat() * 0.4f + 1.2f) + f * 0.5f);
+            if (flag) {
+                entityarrow.canBePickedUp = 2;
+            } else {
+                playerIn.inventory.consumeInventoryItem(Items.arrow);
+            }
+            playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+            if (!worldIn.isRemote) {
+                worldIn.spawnEntityInWorld(entityarrow);
+            }
+        }
+    }
 
-		if (flag || playerIn.inventory.hasItem(Items.arrow)) {
-			int i = this.getMaxItemUseDuration(stack) - timeLeft;
-			float f = (float) i / 20.0F;
-			f = (f * f + f * 2.0F) / 3.0F;
+    @Override
+    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+        return stack;
+    }
 
-			if ((double) f < 0.1D) {
-				return;
-			}
+    @Override
+    public int getMaxItemUseDuration(ItemStack stack) {
+        return 72000;
+    }
 
-			if (f > 1.0F) {
-				f = 1.0F;
-			}
+    @Override
+    public EnumAction getItemUseAction(ItemStack stack) {
+        return EnumAction.BOW;
+    }
 
-			EntityArrow entityarrow = new EntityArrow(worldIn, playerIn, f * 2.0F);
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+        if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(Items.arrow)) {
+            playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+        }
+        return itemStackIn;
+    }
 
-			if (f == 1.0F) {
-				entityarrow.setIsCritical(true);
-			}
-
-			int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, stack);
-
-			if (j > 0) {
-				entityarrow.setDamage(entityarrow.getDamage() + (double) j * 0.5D + 0.5D);
-			}
-
-			int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, stack);
-
-			if (k > 0) {
-				entityarrow.setKnockbackStrength(k);
-			}
-
-			if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, stack) > 0) {
-				entityarrow.setFire(100);
-			}
-
-			stack.damageItem(1, playerIn);
-			worldIn.playSoundAtEntity(playerIn, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-
-			if (flag) {
-				entityarrow.canBePickedUp = 2;
-			} else {
-				playerIn.inventory.consumeInventoryItem(Items.arrow);
-			}
-
-			playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-
-			if (!worldIn.isRemote) {
-				worldIn.spawnEntityInWorld(entityarrow);
-			}
-		}
-	}
-
-	/**
-	 * Called when the player finishes using this Item (E.g. finishes eating.). Not
-	 * called when the player stops using the Item before the action is complete.
-	 */
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
-		return stack;
-	}
-
-	/**
-	 * How long it takes to use or consume an item
-	 */
-	public int getMaxItemUseDuration(ItemStack stack) {
-		return 72000;
-	}
-
-	/**
-	 * returns the action that specifies what animation to play when the items is
-	 * being used
-	 */
-	public EnumAction getItemUseAction(ItemStack stack) {
-		return EnumAction.BOW;
-	}
-
-	/**
-	 * Called whenever this item is equipped and the right mouse button is pressed.
-	 * Args: itemStack, world, entityPlayer
-	 */
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(Items.arrow)) {
-			playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-		}
-
-		return itemStackIn;
-	}
-
-	/**
-	 * Return the enchantability factor of the item, most of the time is based on
-	 * material.
-	 */
-	public int getItemEnchantability() {
-		return 1;
-	}
+    @Override
+    public int getItemEnchantability() {
+        return 1;
+    }
 }
+

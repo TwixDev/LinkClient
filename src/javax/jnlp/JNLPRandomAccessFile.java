@@ -23,8 +23,8 @@ public interface JNLPRandomAccessFile {
   public long readLong() throws java.io.IOException;
   public float readFloat() throws java.io.IOException;
   public double readDouble() throws java.io.IOException;
-  public String readLine() throws java.io.IOException;
-  public String readUTF() throws java.io.IOException;
+  public java.lang.String readLine() throws java.io.IOException;
+  public java.lang.String readUTF() throws java.io.IOException;
   public void seek(long pos) throws java.io.IOException;
   public void setLength(long newLength) throws java.io.IOException;
   public void write(int b) throws java.io.IOException;
@@ -38,9 +38,9 @@ public interface JNLPRandomAccessFile {
   public void writeLong(long v) throws java.io.IOException;
   public void writeFloat(float v) throws java.io.IOException;
   public void writeDouble(double v) throws java.io.IOException;
-  public void writeBytes(String s) throws java.io.IOException;
-  public void writeChars(String s) throws java.io.IOException;
-  public void writeUTF(String str) throws java.io.IOException;
+  public void writeBytes(java.lang.String s) throws java.io.IOException;
+  public void writeChars(java.lang.String s) throws java.io.IOException;
+  public void writeUTF(java.lang.String str) throws java.io.IOException;
 
 }
 

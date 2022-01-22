@@ -8,7 +8,7 @@ public class UnavailableServiceException extends Exception {
     super();
   }
 
-  public UnavailableServiceException(String message) {
+  public UnavailableServiceException(java.lang.String message) {
     super(message);
   }
 

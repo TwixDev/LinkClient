@@ -1,11 +1,20 @@
+/*
+ * Decompiled with CFR 0.150.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.base.Function
+ *  com.google.common.base.Joiner
+ *  com.google.common.base.Objects
+ *  com.google.common.collect.HashBasedTable
+ *  com.google.common.collect.ImmutableList
+ *  com.google.common.collect.ImmutableMap
+ *  com.google.common.collect.ImmutableTable
+ *  com.google.common.collect.Iterables
+ *  com.google.common.collect.Lists
+ *  com.google.common.collect.Maps
+ *  com.google.common.collect.Table
+ */
 package net.minecraft.block.state;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -18,15 +27,26 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Table;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockStateBase;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.Cartesian;
 import net.minecraft.util.MapPopulator;
 
 public class BlockState {
-	private static final Joiner COMMA_JOINER = Joiner.on(", ");
+	private static final Joiner COMMA_JOINER = Joiner.on((String) ", ");
 	private static final Function<IProperty, String> GET_NAME_FUNC = new Function<IProperty, String>() {
+
 		public String apply(IProperty p_apply_1_) {
 			return p_apply_1_ == null ? "<NULL>" : p_apply_1_.getName();
 		}
@@ -48,7 +68,8 @@ public class BlockState {
 
 		for (List<Comparable> list1 : Cartesian.cartesianProduct(this.getAllowedValues())) {
 			Map<IProperty, Comparable> map1 = MapPopulator.<IProperty, Comparable>createMap(this.properties, list1);
-			BlockState.StateImplementation blockstate$stateimplementation = new BlockState.StateImplementation(blockIn, ImmutableMap.copyOf(map1));
+			BlockState.StateImplementation blockstate$stateimplementation = new BlockState.StateImplementation(blockIn,
+					ImmutableMap.copyOf(map1));
 			map.put(map1, blockstate$stateimplementation);
 			list.add(blockstate$stateimplementation);
 		}
@@ -65,12 +86,10 @@ public class BlockState {
 	}
 
 	private List<Iterable<Comparable>> getAllowedValues() {
-		List<Iterable<Comparable>> list = Lists.<Iterable<Comparable>>newArrayList();
-
+		ArrayList list = Lists.newArrayList();
 		for (int i = 0; i < this.properties.size(); ++i) {
 			list.add(((IProperty) this.properties.get(i)).getAllowedValues());
 		}
-
 		return list;
 	}
 
@@ -87,7 +106,8 @@ public class BlockState {
 	}
 
 	public String toString() {
-		return Objects.toStringHelper(this).add("block", Block.blockRegistry.getNameForObject(this.block)).add("properties", Iterables.transform(this.properties, GET_NAME_FUNC)).toString();
+		return Objects.toStringHelper((Object) this).add("block", Block.blockRegistry.getNameForObject(this.block))
+				.add("properties", (Object) Iterables.transform(this.properties, GET_NAME_FUNC)).toString();
 	}
 
 	static class StateImplementation extends BlockStateBase {
@@ -106,7 +126,8 @@ public class BlockState {
 
 		public <T extends Comparable<T>> T getValue(IProperty<T> property) {
 			if (!this.properties.containsKey(property)) {
-				throw new IllegalArgumentException("Cannot get property " + property + " as it does not exist in " + this.block.getBlockState());
+				throw new IllegalArgumentException(
+						"Cannot get property " + property + " as it does not exist in " + this.block.getBlockState());
 			} else {
 				return (T) ((Comparable) property.getValueClass().cast(this.properties.get(property)));
 			}
@@ -114,11 +135,14 @@ public class BlockState {
 
 		public <T extends Comparable<T>, V extends T> IBlockState withProperty(IProperty<T> property, V value) {
 			if (!this.properties.containsKey(property)) {
-				throw new IllegalArgumentException("Cannot set property " + property + " as it does not exist in " + this.block.getBlockState());
+				throw new IllegalArgumentException(
+						"Cannot set property " + property + " as it does not exist in " + this.block.getBlockState());
 			} else if (!property.getAllowedValues().contains(value)) {
-				throw new IllegalArgumentException("Cannot set property " + property + " to " + value + " on block " + Block.blockRegistry.getNameForObject(this.block) + ", it is not an allowed value");
+				throw new IllegalArgumentException("Cannot set property " + property + " to " + value + " on block "
+						+ Block.blockRegistry.getNameForObject(this.block) + ", it is not an allowed value");
 			} else {
-				return (IBlockState) (this.properties.get(property) == value ? this : (IBlockState) this.propertyValueTable.get(property, value));
+				return (IBlockState) (this.properties.get(property) == value ? this
+						: (IBlockState) this.propertyValueTable.get(property, value));
 			}
 		}
 
@@ -142,12 +166,14 @@ public class BlockState {
 			if (this.propertyValueTable != null) {
 				throw new IllegalStateException();
 			} else {
-				Table<IProperty, Comparable, IBlockState> table = HashBasedTable.<IProperty, Comparable, IBlockState>create();
+				Table<IProperty, Comparable, IBlockState> table = HashBasedTable
+						.<IProperty, Comparable, IBlockState>create();
 
 				for (IProperty<? extends Comparable> iproperty : this.properties.keySet()) {
 					for (Comparable comparable : iproperty.getAllowedValues()) {
 						if (comparable != this.properties.get(iproperty)) {
-							table.put(iproperty, comparable, map.get(this.getPropertiesWithValue(iproperty, comparable)));
+							table.put(iproperty, comparable,
+									map.get(this.getPropertiesWithValue(iproperty, comparable)));
 						}
 					}
 				}

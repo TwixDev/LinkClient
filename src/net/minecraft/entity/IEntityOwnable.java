@@ -1,7 +1,13 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.entity;
 
-public interface IEntityOwnable {
-	String getOwnerId();
+import net.minecraft.entity.Entity;
 
-	Entity getOwner();
+public interface IEntityOwnable {
+    public String getOwnerId();
+
+    public Entity getOwner();
 }
+

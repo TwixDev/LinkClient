@@ -1,7 +1,6 @@
 package net.minecraft.entity.monster;
 
 import com.google.common.base.Predicate;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
@@ -56,7 +55,8 @@ public class EntityIronGolem extends EntityGolem {
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIDefendVillage(this));
 		this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
-		this.targetTasks.addTask(3, new EntityIronGolem.AINearestAttackableTargetNonCreeper(this, EntityLiving.class, 10, false, true, IMob.VISIBLE_MOB_SELECTOR));
+		this.targetTasks.addTask(3, new EntityIronGolem.AINearestAttackableTargetNonCreeper(this, EntityLiving.class,
+				10, false, true, IMob.VISIBLE_MOB_SELECTOR));
 	}
 
 	protected void entityInit() {
@@ -117,7 +117,8 @@ public class EntityIronGolem extends EntityGolem {
 			--this.holdRoseTick;
 		}
 
-		if (this.motionX * this.motionX + this.motionZ * this.motionZ > 2.500000277905201E-7D && this.rand.nextInt(5) == 0) {
+		if (this.motionX * this.motionX + this.motionZ * this.motionZ > 2.500000277905201E-7D
+				&& this.rand.nextInt(5) == 0) {
 			int i = MathHelper.floor_double(this.posX);
 			int j = MathHelper.floor_double(this.posY - 0.20000000298023224D);
 			int k = MathHelper.floor_double(this.posZ);
@@ -125,7 +126,12 @@ public class EntityIronGolem extends EntityGolem {
 			Block block = iblockstate.getBlock();
 
 			if (block.getMaterial() != Material.air) {
-				this.worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, 4.0D * ((double) this.rand.nextFloat() - 0.5D), 0.5D, ((double) this.rand.nextFloat() - 0.5D) * 4.0D, new int[] { Block.getStateId(iblockstate) });
+				this.worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK,
+						this.posX + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width,
+						this.getEntityBoundingBox().minY + 0.1D,
+						this.posZ + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width,
+						4.0D * ((double) this.rand.nextFloat() - 0.5D), 0.5D,
+						((double) this.rand.nextFloat() - 0.5D) * 4.0D, new int[] { Block.getStateId(iblockstate) });
 			}
 		}
 	}
@@ -157,7 +163,8 @@ public class EntityIronGolem extends EntityGolem {
 	public boolean attackEntityAsMob(Entity entityIn) {
 		this.attackTimer = 10;
 		this.worldObj.setEntityState(this, (byte) 4);
-		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (7 + this.rand.nextInt(15)));
+		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this),
+				(float) (7 + this.rand.nextInt(15)));
 
 		if (flag) {
 			entityIn.motionY += 0.4000000059604645D;
@@ -217,7 +224,8 @@ public class EntityIronGolem extends EntityGolem {
 		int i = this.rand.nextInt(3);
 
 		for (int j = 0; j < i; ++j) {
-			this.dropItemWithOffset(Item.getItemFromBlock(Blocks.red_flower), 1, (float) BlockFlower.EnumFlowerType.POPPY.getMeta());
+			this.dropItemWithOffset(Item.getItemFromBlock(Blocks.red_flower), 1,
+					(float) BlockFlower.EnumFlowerType.POPPY.getMeta());
 		}
 
 		int l = 3 + this.rand.nextInt(3);
@@ -256,8 +264,10 @@ public class EntityIronGolem extends EntityGolem {
 		super.onDeath(cause);
 	}
 
-	static class AINearestAttackableTargetNonCreeper<T extends EntityLivingBase> extends EntityAINearestAttackableTarget<T> {
-		public AINearestAttackableTargetNonCreeper(final EntityCreature creature, Class<T> classTarget, int chance, boolean p_i45858_4_, boolean p_i45858_5_, final Predicate<? super T> p_i45858_6_) {
+	static class AINearestAttackableTargetNonCreeper<T extends EntityLivingBase>
+			extends EntityAINearestAttackableTarget<T> {
+		public AINearestAttackableTargetNonCreeper(final EntityCreature creature, Class<T> classTarget, int chance,
+				boolean p_i45858_4_, boolean p_i45858_5_, final Predicate<? super T> p_i45858_6_) {
 			super(creature, classTarget, chance, p_i45858_4_, p_i45858_5_, p_i45858_6_);
 			this.targetEntitySelector = new Predicate<T>() {
 				public boolean apply(T p_apply_1_) {

@@ -1,15 +1,14 @@
 package net.minecraft.util;
 
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 	private static final Set<Class<?>> field_181158_a = Sets.<Class<?>>newHashSet();
@@ -96,7 +95,8 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 	public <S> Iterable<S> getByClass(final Class<S> clazz) {
 		return new Iterable<S>() {
 			public Iterator<S> iterator() {
-				List<T> list = (List) ClassInheritanceMultiMap.this.map.get(ClassInheritanceMultiMap.this.func_181157_b(clazz));
+				List<T> list = (List) ClassInheritanceMultiMap.this.map
+						.get(ClassInheritanceMultiMap.this.func_181157_b(clazz));
 
 				if (list == null) {
 					return Iterators.<S>emptyIterator();
@@ -109,7 +109,8 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 	}
 
 	public Iterator<T> iterator() {
-		return this.field_181745_e.isEmpty() ? Iterators.<T>emptyIterator() : Iterators.unmodifiableIterator(this.field_181745_e.iterator());
+		return this.field_181745_e.isEmpty() ? Iterators.<T>emptyIterator()
+				: Iterators.unmodifiableIterator(this.field_181745_e.iterator());
 	}
 
 	public int size() {

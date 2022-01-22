@@ -1,11 +1,18 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.command;
 
-public class SyntaxErrorException extends CommandException {
-	public SyntaxErrorException() {
-		this("commands.generic.snytax", new Object[0]);
-	}
+import net.minecraft.command.CommandException;
 
-	public SyntaxErrorException(String message, Object... replacements) {
-		super(message, replacements);
-	}
+public class SyntaxErrorException
+extends CommandException {
+    public SyntaxErrorException() {
+        this("commands.generic.snytax", new Object[0]);
+    }
+
+    public SyntaxErrorException(String message, Object ... replacements) {
+        super(message, replacements);
+    }
 }
+

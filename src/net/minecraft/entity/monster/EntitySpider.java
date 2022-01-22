@@ -1,7 +1,6 @@
 package net.minecraft.entity.monster;
 
 import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -188,7 +187,8 @@ public class EntitySpider extends EntityMob {
 		if (livingdata == null) {
 			livingdata = new EntitySpider.GroupData();
 
-			if (this.worldObj.getDifficulty() == EnumDifficulty.HARD && this.worldObj.rand.nextFloat() < 0.1F * difficulty.getClampedAdditionalDifficulty()) {
+			if (this.worldObj.getDifficulty() == EnumDifficulty.HARD
+					&& this.worldObj.rand.nextFloat() < 0.1F * difficulty.getClampedAdditionalDifficulty()) {
 				((EntitySpider.GroupData) livingdata).func_111104_a(this.worldObj.rand);
 			}
 		}

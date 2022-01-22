@@ -53,7 +53,8 @@ public class EntityMinecartFurnace extends EntityMinecart {
 		this.setMinecartPowered(this.fuel > 0);
 
 		if (this.isMinecartPowered() && this.rand.nextInt(4) == 0) {
-			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + 0.8D, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+			this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + 0.8D, this.posZ, 0.0D,
+					0.0D, 0.0D, new int[0]);
 		}
 	}
 
@@ -166,6 +167,7 @@ public class EntityMinecartFurnace extends EntityMinecart {
 	}
 
 	public IBlockState getDefaultDisplayTile() {
-		return (this.isMinecartPowered() ? Blocks.lit_furnace : Blocks.furnace).getDefaultState().withProperty(BlockFurnace.FACING, EnumFacing.NORTH);
+		return (this.isMinecartPowered() ? Blocks.lit_furnace : Blocks.furnace).getDefaultState()
+				.withProperty(BlockFurnace.FACING, EnumFacing.NORTH);
 	}
 }

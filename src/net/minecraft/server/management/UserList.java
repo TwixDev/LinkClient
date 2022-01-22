@@ -1,19 +1,5 @@
 package net.minecraft.server.management;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -27,6 +13,18 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserList<K, V extends UserListEntry<K>> {
 	protected static final Logger logger = LogManager.getLogger();
@@ -148,13 +146,15 @@ public class UserList<K, V extends UserListEntry<K>> {
 		private Serializer() {
 		}
 
-		public JsonElement serialize(UserListEntry<K> p_serialize_1_, Type p_serialize_2_, JsonSerializationContext p_serialize_3_) {
+		public JsonElement serialize(UserListEntry<K> p_serialize_1_, Type p_serialize_2_,
+				JsonSerializationContext p_serialize_3_) {
 			JsonObject jsonobject = new JsonObject();
 			p_serialize_1_.onSerialization(jsonobject);
 			return jsonobject;
 		}
 
-		public UserListEntry<K> deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
+		public UserListEntry<K> deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_,
+				JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
 			if (p_deserialize_1_.isJsonObject()) {
 				JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
 				UserListEntry<K> userlistentry = UserList.this.createEntry(jsonobject);

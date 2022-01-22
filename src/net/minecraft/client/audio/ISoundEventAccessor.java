@@ -1,7 +1,11 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.client.audio;
 
 public interface ISoundEventAccessor<T> {
-	int getWeight();
+    public int getWeight();
 
-	T cloneEntry();
+    public T cloneEntry();
 }
+

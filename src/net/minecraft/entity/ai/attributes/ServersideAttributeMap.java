@@ -1,11 +1,9 @@
 package net.minecraft.entity.ai.attributes;
 
+import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import net.minecraft.server.management.LowerStringMap;
 
 public class ServersideAttributeMap extends BaseAttributeMap {
@@ -34,7 +32,8 @@ public class ServersideAttributeMap extends BaseAttributeMap {
 		IAttributeInstance iattributeinstance = super.registerAttribute(attribute);
 
 		if (attribute instanceof RangedAttribute && ((RangedAttribute) attribute).getDescription() != null) {
-			this.descriptionToAttributeInstanceMap.put(((RangedAttribute) attribute).getDescription(), iattributeinstance);
+			this.descriptionToAttributeInstanceMap.put(((RangedAttribute) attribute).getDescription(),
+					iattributeinstance);
 		}
 
 		return iattributeinstance;

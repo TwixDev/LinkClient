@@ -30,7 +30,8 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob {
 		this.tasks.addTask(2, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(4, new EntityAILookIdle(this));
-		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, IMob.mobSelector));
+		this.targetTasks.addTask(1,
+				new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, IMob.mobSelector));
 	}
 
 	protected void applyEntityAttributes() {
@@ -56,7 +57,8 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob {
 				this.attackEntityFrom(DamageSource.drown, 1.0F);
 			}
 
-			if (this.worldObj.getBiomeGenForCoords(new BlockPos(i, 0, k)).getFloatTemperature(new BlockPos(i, j, k)) > 1.0F) {
+			if (this.worldObj.getBiomeGenForCoords(new BlockPos(i, 0, k))
+					.getFloatTemperature(new BlockPos(i, j, k)) > 1.0F) {
 				this.attackEntityFrom(DamageSource.onFire, 1.0F);
 			}
 
@@ -66,7 +68,10 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob {
 				k = MathHelper.floor_double(this.posZ + (double) ((float) (l / 2 % 2 * 2 - 1) * 0.25F));
 				BlockPos blockpos = new BlockPos(i, j, k);
 
-				if (this.worldObj.getBlockState(blockpos).getBlock().getMaterial() == Material.air && this.worldObj.getBiomeGenForCoords(new BlockPos(i, 0, k)).getFloatTemperature(blockpos) < 0.8F && Blocks.snow_layer.canPlaceBlockAt(this.worldObj, blockpos)) {
+				if (this.worldObj.getBlockState(blockpos).getBlock().getMaterial() == Material.air
+						&& this.worldObj.getBiomeGenForCoords(new BlockPos(i, 0, k))
+								.getFloatTemperature(blockpos) < 0.8F
+						&& Blocks.snow_layer.canPlaceBlockAt(this.worldObj, blockpos)) {
 					this.worldObj.setBlockState(blockpos, Blocks.snow_layer.getDefaultState());
 				}
 			}

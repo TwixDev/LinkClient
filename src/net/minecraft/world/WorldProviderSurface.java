@@ -1,14 +1,20 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.world;
 
-public class WorldProviderSurface extends WorldProvider {
-	/**
-	 * Returns the dimension's name, e.g. "The End", "Nether", or "Overworld".
-	 */
-	public String getDimensionName() {
-		return "Overworld";
-	}
+import net.minecraft.world.WorldProvider;
 
-	public String getInternalNameSuffix() {
-		return "";
-	}
+public class WorldProviderSurface
+extends WorldProvider {
+    @Override
+    public String getDimensionName() {
+        return "Overworld";
+    }
+
+    @Override
+    public String getInternalNameSuffix() {
+        return "";
+    }
 }
+

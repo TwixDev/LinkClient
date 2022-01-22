@@ -1,7 +1,14 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.block;
 
-public class BlockButtonWood extends BlockButton {
-	protected BlockButtonWood() {
-		super(true);
-	}
+import net.minecraft.block.BlockButton;
+
+public class BlockButtonWood
+extends BlockButton {
+    protected BlockButtonWood() {
+        super(true);
+    }
 }
+

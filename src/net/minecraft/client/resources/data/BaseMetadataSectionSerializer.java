@@ -1,4 +1,12 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.client.resources.data;
 
-public abstract class BaseMetadataSectionSerializer<T extends IMetadataSection> implements IMetadataSectionSerializer<T> {
+import net.minecraft.client.resources.data.IMetadataSection;
+import net.minecraft.client.resources.data.IMetadataSectionSerializer;
+
+public abstract class BaseMetadataSectionSerializer<T extends IMetadataSection>
+implements IMetadataSectionSerializer<T> {
 }
+

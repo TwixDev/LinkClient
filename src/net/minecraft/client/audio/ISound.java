@@ -1,37 +1,42 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.client.audio;
 
 import net.minecraft.util.ResourceLocation;
 
 public interface ISound {
-	ResourceLocation getSoundLocation();
+    public ResourceLocation getSoundLocation();
 
-	boolean canRepeat();
+    public boolean canRepeat();
 
-	int getRepeatDelay();
+    public int getRepeatDelay();
 
-	float getVolume();
+    public float getVolume();
 
-	float getPitch();
+    public float getPitch();
 
-	float getXPosF();
+    public float getXPosF();
 
-	float getYPosF();
+    public float getYPosF();
 
-	float getZPosF();
+    public float getZPosF();
 
-	ISound.AttenuationType getAttenuationType();
+    public AttenuationType getAttenuationType();
 
-	public static enum AttenuationType {
-		NONE(0), LINEAR(2);
+    public static enum AttenuationType {
+        NONE(0),
+        LINEAR(2);
 
-		private final int type;
+        private final int type;
 
-		private AttenuationType(int typeIn) {
-			this.type = typeIn;
-		}
+        private AttenuationType(int typeIn) {
+            this.type = typeIn;
+        }
 
-		public int getTypeInt() {
-			return this.type;
-		}
-	}
+        public int getTypeInt() {
+            return this.type;
+        }
+    }
 }
+

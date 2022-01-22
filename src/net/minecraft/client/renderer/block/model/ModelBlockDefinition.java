@@ -1,11 +1,18 @@
+/*
+ * Decompiled with CFR 0.150.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.collect.Lists
+ *  com.google.common.collect.Maps
+ *  com.google.gson.Gson
+ *  com.google.gson.GsonBuilder
+ *  com.google.gson.JsonDeserializationContext
+ *  com.google.gson.JsonDeserializer
+ *  com.google.gson.JsonElement
+ *  com.google.gson.JsonObject
+ *  com.google.gson.JsonParseException
+ */
 package net.minecraft.client.renderer.block.model;
-
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -16,211 +23,212 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.client.resources.model.ModelRotation;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelBlockDefinition {
-	static final Gson GSON = (new GsonBuilder()).registerTypeAdapter(ModelBlockDefinition.class, new ModelBlockDefinition.Deserializer()).registerTypeAdapter(ModelBlockDefinition.Variant.class, new ModelBlockDefinition.Variant.Deserializer()).create();
-	private final Map<String, ModelBlockDefinition.Variants> mapVariants = Maps.<String, ModelBlockDefinition.Variants>newHashMap();
+    static final Gson GSON = new GsonBuilder().registerTypeAdapter(ModelBlockDefinition.class, (Object)new Deserializer()).registerTypeAdapter(Variant.class, (Object)new Variant.Deserializer()).create();
+    private final Map<String, Variants> mapVariants = Maps.newHashMap();
 
-	public static ModelBlockDefinition parseFromReader(Reader p_178331_0_) {
-		return (ModelBlockDefinition) GSON.fromJson(p_178331_0_, ModelBlockDefinition.class);
-	}
+    public static ModelBlockDefinition parseFromReader(Reader p_178331_0_) {
+        return (ModelBlockDefinition)GSON.fromJson(p_178331_0_, ModelBlockDefinition.class);
+    }
 
-	public ModelBlockDefinition(Collection<ModelBlockDefinition.Variants> p_i46221_1_) {
-		for (ModelBlockDefinition.Variants modelblockdefinition$variants : p_i46221_1_) {
-			this.mapVariants.put(modelblockdefinition$variants.name, modelblockdefinition$variants);
-		}
-	}
+    public ModelBlockDefinition(Collection<Variants> p_i46221_1_) {
+        for (Variants modelblockdefinition$variants : p_i46221_1_) {
+            this.mapVariants.put(modelblockdefinition$variants.name, modelblockdefinition$variants);
+        }
+    }
 
-	public ModelBlockDefinition(List<ModelBlockDefinition> p_i46222_1_) {
-		for (ModelBlockDefinition modelblockdefinition : p_i46222_1_) {
-			this.mapVariants.putAll(modelblockdefinition.mapVariants);
-		}
-	}
+    public ModelBlockDefinition(List<ModelBlockDefinition> p_i46222_1_) {
+        for (ModelBlockDefinition modelblockdefinition : p_i46222_1_) {
+            this.mapVariants.putAll(modelblockdefinition.mapVariants);
+        }
+    }
 
-	public ModelBlockDefinition.Variants getVariants(String p_178330_1_) {
-		ModelBlockDefinition.Variants modelblockdefinition$variants = (ModelBlockDefinition.Variants) this.mapVariants.get(p_178330_1_);
+    public Variants getVariants(String p_178330_1_) {
+        Variants modelblockdefinition$variants = this.mapVariants.get(p_178330_1_);
+        if (modelblockdefinition$variants == null) {
+            throw new MissingVariantException();
+        }
+        return modelblockdefinition$variants;
+    }
 
-		if (modelblockdefinition$variants == null) {
-			throw new ModelBlockDefinition.MissingVariantException();
-		} else {
-			return modelblockdefinition$variants;
-		}
-	}
+    public boolean equals(Object p_equals_1_) {
+        if (this == p_equals_1_) {
+            return true;
+        }
+        if (p_equals_1_ instanceof ModelBlockDefinition) {
+            ModelBlockDefinition modelblockdefinition = (ModelBlockDefinition)p_equals_1_;
+            return this.mapVariants.equals(modelblockdefinition.mapVariants);
+        }
+        return false;
+    }
 
-	public boolean equals(Object p_equals_1_) {
-		if (this == p_equals_1_) {
-			return true;
-		} else if (p_equals_1_ instanceof ModelBlockDefinition) {
-			ModelBlockDefinition modelblockdefinition = (ModelBlockDefinition) p_equals_1_;
-			return this.mapVariants.equals(modelblockdefinition.mapVariants);
-		} else {
-			return false;
-		}
-	}
+    public int hashCode() {
+        return this.mapVariants.hashCode();
+    }
 
-	public int hashCode() {
-		return this.mapVariants.hashCode();
-	}
+    public static class Variants {
+        private final String name;
+        private final List<Variant> listVariants;
 
-	public static class Deserializer implements JsonDeserializer<ModelBlockDefinition> {
-		public ModelBlockDefinition deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
-			JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
-			List<ModelBlockDefinition.Variants> list = this.parseVariantsList(p_deserialize_3_, jsonobject);
-			return new ModelBlockDefinition(list);
-		}
+        public Variants(String nameIn, List<Variant> listVariantsIn) {
+            this.name = nameIn;
+            this.listVariants = listVariantsIn;
+        }
 
-		protected List<ModelBlockDefinition.Variants> parseVariantsList(JsonDeserializationContext p_178334_1_, JsonObject p_178334_2_) {
-			JsonObject jsonobject = JsonUtils.getJsonObject(p_178334_2_, "variants");
-			List<ModelBlockDefinition.Variants> list = Lists.<ModelBlockDefinition.Variants>newArrayList();
+        public List<Variant> getVariants() {
+            return this.listVariants;
+        }
 
-			for (Entry<String, JsonElement> entry : jsonobject.entrySet()) {
-				list.add(this.parseVariants(p_178334_1_, entry));
-			}
+        public boolean equals(Object p_equals_1_) {
+            if (this == p_equals_1_) {
+                return true;
+            }
+            if (!(p_equals_1_ instanceof Variants)) {
+                return false;
+            }
+            Variants modelblockdefinition$variants = (Variants)p_equals_1_;
+            return !this.name.equals(modelblockdefinition$variants.name) ? false : this.listVariants.equals(modelblockdefinition$variants.listVariants);
+        }
 
-			return list;
-		}
+        public int hashCode() {
+            int i = this.name.hashCode();
+            i = 31 * i + this.listVariants.hashCode();
+            return i;
+        }
+    }
 
-		protected ModelBlockDefinition.Variants parseVariants(JsonDeserializationContext p_178335_1_, Entry<String, JsonElement> p_178335_2_) {
-			String s = (String) p_178335_2_.getKey();
-			List<ModelBlockDefinition.Variant> list = Lists.<ModelBlockDefinition.Variant>newArrayList();
-			JsonElement jsonelement = (JsonElement) p_178335_2_.getValue();
+    public static class Variant {
+        private final ResourceLocation modelLocation;
+        private final ModelRotation modelRotation;
+        private final boolean uvLock;
+        private final int weight;
 
-			if (jsonelement.isJsonArray()) {
-				for (JsonElement jsonelement1 : jsonelement.getAsJsonArray()) {
-					list.add((ModelBlockDefinition.Variant) p_178335_1_.deserialize(jsonelement1, ModelBlockDefinition.Variant.class));
-				}
-			} else {
-				list.add((ModelBlockDefinition.Variant) p_178335_1_.deserialize(jsonelement, ModelBlockDefinition.Variant.class));
-			}
+        public Variant(ResourceLocation modelLocationIn, ModelRotation modelRotationIn, boolean uvLockIn, int weightIn) {
+            this.modelLocation = modelLocationIn;
+            this.modelRotation = modelRotationIn;
+            this.uvLock = uvLockIn;
+            this.weight = weightIn;
+        }
 
-			return new ModelBlockDefinition.Variants(s, list);
-		}
-	}
+        public ResourceLocation getModelLocation() {
+            return this.modelLocation;
+        }
 
-	public class MissingVariantException extends RuntimeException {
-	}
+        public ModelRotation getRotation() {
+            return this.modelRotation;
+        }
 
-	public static class Variant {
-		private final ResourceLocation modelLocation;
-		private final ModelRotation modelRotation;
-		private final boolean uvLock;
-		private final int weight;
+        public boolean isUvLocked() {
+            return this.uvLock;
+        }
 
-		public Variant(ResourceLocation modelLocationIn, ModelRotation modelRotationIn, boolean uvLockIn, int weightIn) {
-			this.modelLocation = modelLocationIn;
-			this.modelRotation = modelRotationIn;
-			this.uvLock = uvLockIn;
-			this.weight = weightIn;
-		}
+        public int getWeight() {
+            return this.weight;
+        }
 
-		public ResourceLocation getModelLocation() {
-			return this.modelLocation;
-		}
+        public boolean equals(Object p_equals_1_) {
+            if (this == p_equals_1_) {
+                return true;
+            }
+            if (!(p_equals_1_ instanceof Variant)) {
+                return false;
+            }
+            Variant modelblockdefinition$variant = (Variant)p_equals_1_;
+            return this.modelLocation.equals(modelblockdefinition$variant.modelLocation) && this.modelRotation == modelblockdefinition$variant.modelRotation && this.uvLock == modelblockdefinition$variant.uvLock;
+        }
 
-		public ModelRotation getRotation() {
-			return this.modelRotation;
-		}
+        public int hashCode() {
+            int i = this.modelLocation.hashCode();
+            i = 31 * i + (this.modelRotation != null ? this.modelRotation.hashCode() : 0);
+            i = 31 * i + (this.uvLock ? 1 : 0);
+            return i;
+        }
 
-		public boolean isUvLocked() {
-			return this.uvLock;
-		}
+        public static class Deserializer
+        implements JsonDeserializer<Variant> {
+            public Variant deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
+                JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
+                String s = this.parseModel(jsonobject);
+                ModelRotation modelrotation = this.parseRotation(jsonobject);
+                boolean flag = this.parseUvLock(jsonobject);
+                int i = this.parseWeight(jsonobject);
+                return new Variant(this.makeModelLocation(s), modelrotation, flag, i);
+            }
 
-		public int getWeight() {
-			return this.weight;
-		}
+            private ResourceLocation makeModelLocation(String p_178426_1_) {
+                ResourceLocation resourcelocation = new ResourceLocation(p_178426_1_);
+                resourcelocation = new ResourceLocation(resourcelocation.getResourceDomain(), "block/" + resourcelocation.getResourcePath());
+                return resourcelocation;
+            }
 
-		public boolean equals(Object p_equals_1_) {
-			if (this == p_equals_1_) {
-				return true;
-			} else if (!(p_equals_1_ instanceof ModelBlockDefinition.Variant)) {
-				return false;
-			} else {
-				ModelBlockDefinition.Variant modelblockdefinition$variant = (ModelBlockDefinition.Variant) p_equals_1_;
-				return this.modelLocation.equals(modelblockdefinition$variant.modelLocation) && this.modelRotation == modelblockdefinition$variant.modelRotation && this.uvLock == modelblockdefinition$variant.uvLock;
-			}
-		}
+            private boolean parseUvLock(JsonObject p_178429_1_) {
+                return JsonUtils.getBoolean(p_178429_1_, "uvlock", false);
+            }
 
-		public int hashCode() {
-			int i = this.modelLocation.hashCode();
-			i = 31 * i + (this.modelRotation != null ? this.modelRotation.hashCode() : 0);
-			i = 31 * i + (this.uvLock ? 1 : 0);
-			return i;
-		}
+            protected ModelRotation parseRotation(JsonObject p_178428_1_) {
+                int j;
+                int i = JsonUtils.getInt(p_178428_1_, "x", 0);
+                ModelRotation modelrotation = ModelRotation.getModelRotation(i, j = JsonUtils.getInt(p_178428_1_, "y", 0));
+                if (modelrotation == null) {
+                    throw new JsonParseException("Invalid BlockModelRotation x: " + i + ", y: " + j);
+                }
+                return modelrotation;
+            }
 
-		public static class Deserializer implements JsonDeserializer<ModelBlockDefinition.Variant> {
-			public ModelBlockDefinition.Variant deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
-				JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
-				String s = this.parseModel(jsonobject);
-				ModelRotation modelrotation = this.parseRotation(jsonobject);
-				boolean flag = this.parseUvLock(jsonobject);
-				int i = this.parseWeight(jsonobject);
-				return new ModelBlockDefinition.Variant(this.makeModelLocation(s), modelrotation, flag, i);
-			}
+            protected String parseModel(JsonObject p_178424_1_) {
+                return JsonUtils.getString(p_178424_1_, "model");
+            }
 
-			private ResourceLocation makeModelLocation(String p_178426_1_) {
-				ResourceLocation resourcelocation = new ResourceLocation(p_178426_1_);
-				resourcelocation = new ResourceLocation(resourcelocation.getResourceDomain(), "block/" + resourcelocation.getResourcePath());
-				return resourcelocation;
-			}
+            protected int parseWeight(JsonObject p_178427_1_) {
+                return JsonUtils.getInt(p_178427_1_, "weight", 1);
+            }
+        }
+    }
 
-			private boolean parseUvLock(JsonObject p_178429_1_) {
-				return JsonUtils.getBoolean(p_178429_1_, "uvlock", false);
-			}
+    public class MissingVariantException
+    extends RuntimeException {
+    }
 
-			protected ModelRotation parseRotation(JsonObject p_178428_1_) {
-				int i = JsonUtils.getInt(p_178428_1_, "x", 0);
-				int j = JsonUtils.getInt(p_178428_1_, "y", 0);
-				ModelRotation modelrotation = ModelRotation.getModelRotation(i, j);
+    public static class Deserializer
+    implements JsonDeserializer<ModelBlockDefinition> {
+        public ModelBlockDefinition deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
+            JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
+            List<Variants> list = this.parseVariantsList(p_deserialize_3_, jsonobject);
+            return new ModelBlockDefinition((Collection<Variants>)list);
+        }
 
-				if (modelrotation == null) {
-					throw new JsonParseException("Invalid BlockModelRotation x: " + i + ", y: " + j);
-				} else {
-					return modelrotation;
-				}
-			}
+        protected List<Variants> parseVariantsList(JsonDeserializationContext p_178334_1_, JsonObject p_178334_2_) {
+            JsonObject jsonobject = JsonUtils.getJsonObject(p_178334_2_, "variants");
+            ArrayList list = Lists.newArrayList();
+            for (Map.Entry entry : jsonobject.entrySet()) {
+                list.add(this.parseVariants(p_178334_1_, entry));
+            }
+            return list;
+        }
 
-			protected String parseModel(JsonObject p_178424_1_) {
-				return JsonUtils.getString(p_178424_1_, "model");
-			}
-
-			protected int parseWeight(JsonObject p_178427_1_) {
-				return JsonUtils.getInt(p_178427_1_, "weight", 1);
-			}
-		}
-	}
-
-	public static class Variants {
-		private final String name;
-		private final List<ModelBlockDefinition.Variant> listVariants;
-
-		public Variants(String nameIn, List<ModelBlockDefinition.Variant> listVariantsIn) {
-			this.name = nameIn;
-			this.listVariants = listVariantsIn;
-		}
-
-		public List<ModelBlockDefinition.Variant> getVariants() {
-			return this.listVariants;
-		}
-
-		public boolean equals(Object p_equals_1_) {
-			if (this == p_equals_1_) {
-				return true;
-			} else if (!(p_equals_1_ instanceof ModelBlockDefinition.Variants)) {
-				return false;
-			} else {
-				ModelBlockDefinition.Variants modelblockdefinition$variants = (ModelBlockDefinition.Variants) p_equals_1_;
-				return !this.name.equals(modelblockdefinition$variants.name) ? false : this.listVariants.equals(modelblockdefinition$variants.listVariants);
-			}
-		}
-
-		public int hashCode() {
-			int i = this.name.hashCode();
-			i = 31 * i + this.listVariants.hashCode();
-			return i;
-		}
-	}
+        protected Variants parseVariants(JsonDeserializationContext p_178335_1_, Map.Entry<String, JsonElement> p_178335_2_) {
+            String s = p_178335_2_.getKey();
+            ArrayList list = Lists.newArrayList();
+            JsonElement jsonelement = p_178335_2_.getValue();
+            if (jsonelement.isJsonArray()) {
+                for (JsonElement jsonelement1 : jsonelement.getAsJsonArray()) {
+                    list.add((Variant)p_178335_1_.deserialize(jsonelement1, Variant.class));
+                }
+            } else {
+                list.add((Variant)p_178335_1_.deserialize(jsonelement, Variant.class));
+            }
+            return new Variants(s, list);
+        }
+    }
 }
+

@@ -1,16 +1,23 @@
+/*
+ * Decompiled with CFR 0.150.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.collect.Iterables
+ *  com.mojang.authlib.GameProfile
+ *  com.mojang.authlib.properties.Property
+ */
 package net.minecraft.tileentity;
-
-import java.util.UUID;
 
 import com.google.common.collect.Iterables;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-
+import java.util.UUID;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StringUtils;
 
 public class TileEntitySkull extends TileEntity {
@@ -18,11 +25,11 @@ public class TileEntitySkull extends TileEntity {
 	private int skullRotation;
 	private GameProfile playerProfile = null;
 
+	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setByte("SkullType", (byte) (this.skullType & 255));
-		compound.setByte("Rot", (byte) (this.skullRotation & 255));
-
+		compound.setByte("SkullType", (byte) (this.skullType & 0xFF));
+		compound.setByte("Rot", (byte) (this.skullRotation & 0xFF));
 		if (this.playerProfile != null) {
 			NBTTagCompound nbttagcompound = new NBTTagCompound();
 			NBTUtil.writeGameProfile(nbttagcompound, this.playerProfile);
@@ -30,21 +37,19 @@ public class TileEntitySkull extends TileEntity {
 		}
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		this.skullType = compound.getByte("SkullType");
 		this.skullRotation = compound.getByte("Rot");
-
 		if (this.skullType == 3) {
+			String s;
 			if (compound.hasKey("Owner", 10)) {
 				this.playerProfile = NBTUtil.readGameProfileFromNBT(compound.getCompoundTag("Owner"));
-			} else if (compound.hasKey("ExtraType", 8)) {
-				String s = compound.getString("ExtraType");
-
-				if (!StringUtils.isNullOrEmpty(s)) {
-					this.playerProfile = new GameProfile((UUID) null, s);
-					this.updatePlayerProfile();
-				}
+			} else if (compound.hasKey("ExtraType", 8)
+					&& !StringUtils.isNullOrEmpty(s = compound.getString("ExtraType"))) {
+				this.playerProfile = new GameProfile((UUID) null, s);
+				this.updatePlayerProfile();
 			}
 		}
 	}
@@ -53,11 +58,7 @@ public class TileEntitySkull extends TileEntity {
 		return this.playerProfile;
 	}
 
-	/**
-	 * Allows for a specialized description packet to be created. This is often used
-	 * to sync tile entity data from the server to the client easily. For example
-	 * this is used by signs to synchronise the text to be displayed.
-	 */
+	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		this.writeToNBT(nbttagcompound);
@@ -76,7 +77,7 @@ public class TileEntitySkull extends TileEntity {
 	}
 
 	private void updatePlayerProfile() {
-		this.playerProfile = updateGameprofile(this.playerProfile);
+		this.playerProfile = TileEntitySkull.updateGameprofile(this.playerProfile);
 		this.markDirty();
 	}
 
@@ -87,15 +88,18 @@ public class TileEntitySkull extends TileEntity {
 			} else if (MinecraftServer.getServer() == null) {
 				return input;
 			} else {
-				GameProfile gameprofile = MinecraftServer.getServer().getPlayerProfileCache().getGameProfileForUsername(input.getName());
+				GameProfile gameprofile = MinecraftServer.getServer().getPlayerProfileCache()
+						.getGameProfileForUsername(input.getName());
 
 				if (gameprofile == null) {
 					return input;
 				} else {
-					Property property = (Property) Iterables.getFirst(gameprofile.getProperties().get("textures"), null);
+					Property property = (Property) Iterables.getFirst(gameprofile.getProperties().get("textures"),
+							null);
 
 					if (property == null) {
-						gameprofile = MinecraftServer.getServer().getMinecraftSessionService().fillProfileProperties(gameprofile, true);
+						gameprofile = MinecraftServer.getServer().getMinecraftSessionService()
+								.fillProfileProperties(gameprofile, true);
 					}
 
 					return gameprofile;

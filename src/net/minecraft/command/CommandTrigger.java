@@ -1,9 +1,7 @@
 package net.minecraft.command;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
@@ -83,7 +81,8 @@ public class CommandTrigger extends CommandBase {
 						score.setLocked(true);
 
 						if (entityplayermp.theItemInWorldManager.isCreative()) {
-							notifyOperators(sender, this, "commands.trigger.success", new Object[] { args[0], args[1], args[2] });
+							notifyOperators(sender, this, "commands.trigger.success",
+									new Object[] { args[0], args[1], args[2] });
 						}
 					}
 				}

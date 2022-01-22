@@ -1,3 +1,6 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.network.login;
 
 import net.minecraft.network.INetHandler;
@@ -6,12 +9,14 @@ import net.minecraft.network.login.server.S01PacketEncryptionRequest;
 import net.minecraft.network.login.server.S02PacketLoginSuccess;
 import net.minecraft.network.login.server.S03PacketEnableCompression;
 
-public interface INetHandlerLoginClient extends INetHandler {
-	void handleEncryptionRequest(S01PacketEncryptionRequest packetIn);
+public interface INetHandlerLoginClient
+extends INetHandler {
+    public void handleEncryptionRequest(S01PacketEncryptionRequest var1);
 
-	void handleLoginSuccess(S02PacketLoginSuccess packetIn);
+    public void handleLoginSuccess(S02PacketLoginSuccess var1);
 
-	void handleDisconnect(S00PacketDisconnect packetIn);
+    public void handleDisconnect(S00PacketDisconnect var1);
 
-	void handleEnableCompression(S03PacketEnableCompression packetIn);
+    public void handleEnableCompression(S03PacketEnableCompression var1);
 }
+

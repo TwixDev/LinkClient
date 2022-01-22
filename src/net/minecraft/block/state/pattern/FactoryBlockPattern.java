@@ -1,25 +1,23 @@
 package net.minecraft.block.state.pattern;
 
-import java.lang.reflect.Array;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
+import java.lang.reflect.Array;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import net.minecraft.block.state.BlockWorldState;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class FactoryBlockPattern {
 	private static final Joiner COMMA_JOIN = Joiner.on(",");
 	private final List<String[]> depth = Lists.<String[]>newArrayList();
-	private final Map<Character, Predicate<BlockWorldState>> symbolMap = Maps.<Character, Predicate<BlockWorldState>>newHashMap();
+	private final Map<Character, Predicate<BlockWorldState>> symbolMap = Maps
+			.<Character, Predicate<BlockWorldState>>newHashMap();
 	private int aisleHeight;
 	private int rowWidth;
 
@@ -35,11 +33,14 @@ public class FactoryBlockPattern {
 			}
 
 			if (aisle.length != this.aisleHeight) {
-				throw new IllegalArgumentException("Expected aisle with height of " + this.aisleHeight + ", but was given one with a height of " + aisle.length + ")");
+				throw new IllegalArgumentException("Expected aisle with height of " + this.aisleHeight
+						+ ", but was given one with a height of " + aisle.length + ")");
 			} else {
 				for (String s : aisle) {
 					if (s.length() != this.rowWidth) {
-						throw new IllegalArgumentException("Not all rows in the given aisle are the correct width (expected " + this.rowWidth + ", found one with " + s.length() + ")");
+						throw new IllegalArgumentException(
+								"Not all rows in the given aisle are the correct width (expected " + this.rowWidth
+										+ ", found one with " + s.length() + ")");
 					}
 
 					for (char c0 : s.toCharArray()) {
@@ -72,12 +73,14 @@ public class FactoryBlockPattern {
 
 	private Predicate<BlockWorldState>[][][] makePredicateArray() {
 		this.checkMissingPredicates();
-		Predicate<BlockWorldState>[][][] predicate = (Predicate[][][]) ((Predicate[][][]) Array.newInstance(Predicate.class, new int[] { this.depth.size(), this.aisleHeight, this.rowWidth }));
+		Predicate<BlockWorldState>[][][] predicate = (Predicate[][][]) ((Predicate[][][]) Array
+				.newInstance(Predicate.class, new int[] { this.depth.size(), this.aisleHeight, this.rowWidth }));
 
 		for (int i = 0; i < this.depth.size(); ++i) {
 			for (int j = 0; j < this.aisleHeight; ++j) {
 				for (int k = 0; k < this.rowWidth; ++k) {
-					predicate[i][j][k] = (Predicate) this.symbolMap.get(Character.valueOf(((String[]) this.depth.get(i))[j].charAt(k)));
+					predicate[i][j][k] = (Predicate) this.symbolMap
+							.get(Character.valueOf(((String[]) this.depth.get(i))[j].charAt(k)));
 				}
 			}
 		}

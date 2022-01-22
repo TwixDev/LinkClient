@@ -1,7 +1,6 @@
 package net.minecraft.item;
 
 import com.google.common.base.Function;
-
 import net.minecraft.block.Block;
 
 public class ItemMultiTexture extends ItemBlock {

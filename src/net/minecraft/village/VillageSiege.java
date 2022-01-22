@@ -2,7 +2,6 @@ package net.minecraft.village;
 
 import java.util.Iterator;
 import java.util.List;
-
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.monster.EntityZombie;
@@ -91,7 +90,9 @@ public class VillageSiege {
 			if (!entityplayer.isSpectator()) {
 				this.theVillage = this.worldObj.getVillageCollection().getNearestVillage(new BlockPos(entityplayer), 1);
 
-				if (this.theVillage != null && this.theVillage.getNumVillageDoors() >= 10 && this.theVillage.getTicksSinceLastDoorAdding() >= 20 && this.theVillage.getNumVillagers() >= 20) {
+				if (this.theVillage != null && this.theVillage.getNumVillageDoors() >= 10
+						&& this.theVillage.getTicksSinceLastDoorAdding() >= 20
+						&& this.theVillage.getNumVillagers() >= 20) {
 					BlockPos blockpos = this.theVillage.getCenter();
 					float f = (float) this.theVillage.getVillageRadius();
 					boolean flag = false;
@@ -104,7 +105,8 @@ public class VillageSiege {
 						flag = false;
 
 						for (Village village : this.worldObj.getVillageCollection().getVillageList()) {
-							if (village != this.theVillage && village.func_179866_a(new BlockPos(this.field_75532_g, this.field_75538_h, this.field_75539_i))) {
+							if (village != this.theVillage && village.func_179866_a(
+									new BlockPos(this.field_75532_g, this.field_75538_h, this.field_75539_i))) {
 								flag = true;
 								break;
 							}
@@ -119,7 +121,8 @@ public class VillageSiege {
 						return false;
 					}
 
-					Vec3 vec3 = this.func_179867_a(new BlockPos(this.field_75532_g, this.field_75538_h, this.field_75539_i));
+					Vec3 vec3 = this
+							.func_179867_a(new BlockPos(this.field_75532_g, this.field_75538_h, this.field_75539_i));
 
 					if (vec3 != null) {
 						break;
@@ -143,14 +146,16 @@ public class VillageSiege {
 
 			try {
 				entityzombie = new EntityZombie(this.worldObj);
-				entityzombie.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityzombie)), (IEntityLivingData) null);
+				entityzombie.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityzombie)),
+						(IEntityLivingData) null);
 				entityzombie.setVillager(false);
 			} catch (Exception exception) {
 				exception.printStackTrace();
 				return false;
 			}
 
-			entityzombie.setLocationAndAngles(vec3.xCoord, vec3.yCoord, vec3.zCoord, this.worldObj.rand.nextFloat() * 360.0F, 0.0F);
+			entityzombie.setLocationAndAngles(vec3.xCoord, vec3.yCoord, vec3.zCoord,
+					this.worldObj.rand.nextFloat() * 360.0F, 0.0F);
 			this.worldObj.spawnEntityInWorld(entityzombie);
 			BlockPos blockpos = this.theVillage.getCenter();
 			entityzombie.setHomePosAndDistance(blockpos, this.theVillage.getVillageRadius());
@@ -160,9 +165,11 @@ public class VillageSiege {
 
 	private Vec3 func_179867_a(BlockPos p_179867_1_) {
 		for (int i = 0; i < 10; ++i) {
-			BlockPos blockpos = p_179867_1_.add(this.worldObj.rand.nextInt(16) - 8, this.worldObj.rand.nextInt(6) - 3, this.worldObj.rand.nextInt(16) - 8);
+			BlockPos blockpos = p_179867_1_.add(this.worldObj.rand.nextInt(16) - 8, this.worldObj.rand.nextInt(6) - 3,
+					this.worldObj.rand.nextInt(16) - 8);
 
-			if (this.theVillage.func_179866_a(blockpos) && SpawnerAnimals.canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType.ON_GROUND, this.worldObj, blockpos)) {
+			if (this.theVillage.func_179866_a(blockpos) && SpawnerAnimals.canCreatureTypeSpawnAtLocation(
+					EntityLiving.SpawnPlacementType.ON_GROUND, this.worldObj, blockpos)) {
 				return new Vec3((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ());
 			}
 		}

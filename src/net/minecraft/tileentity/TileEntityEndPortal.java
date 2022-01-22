@@ -1,4 +1,11 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.tileentity;
 
-public class TileEntityEndPortal extends TileEntity {
+import net.minecraft.tileentity.TileEntity;
+
+public class TileEntityEndPortal
+extends TileEntity {
 }
+

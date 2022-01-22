@@ -1,9 +1,7 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
-
 import com.google.common.base.Predicates;
-
+import java.util.Random;
 import net.minecraft.block.BlockSand;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStoneSlab;
@@ -15,8 +13,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class WorldGenDesertWells extends WorldGenerator {
-	private static final BlockStateHelper field_175913_a = BlockStateHelper.forBlock(Blocks.sand).where(BlockSand.VARIANT, Predicates.equalTo(BlockSand.EnumType.SAND));
-	private final IBlockState field_175911_b = Blocks.stone_slab.getDefaultState().withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.SAND).withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM);
+	private static final BlockStateHelper field_175913_a = BlockStateHelper.forBlock(Blocks.sand)
+			.where(BlockSand.VARIANT, Predicates.equalTo(BlockSand.EnumType.SAND));
+	private final IBlockState field_175911_b = Blocks.stone_slab.getDefaultState()
+			.withProperty(BlockStoneSlab.VARIANT, BlockStoneSlab.EnumType.SAND)
+			.withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM);
 	private final IBlockState field_175912_c = Blocks.sandstone.getDefaultState();
 	private final IBlockState field_175910_d = Blocks.flowing_water.getDefaultState();
 
@@ -46,9 +47,8 @@ public class WorldGenDesertWells extends WorldGenerator {
 
 			worldIn.setBlockState(position, this.field_175910_d, 2);
 
-			for (Object enumfacing0 : EnumFacing.Plane.HORIZONTAL) {
-				EnumFacing enumfacing = (EnumFacing) enumfacing0;
-				worldIn.setBlockState(position.offset(enumfacing), this.field_175910_d, 2);
+			for (Object enumfacing : EnumFacing.Plane.HORIZONTAL) {
+				worldIn.setBlockState(position.offset((EnumFacing) enumfacing), this.field_175910_d, 2);
 			}
 
 			for (int i1 = -2; i1 <= 2; ++i1) {

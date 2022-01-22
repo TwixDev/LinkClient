@@ -1,13 +1,9 @@
 package net.minecraft.network;
 
-import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Maps;
-
+import java.util.Map;
 import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.login.client.C01PacketEncryptionResponse;
@@ -113,6 +109,7 @@ import net.minecraft.network.status.client.C00PacketServerQuery;
 import net.minecraft.network.status.client.C01PacketPing;
 import net.minecraft.network.status.server.S00PacketServerInfo;
 import net.minecraft.network.status.server.S01PacketPong;
+import org.apache.logging.log4j.LogManager;
 
 public enum EnumConnectionState {
 	HANDSHAKING(-1) {
@@ -245,8 +242,10 @@ public enum EnumConnectionState {
 
 	private static int field_181136_e = -1;
 	private static int field_181137_f = 2;
-	private static final EnumConnectionState[] STATES_BY_ID = new EnumConnectionState[field_181137_f - field_181136_e + 1];
-	private static final Map<Class<? extends Packet>, EnumConnectionState> STATES_BY_CLASS = Maps.<Class<? extends Packet>, EnumConnectionState>newHashMap();
+	private static final EnumConnectionState[] STATES_BY_ID = new EnumConnectionState[field_181137_f - field_181136_e
+			+ 1];
+	private static final Map<Class<? extends Packet>, EnumConnectionState> STATES_BY_CLASS = Maps
+			.<Class<? extends Packet>, EnumConnectionState>newHashMap();
 	private final int id;
 	private final Map<EnumPacketDirection, BiMap<Integer, Class<? extends Packet>>> directionMaps;
 
@@ -264,7 +263,8 @@ public enum EnumConnectionState {
 		}
 
 		if (bimap.containsValue(packetClass)) {
-			String s = direction + " packet " + packetClass + " is already known to ID " + bimap.inverse().get(packetClass);
+			String s = direction + " packet " + packetClass + " is already known to ID "
+					+ bimap.inverse().get(packetClass);
 			LogManager.getLogger().fatal(s);
 			throw new IllegalArgumentException(s);
 		} else {
@@ -277,8 +277,10 @@ public enum EnumConnectionState {
 		return (Integer) ((BiMap) this.directionMaps.get(direction)).inverse().get(packetIn.getClass());
 	}
 
-	public Packet getPacket(EnumPacketDirection direction, int packetId) throws InstantiationException, IllegalAccessException {
-		Class<? extends Packet> oclass = (Class) ((BiMap) this.directionMaps.get(direction)).get(Integer.valueOf(packetId));
+	public Packet getPacket(EnumPacketDirection direction, int packetId)
+			throws InstantiationException, IllegalAccessException {
+		Class<? extends Packet> oclass = (Class) ((BiMap) this.directionMaps.get(direction))
+				.get(Integer.valueOf(packetId));
 		return oclass == null ? null : (Packet) oclass.newInstance();
 	}
 
@@ -305,9 +307,11 @@ public enum EnumConnectionState {
 			STATES_BY_ID[i - field_181136_e] = enumconnectionstate;
 
 			for (EnumPacketDirection enumpacketdirection : enumconnectionstate.directionMaps.keySet()) {
-				for (Class<? extends Packet> oclass : (enumconnectionstate.directionMaps.get(enumpacketdirection)).values()) {
+				for (Class<? extends Packet> oclass : (enumconnectionstate.directionMaps.get(enumpacketdirection))
+						.values()) {
 					if (STATES_BY_CLASS.containsKey(oclass) && STATES_BY_CLASS.get(oclass) != enumconnectionstate) {
-						throw new Error("Packet " + oclass + " is already assigned to protocol " + STATES_BY_CLASS.get(oclass) + " - can\'t reassign to " + enumconnectionstate);
+						throw new Error("Packet " + oclass + " is already assigned to protocol "
+								+ STATES_BY_CLASS.get(oclass) + " - can\'t reassign to " + enumconnectionstate);
 					}
 
 					try {

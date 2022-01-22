@@ -1,13 +1,17 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.entity.ai.attributes;
 
 public interface IAttribute {
-	String getAttributeUnlocalizedName();
+    public String getAttributeUnlocalizedName();
 
-	double clampValue(double p_111109_1_);
+    public double clampValue(double var1);
 
-	double getDefaultValue();
+    public double getDefaultValue();
 
-	boolean getShouldWatch();
+    public boolean getShouldWatch();
 
-	IAttribute func_180372_d();
+    public IAttribute func_180372_d();
 }
+

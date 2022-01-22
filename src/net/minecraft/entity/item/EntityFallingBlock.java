@@ -1,9 +1,7 @@
 package net.minecraft.entity.item;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.BlockFalling;
@@ -113,7 +111,9 @@ public class EntityFallingBlock extends Entity {
 						this.setDead();
 
 						if (!this.canSetAsBlock) {
-							if (this.worldObj.canBlockBePlaced(block, blockpos1, true, EnumFacing.UP, (Entity) null, (ItemStack) null) && !BlockFalling.canFallInto(this.worldObj, blockpos1.down()) && this.worldObj.setBlockState(blockpos1, this.fallTile, 3)) {
+							if (this.worldObj.canBlockBePlaced(block, blockpos1, true, EnumFacing.UP, (Entity) null,
+									(ItemStack) null) && !BlockFalling.canFallInto(this.worldObj, blockpos1.down())
+									&& this.worldObj.setBlockState(blockpos1, this.fallTile, 3)) {
 								if (block instanceof BlockFalling) {
 									((BlockFalling) block).onEndFalling(this.worldObj, blockpos1);
 								}
@@ -137,12 +137,14 @@ public class EntityFallingBlock extends Entity {
 										tileentity.markDirty();
 									}
 								}
-							} else if (this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
+							} else if (this.shouldDropItem
+									&& this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
 								this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
 							}
 						}
 					}
-				} else if (this.fallTime > 100 && !this.worldObj.isRemote && (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600) {
+				} else if (this.fallTime > 100 && !this.worldObj.isRemote
+						&& (blockpos1.getY() < 1 || blockpos1.getY() > 256) || this.fallTime > 600) {
 					if (this.shouldDropItem && this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
 						this.entityDropItem(new ItemStack(block, 1, block.damageDropped(this.fallTile)), 0.0F);
 					}
@@ -160,12 +162,14 @@ public class EntityFallingBlock extends Entity {
 			int i = MathHelper.ceiling_float_int(distance - 1.0F);
 
 			if (i > 0) {
-				List<Entity> list = Lists.newArrayList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()));
+				List<Entity> list = Lists.newArrayList(
+						this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()));
 				boolean flag = block == Blocks.anvil;
 				DamageSource damagesource = flag ? DamageSource.anvil : DamageSource.fallingBlock;
 
 				for (Entity entity : list) {
-					entity.attackEntityFrom(damagesource, (float) Math.min(MathHelper.floor_float((float) i * this.fallHurtAmount), this.fallHurtMax));
+					entity.attackEntityFrom(damagesource, (float) Math
+							.min(MathHelper.floor_float((float) i * this.fallHurtAmount), this.fallHurtMax));
 				}
 
 				if (flag && (double) this.rand.nextFloat() < 0.05000000074505806D + (double) i * 0.05D) {

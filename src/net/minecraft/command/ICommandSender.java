@@ -1,5 +1,9 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.command;
 
+import net.minecraft.command.CommandResultStats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
@@ -7,56 +11,24 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public interface ICommandSender {
-	/**
-	 * Gets the name of this command sender (usually username, but possibly "Rcon")
-	 */
-	String getName();
+    public String getName();
 
-	/**
-	 * Get the formatted ChatComponent that will be used for the sender's username
-	 * in chat
-	 */
-	IChatComponent getDisplayName();
+    public IChatComponent getDisplayName();
 
-	/**
-	 * Send a chat message to the CommandSender
-	 */
-	void addChatMessage(IChatComponent component);
+    public void addChatMessage(IChatComponent var1);
 
-	/**
-	 * Returns {@code true} if the CommandSender is allowed to execute the command,
-	 * {@code false} if not
-	 */
-	boolean canCommandSenderUseCommand(int permLevel, String commandName);
+    public boolean canCommandSenderUseCommand(int var1, String var2);
 
-	/**
-	 * Get the position in the world. <b>{@code null} is not allowed!</b> If you are
-	 * not an entity in the world, return the coordinates 0, 0, 0
-	 */
-	BlockPos getPosition();
+    public BlockPos getPosition();
 
-	/**
-	 * Get the position vector. <b>{@code null} is not allowed!</b> If you are not
-	 * an entity in the world, return 0.0D, 0.0D, 0.0D
-	 */
-	Vec3 getPositionVector();
+    public Vec3 getPositionVector();
 
-	/**
-	 * Get the world, if available. <b>{@code null} is not allowed!</b> If you are
-	 * not an entity in the world, return the overworld
-	 */
-	World getEntityWorld();
+    public World getEntityWorld();
 
-	/**
-	 * Returns the entity associated with the command sender. MAY BE NULL!
-	 */
-	Entity getCommandSenderEntity();
+    public Entity getCommandSenderEntity();
 
-	/**
-	 * Returns true if the command sender should be sent feedback about executed
-	 * commands
-	 */
-	boolean sendCommandFeedback();
+    public boolean sendCommandFeedback();
 
-	void setCommandStat(CommandResultStats.Type type, int amount);
+    public void setCommandStat(CommandResultStats.Type var1, int var2);
 }
+

@@ -1,12 +1,10 @@
 package net.minecraft.enchantment;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -16,34 +14,44 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 public abstract class Enchantment {
-	private static final Enchantment[] enchantmentsList = new Enchantment[256];
+	public static final Enchantment[] enchantmentsList = new Enchantment[256];
 	public static final Enchantment[] enchantmentsBookList;
-	private static final Map<ResourceLocation, Enchantment> locationEnchantments = Maps.<ResourceLocation, Enchantment>newHashMap();
-	public static final Enchantment protection = new EnchantmentProtection(0, new ResourceLocation("protection"), 10, 0);
+	private static final Map<ResourceLocation, Enchantment> locationEnchantments = Maps
+			.<ResourceLocation, Enchantment>newHashMap();
+	public static final Enchantment protection = new EnchantmentProtection(0, new ResourceLocation("protection"), 10,
+			0);
 
 	/** Protection against fire */
-	public static final Enchantment fireProtection = new EnchantmentProtection(1, new ResourceLocation("fire_protection"), 5, 1);
-	public static final Enchantment featherFalling = new EnchantmentProtection(2, new ResourceLocation("feather_falling"), 5, 2);
+	public static final Enchantment fireProtection = new EnchantmentProtection(1,
+			new ResourceLocation("fire_protection"), 5, 1);
+	public static final Enchantment featherFalling = new EnchantmentProtection(2,
+			new ResourceLocation("feather_falling"), 5, 2);
 
 	/** Protection against explosions */
-	public static final Enchantment blastProtection = new EnchantmentProtection(3, new ResourceLocation("blast_protection"), 2, 3);
-	public static final Enchantment projectileProtection = new EnchantmentProtection(4, new ResourceLocation("projectile_protection"), 5, 4);
+	public static final Enchantment blastProtection = new EnchantmentProtection(3,
+			new ResourceLocation("blast_protection"), 2, 3);
+	public static final Enchantment projectileProtection = new EnchantmentProtection(4,
+			new ResourceLocation("projectile_protection"), 5, 4);
 	public static final Enchantment respiration = new EnchantmentOxygen(5, new ResourceLocation("respiration"), 2);
 
 	/** Increases underwater mining rate */
-	public static final Enchantment aquaAffinity = new EnchantmentWaterWorker(6, new ResourceLocation("aqua_affinity"), 2);
+	public static final Enchantment aquaAffinity = new EnchantmentWaterWorker(6, new ResourceLocation("aqua_affinity"),
+			2);
 	public static final Enchantment thorns = new EnchantmentThorns(7, new ResourceLocation("thorns"), 1);
-	public static final Enchantment depthStrider = new EnchantmentWaterWalker(8, new ResourceLocation("depth_strider"), 2);
+	public static final Enchantment depthStrider = new EnchantmentWaterWalker(8, new ResourceLocation("depth_strider"),
+			2);
 	public static final Enchantment sharpness = new EnchantmentDamage(16, new ResourceLocation("sharpness"), 10, 0);
 	public static final Enchantment smite = new EnchantmentDamage(17, new ResourceLocation("smite"), 5, 1);
-	public static final Enchantment baneOfArthropods = new EnchantmentDamage(18, new ResourceLocation("bane_of_arthropods"), 5, 2);
+	public static final Enchantment baneOfArthropods = new EnchantmentDamage(18,
+			new ResourceLocation("bane_of_arthropods"), 5, 2);
 	public static final Enchantment knockback = new EnchantmentKnockback(19, new ResourceLocation("knockback"), 5);
 
 	/** Lights mobs on fire */
 	public static final Enchantment fireAspect = new EnchantmentFireAspect(20, new ResourceLocation("fire_aspect"), 2);
 
 	/** Mobs have a chance to drop more loot */
-	public static final Enchantment looting = new EnchantmentLootBonus(21, new ResourceLocation("looting"), 2, EnumEnchantmentType.WEAPON);
+	public static final Enchantment looting = new EnchantmentLootBonus(21, new ResourceLocation("looting"), 2,
+			EnumEnchantmentType.WEAPON);
 
 	/** Faster resource gathering while in use */
 	public static final Enchantment efficiency = new EnchantmentDigging(32, new ResourceLocation("efficiency"), 10);
@@ -60,7 +68,8 @@ public abstract class Enchantment {
 	public static final Enchantment unbreaking = new EnchantmentDurability(34, new ResourceLocation("unbreaking"), 5);
 
 	/** Can multiply the drop rate of items from blocks */
-	public static final Enchantment fortune = new EnchantmentLootBonus(35, new ResourceLocation("fortune"), 2, EnumEnchantmentType.DIGGER);
+	public static final Enchantment fortune = new EnchantmentLootBonus(35, new ResourceLocation("fortune"), 2,
+			EnumEnchantmentType.DIGGER);
 
 	/** Power enchantment for bows, add's extra damage to arrows. */
 	public static final Enchantment power = new EnchantmentArrowDamage(48, new ResourceLocation("power"), 10);
@@ -82,8 +91,10 @@ public abstract class Enchantment {
 	 * will still required at least one arrow on inventory use the bow.
 	 */
 	public static final Enchantment infinity = new EnchantmentArrowInfinite(51, new ResourceLocation("infinity"), 1);
-	public static final Enchantment luckOfTheSea = new EnchantmentLootBonus(61, new ResourceLocation("luck_of_the_sea"), 2, EnumEnchantmentType.FISHING_ROD);
-	public static final Enchantment lure = new EnchantmentFishingSpeed(62, new ResourceLocation("lure"), 2, EnumEnchantmentType.FISHING_ROD);
+	public static final Enchantment luckOfTheSea = new EnchantmentLootBonus(61, new ResourceLocation("luck_of_the_sea"),
+			2, EnumEnchantmentType.FISHING_ROD);
+	public static final Enchantment lure = new EnchantmentFishingSpeed(62, new ResourceLocation("lure"), 2,
+			EnumEnchantmentType.FISHING_ROD);
 	public final int effectId;
 	private final int weight;
 

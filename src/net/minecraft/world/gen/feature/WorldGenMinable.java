@@ -1,9 +1,7 @@
 package net.minecraft.world.gen.feature;
 
-import java.util.Random;
-
 import com.google.common.base.Predicate;
-
+import java.util.Random;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockHelper;
 import net.minecraft.init.Blocks;

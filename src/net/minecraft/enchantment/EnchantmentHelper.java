@@ -1,13 +1,11 @@
 package net.minecraft.enchantment;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -66,7 +64,8 @@ public class EnchantmentHelper {
 
 	public static Map<Integer, Integer> getEnchantments(ItemStack stack) {
 		Map<Integer, Integer> map = Maps.<Integer, Integer>newLinkedHashMap();
-		NBTTagList nbttaglist = stack.getItem() == Items.enchanted_book ? Items.enchanted_book.getEnchantments(stack) : stack.getEnchantmentTagList();
+		NBTTagList nbttaglist = stack.getItem() == Items.enchanted_book ? Items.enchanted_book.getEnchantments(stack)
+				: stack.getEnchantmentTagList();
 
 		if (nbttaglist != null) {
 			for (int i = 0; i < nbttaglist.tagCount(); ++i) {
@@ -97,7 +96,8 @@ public class EnchantmentHelper {
 				nbttaglist.appendTag(nbttagcompound);
 
 				if (stack.getItem() == Items.enchanted_book) {
-					Items.enchanted_book.addEnchantment(stack, new EnchantmentData(enchantment, ((Integer) enchMap.get(Integer.valueOf(i))).intValue()));
+					Items.enchanted_book.addEnchantment(stack,
+							new EnchantmentData(enchantment, ((Integer) enchMap.get(Integer.valueOf(i))).intValue()));
 				}
 			}
 		}
@@ -176,7 +176,8 @@ public class EnchantmentHelper {
 			enchantmentModifierDamage.damageModifier = 0;
 		}
 
-		return (enchantmentModifierDamage.damageModifier + 1 >> 1) + enchantmentRand.nextInt((enchantmentModifierDamage.damageModifier >> 1) + 1);
+		return (enchantmentModifierDamage.damageModifier + 1 >> 1)
+				+ enchantmentRand.nextInt((enchantmentModifierDamage.damageModifier >> 1) + 1);
 	}
 
 	public static float func_152377_a(ItemStack p_152377_0_, EnumCreatureAttribute p_152377_1_) {
@@ -310,7 +311,8 @@ public class EnchantmentHelper {
 	 * each index (2nd parameter: 0, 1 and 2), cutting to the max enchantability
 	 * power of the table (3rd parameter)
 	 */
-	public static int calcItemStackEnchantability(Random p_77514_0_, int p_77514_1_, int p_77514_2_, ItemStack p_77514_3_) {
+	public static int calcItemStackEnchantability(Random p_77514_0_, int p_77514_1_, int p_77514_2_,
+			ItemStack p_77514_3_) {
 		Item item = p_77514_3_.getItem();
 		int i = item.getItemEnchantability();
 
@@ -322,7 +324,8 @@ public class EnchantmentHelper {
 			}
 
 			int j = p_77514_0_.nextInt(8) + 1 + (p_77514_2_ >> 1) + p_77514_0_.nextInt(p_77514_2_ + 1);
-			return p_77514_1_ == 0 ? Math.max(j / 3, 1) : (p_77514_1_ == 1 ? j * 2 / 3 + 1 : Math.max(j, p_77514_2_ * 2));
+			return p_77514_1_ == 0 ? Math.max(j / 3, 1)
+					: (p_77514_1_ == 1 ? j * 2 / 3 + 1 : Math.max(j, p_77514_2_ * 2));
 		}
 	}
 
@@ -372,7 +375,8 @@ public class EnchantmentHelper {
 			Map<Integer, EnchantmentData> map = mapEnchantmentData(k, itemStackIn);
 
 			if (map != null && !map.isEmpty()) {
-				EnchantmentData enchantmentdata = (EnchantmentData) WeightedRandom.getRandomItem(randomIn, map.values());
+				EnchantmentData enchantmentdata = (EnchantmentData) WeightedRandom.getRandomItem(randomIn,
+						map.values());
 
 				if (enchantmentdata != null) {
 					list = Lists.<EnchantmentData>newArrayList();
@@ -386,7 +390,8 @@ public class EnchantmentHelper {
 							boolean flag = true;
 
 							for (EnchantmentData enchantmentdata1 : list) {
-								if (!enchantmentdata1.enchantmentobj.canApplyTogether(Enchantment.getEnchantmentById(integer.intValue()))) {
+								if (!enchantmentdata1.enchantmentobj
+										.canApplyTogether(Enchantment.getEnchantmentById(integer.intValue()))) {
 									flag = false;
 									break;
 								}
@@ -398,7 +403,8 @@ public class EnchantmentHelper {
 						}
 
 						if (!map.isEmpty()) {
-							EnchantmentData enchantmentdata2 = (EnchantmentData) WeightedRandom.getRandomItem(randomIn, map.values());
+							EnchantmentData enchantmentdata2 = (EnchantmentData) WeightedRandom.getRandomItem(randomIn,
+									map.values());
 							list.add(enchantmentdata2);
 						}
 					}
@@ -417,7 +423,8 @@ public class EnchantmentHelper {
 		for (Enchantment enchantment : Enchantment.enchantmentsBookList) {
 			if (enchantment != null && (enchantment.type.canEnchantItem(item) || flag)) {
 				for (int i = enchantment.getMinLevel(); i <= enchantment.getMaxLevel(); ++i) {
-					if (p_77505_0_ >= enchantment.getMinEnchantability(i) && p_77505_0_ <= enchantment.getMaxEnchantability(i)) {
+					if (p_77505_0_ >= enchantment.getMinEnchantability(i)
+							&& p_77505_0_ <= enchantment.getMaxEnchantability(i)) {
 						if (map == null) {
 							map = Maps.<Integer, EnchantmentData>newHashMap();
 						}
@@ -481,5 +488,13 @@ public class EnchantmentHelper {
 		public void calculateModifier(Enchantment enchantmentIn, int enchantmentLevel) {
 			this.livingModifier += enchantmentIn.calcDamageByCreature(enchantmentLevel, this.entityLiving);
 		}
+	}
+
+	public static <Class1622> float getModifierForCreature(final ItemStack p_getModifierForCreature_0_,
+			final Class1622 p_getModifierForCreature_1_) {
+		EnchantmentHelper.enchantmentModifierLiving.livingModifier = 0.0f;
+		EnchantmentHelper.enchantmentModifierLiving.entityLiving = (EnumCreatureAttribute) p_getModifierForCreature_1_;
+		applyEnchantmentModifier(EnchantmentHelper.enchantmentModifierLiving, p_getModifierForCreature_0_);
+		return EnchantmentHelper.enchantmentModifierLiving.livingModifier;
 	}
 }

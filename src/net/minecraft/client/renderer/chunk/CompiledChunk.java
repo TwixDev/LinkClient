@@ -1,77 +1,87 @@
+/*
+ * Decompiled with CFR 0.150.
+ * 
+ * Could not load the following classes:
+ *  com.google.common.collect.Lists
+ */
 package net.minecraft.client.renderer.chunk;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
+import java.util.List;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.chunk.SetVisibility;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
 
 public class CompiledChunk {
-	public static final CompiledChunk DUMMY = new CompiledChunk() {
-		protected void setLayerUsed(EnumWorldBlockLayer layer) {
-			throw new UnsupportedOperationException();
-		}
+    public static final CompiledChunk DUMMY = new CompiledChunk(){
 
-		public void setLayerStarted(EnumWorldBlockLayer layer) {
-			throw new UnsupportedOperationException();
-		}
+        @Override
+        protected void setLayerUsed(EnumWorldBlockLayer layer) {
+            throw new UnsupportedOperationException();
+        }
 
-		public boolean isVisible(EnumFacing facing, EnumFacing facing2) {
-			return false;
-		}
-	};
-	private final boolean[] layersUsed = new boolean[EnumWorldBlockLayer.values().length];
-	private final boolean[] layersStarted = new boolean[EnumWorldBlockLayer.values().length];
-	private boolean empty = true;
-	private final List<TileEntity> tileEntities = Lists.<TileEntity>newArrayList();
-	private SetVisibility setVisibility = new SetVisibility();
-	private WorldRenderer.State state;
+        @Override
+        public void setLayerStarted(EnumWorldBlockLayer layer) {
+            throw new UnsupportedOperationException();
+        }
 
-	public boolean isEmpty() {
-		return this.empty;
-	}
+        @Override
+        public boolean isVisible(EnumFacing facing, EnumFacing facing2) {
+            return false;
+        }
+    };
+    private final boolean[] layersUsed = new boolean[EnumWorldBlockLayer.values().length];
+    private final boolean[] layersStarted = new boolean[EnumWorldBlockLayer.values().length];
+    private boolean empty = true;
+    private final List<TileEntity> tileEntities = Lists.newArrayList();
+    private SetVisibility setVisibility = new SetVisibility();
+    private WorldRenderer.State state;
 
-	protected void setLayerUsed(EnumWorldBlockLayer layer) {
-		this.empty = false;
-		this.layersUsed[layer.ordinal()] = true;
-	}
+    public boolean isEmpty() {
+        return this.empty;
+    }
 
-	public boolean isLayerEmpty(EnumWorldBlockLayer layer) {
-		return !this.layersUsed[layer.ordinal()];
-	}
+    protected void setLayerUsed(EnumWorldBlockLayer layer) {
+        this.empty = false;
+        this.layersUsed[layer.ordinal()] = true;
+    }
 
-	public void setLayerStarted(EnumWorldBlockLayer layer) {
-		this.layersStarted[layer.ordinal()] = true;
-	}
+    public boolean isLayerEmpty(EnumWorldBlockLayer layer) {
+        return !this.layersUsed[layer.ordinal()];
+    }
 
-	public boolean isLayerStarted(EnumWorldBlockLayer layer) {
-		return this.layersStarted[layer.ordinal()];
-	}
+    public void setLayerStarted(EnumWorldBlockLayer layer) {
+        this.layersStarted[layer.ordinal()] = true;
+    }
 
-	public List<TileEntity> getTileEntities() {
-		return this.tileEntities;
-	}
+    public boolean isLayerStarted(EnumWorldBlockLayer layer) {
+        return this.layersStarted[layer.ordinal()];
+    }
 
-	public void addTileEntity(TileEntity tileEntityIn) {
-		this.tileEntities.add(tileEntityIn);
-	}
+    public List<TileEntity> getTileEntities() {
+        return this.tileEntities;
+    }
 
-	public boolean isVisible(EnumFacing facing, EnumFacing facing2) {
-		return this.setVisibility.isVisible(facing, facing2);
-	}
+    public void addTileEntity(TileEntity tileEntityIn) {
+        this.tileEntities.add(tileEntityIn);
+    }
 
-	public void setVisibility(SetVisibility visibility) {
-		this.setVisibility = visibility;
-	}
+    public boolean isVisible(EnumFacing facing, EnumFacing facing2) {
+        return this.setVisibility.isVisible(facing, facing2);
+    }
 
-	public WorldRenderer.State getState() {
-		return this.state;
-	}
+    public void setVisibility(SetVisibility visibility) {
+        this.setVisibility = visibility;
+    }
 
-	public void setState(WorldRenderer.State stateIn) {
-		this.state = stateIn;
-	}
+    public WorldRenderer.State getState() {
+        return this.state;
+    }
+
+    public void setState(WorldRenderer.State stateIn) {
+        this.state = stateIn;
+    }
 }
+

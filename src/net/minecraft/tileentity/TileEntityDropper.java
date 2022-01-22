@@ -1,14 +1,20 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.tileentity;
 
-public class TileEntityDropper extends TileEntityDispenser {
-	/**
-	 * Gets the name of this command sender (usually username, but possibly "Rcon")
-	 */
-	public String getName() {
-		return this.hasCustomName() ? this.customName : "container.dropper";
-	}
+import net.minecraft.tileentity.TileEntityDispenser;
 
-	public String getGuiID() {
-		return "minecraft:dropper";
-	}
+public class TileEntityDropper
+extends TileEntityDispenser {
+    @Override
+    public String getName() {
+        return this.hasCustomName() ? this.customName : "container.dropper";
+    }
+
+    @Override
+    public String getGuiID() {
+        return "minecraft:dropper";
+    }
 }
+

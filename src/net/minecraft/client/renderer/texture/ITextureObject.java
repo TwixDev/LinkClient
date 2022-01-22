@@ -1,15 +1,18 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.client.renderer.texture;
 
 import java.io.IOException;
-
 import net.minecraft.client.resources.IResourceManager;
 
 public interface ITextureObject {
-	void setBlurMipmap(boolean p_174936_1_, boolean p_174936_2_);
+    public void setBlurMipmap(boolean var1, boolean var2);
 
-	void restoreLastBlurMipmap();
+    public void restoreLastBlurMipmap();
 
-	void loadTexture(IResourceManager resourceManager) throws IOException;
+    public void loadTexture(IResourceManager var1) throws IOException;
 
-	int getGlTextureId();
+    public int getGlTextureId();
 }
+

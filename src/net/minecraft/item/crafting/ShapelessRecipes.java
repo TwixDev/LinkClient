@@ -1,9 +1,7 @@
 package net.minecraft.item.crafting;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
+import java.util.List;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -50,7 +48,8 @@ public class ShapelessRecipes implements IRecipe {
 					boolean flag = false;
 
 					for (ItemStack itemstack1 : list) {
-						if (itemstack.getItem() == itemstack1.getItem() && (itemstack1.getMetadata() == 32767 || itemstack.getMetadata() == itemstack1.getMetadata())) {
+						if (itemstack.getItem() == itemstack1.getItem() && (itemstack1.getMetadata() == 32767
+								|| itemstack.getMetadata() == itemstack1.getMetadata())) {
 							flag = true;
 							list.remove(itemstack1);
 							break;

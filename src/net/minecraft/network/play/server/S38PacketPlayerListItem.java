@@ -1,13 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-
+import java.io.IOException;
+import java.util.List;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -26,7 +24,9 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 		this.action = actionIn;
 
 		for (EntityPlayerMP entityplayermp : players) {
-			this.players.add(new S38PacketPlayerListItem.AddPlayerData(entityplayermp.getGameProfile(), entityplayermp.ping, entityplayermp.theItemInWorldManager.getGameType(), entityplayermp.getTabListDisplayName()));
+			this.players.add(new S38PacketPlayerListItem.AddPlayerData(entityplayermp.getGameProfile(),
+					entityplayermp.ping, entityplayermp.theItemInWorldManager.getGameType(),
+					entityplayermp.getTabListDisplayName()));
 		}
 	}
 
@@ -34,7 +34,9 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 		this.action = actionIn;
 
 		for (EntityPlayerMP entityplayermp : players) {
-			this.players.add(new S38PacketPlayerListItem.AddPlayerData(entityplayermp.getGameProfile(), entityplayermp.ping, entityplayermp.theItemInWorldManager.getGameType(), entityplayermp.getTabListDisplayName()));
+			this.players.add(new S38PacketPlayerListItem.AddPlayerData(entityplayermp.getGameProfile(),
+					entityplayermp.ping, entityplayermp.theItemInWorldManager.getGameType(),
+					entityplayermp.getTabListDisplayName()));
 		}
 	}
 
@@ -100,7 +102,8 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 				gameprofile = new GameProfile(buf.readUuid(), (String) null);
 			}
 
-			this.players.add(new S38PacketPlayerListItem.AddPlayerData(gameprofile, k, worldsettings$gametype, ichatcomponent));
+			this.players.add(
+					new S38PacketPlayerListItem.AddPlayerData(gameprofile, k, worldsettings$gametype, ichatcomponent));
 		}
 	}
 
@@ -199,7 +202,8 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 		private final GameProfile profile;
 		private final IChatComponent displayName;
 
-		public AddPlayerData(GameProfile profile, int pingIn, WorldSettings.GameType gamemodeIn, IChatComponent displayNameIn) {
+		public AddPlayerData(GameProfile profile, int pingIn, WorldSettings.GameType gamemodeIn,
+				IChatComponent displayNameIn) {
 			this.profile = profile;
 			this.ping = pingIn;
 			this.gamemode = gamemodeIn;
@@ -223,7 +227,10 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient> {
 		}
 
 		public String toString() {
-			return Objects.toStringHelper(this).add("latency", this.ping).add("gameMode", this.gamemode).add("profile", this.profile).add("displayName", this.displayName == null ? null : IChatComponent.Serializer.componentToJson(this.displayName)).toString();
+			return Objects.toStringHelper(this).add("latency", this.ping).add("gameMode", this.gamemode)
+					.add("profile", this.profile).add("displayName", this.displayName == null ? null
+							: IChatComponent.Serializer.componentToJson(this.displayName))
+					.toString();
 		}
 	}
 }

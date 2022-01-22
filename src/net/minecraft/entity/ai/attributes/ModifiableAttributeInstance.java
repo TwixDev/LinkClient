@@ -1,13 +1,12 @@
 package net.minecraft.entity.ai.attributes;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 public class ModifiableAttributeInstance implements IAttributeInstance {
 	/** The BaseAttributeMap this attributeInstance can be found in */
@@ -15,7 +14,8 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
 
 	/** The Attribute this is an instance of */
 	private final IAttribute genericAttribute;
-	private final Map<Integer, Set<AttributeModifier>> mapByOperation = Maps.<Integer, Set<AttributeModifier>>newHashMap();
+	private final Map<Integer, Set<AttributeModifier>> mapByOperation = Maps
+			.<Integer, Set<AttributeModifier>>newHashMap();
 	private final Map<String, Set<AttributeModifier>> mapByName = Maps.<String, Set<AttributeModifier>>newHashMap();
 	private final Map<UUID, AttributeModifier> mapByUUID = Maps.<UUID, AttributeModifier>newHashMap();
 	private double baseValue;
@@ -160,7 +160,8 @@ public class ModifiableAttributeInstance implements IAttributeInstance {
 	private Collection<AttributeModifier> func_180375_b(int p_180375_1_) {
 		Set<AttributeModifier> set = Sets.newHashSet(this.getModifiersByOperation(p_180375_1_));
 
-		for (IAttribute iattribute = this.genericAttribute.func_180372_d(); iattribute != null; iattribute = iattribute.func_180372_d()) {
+		for (IAttribute iattribute = this.genericAttribute.func_180372_d(); iattribute != null; iattribute = iattribute
+				.func_180372_d()) {
 			IAttributeInstance iattributeinstance = this.attributeMap.getAttributeInstance(iattribute);
 
 			if (iattributeinstance != null) {

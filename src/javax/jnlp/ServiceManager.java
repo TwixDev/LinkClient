@@ -3,8 +3,7 @@
 
 package javax.jnlp;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public final class ServiceManager {
@@ -18,7 +17,7 @@ public final class ServiceManager {
   }
 
 
-  public static Object lookup(String name) throws UnavailableServiceException {
+  public static java.lang.Object lookup(java.lang.String name) throws UnavailableServiceException {
     if (stub == null)
       throw new UnavailableServiceException("service stub not set.");
 
@@ -38,7 +37,7 @@ public final class ServiceManager {
     }
   }
 
-  public static String[] getServiceNames() {
+  public static java.lang.String[] getServiceNames() {
     // should this return the required ones even though no stub??
     if (stub == null)
       return new String[0];

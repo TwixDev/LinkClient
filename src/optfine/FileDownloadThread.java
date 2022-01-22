@@ -1,28 +1,38 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package optfine;
 
-public class FileDownloadThread extends Thread {
-	private String urlString = null;
-	private IFileDownloadListener listener = null;
+import optfine.HttpUtils;
+import optfine.IFileDownloadListener;
 
-	public FileDownloadThread(String p_i32_1_, IFileDownloadListener p_i32_2_) {
-		this.urlString = p_i32_1_;
-		this.listener = p_i32_2_;
-	}
+public class FileDownloadThread
+extends Thread {
+    private String urlString = null;
+    private IFileDownloadListener listener = null;
 
-	public void run() {
-		try {
-			byte[] abyte = HttpUtils.get(this.urlString);
-			this.listener.fileDownloadFinished(this.urlString, abyte, (Throwable) null);
-		} catch (Exception exception) {
-			this.listener.fileDownloadFinished(this.urlString, (byte[]) null, exception);
-		}
-	}
+    public FileDownloadThread(String p_i32_1_, IFileDownloadListener p_i32_2_) {
+        this.urlString = p_i32_1_;
+        this.listener = p_i32_2_;
+    }
 
-	public String getUrlString() {
-		return this.urlString;
-	}
+    @Override
+    public void run() {
+        try {
+            byte[] abyte = HttpUtils.get(this.urlString);
+            this.listener.fileDownloadFinished(this.urlString, abyte, null);
+        }
+        catch (Exception exception) {
+            this.listener.fileDownloadFinished(this.urlString, null, exception);
+        }
+    }
 
-	public IFileDownloadListener getListener() {
-		return this.listener;
-	}
+    public String getUrlString() {
+        return this.urlString;
+    }
+
+    public IFileDownloadListener getListener() {
+        return this.listener;
+    }
 }
+

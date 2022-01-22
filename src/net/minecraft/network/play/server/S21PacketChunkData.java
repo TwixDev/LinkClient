@@ -1,10 +1,8 @@
 package net.minecraft.network.play.server;
 
+import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
@@ -24,7 +22,8 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 		this.chunkX = chunkIn.xPosition;
 		this.chunkZ = chunkIn.zPosition;
 		this.field_149279_g = p_i45196_2_;
-		this.extractedData = func_179756_a(chunkIn, p_i45196_2_, !chunkIn.getWorld().provider.getHasNoSky(), p_i45196_3_);
+		this.extractedData = func_179756_a(chunkIn, p_i45196_2_, !chunkIn.getWorld().provider.getHasNoSky(),
+				p_i45196_3_);
 	}
 
 	/**
@@ -69,7 +68,8 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 		return i + j + k + l;
 	}
 
-	public static S21PacketChunkData.Extracted func_179756_a(Chunk p_179756_0_, boolean p_179756_1_, boolean p_179756_2_, int p_179756_3_) {
+	public static S21PacketChunkData.Extracted func_179756_a(Chunk p_179756_0_, boolean p_179756_1_,
+			boolean p_179756_2_, int p_179756_3_) {
 		ExtendedBlockStorage[] aextendedblockstorage = p_179756_0_.getBlockStorageArray();
 		S21PacketChunkData.Extracted s21packetchunkdata$extracted = new S21PacketChunkData.Extracted();
 		List<ExtendedBlockStorage> list = Lists.<ExtendedBlockStorage>newArrayList();
@@ -77,13 +77,15 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 		for (int i = 0; i < aextendedblockstorage.length; ++i) {
 			ExtendedBlockStorage extendedblockstorage = aextendedblockstorage[i];
 
-			if (extendedblockstorage != null && (!p_179756_1_ || !extendedblockstorage.isEmpty()) && (p_179756_3_ & 1 << i) != 0) {
+			if (extendedblockstorage != null && (!p_179756_1_ || !extendedblockstorage.isEmpty())
+					&& (p_179756_3_ & 1 << i) != 0) {
 				s21packetchunkdata$extracted.dataSize |= 1 << i;
 				list.add(extendedblockstorage);
 			}
 		}
 
-		s21packetchunkdata$extracted.data = new byte[func_180737_a(Integer.bitCount(s21packetchunkdata$extracted.dataSize), p_179756_2_, p_179756_1_)];
+		s21packetchunkdata$extracted.data = new byte[func_180737_a(
+				Integer.bitCount(s21packetchunkdata$extracted.dataSize), p_179756_2_, p_179756_1_)];
 		int j = 0;
 
 		for (ExtendedBlockStorage extendedblockstorage1 : list) {
@@ -96,12 +98,14 @@ public class S21PacketChunkData implements Packet<INetHandlerPlayClient> {
 		}
 
 		for (ExtendedBlockStorage extendedblockstorage2 : list) {
-			j = func_179757_a(extendedblockstorage2.getBlocklightArray().getData(), s21packetchunkdata$extracted.data, j);
+			j = func_179757_a(extendedblockstorage2.getBlocklightArray().getData(), s21packetchunkdata$extracted.data,
+					j);
 		}
 
 		if (p_179756_2_) {
 			for (ExtendedBlockStorage extendedblockstorage3 : list) {
-				j = func_179757_a(extendedblockstorage3.getSkylightArray().getData(), s21packetchunkdata$extracted.data, j);
+				j = func_179757_a(extendedblockstorage3.getSkylightArray().getData(), s21packetchunkdata$extracted.data,
+						j);
 			}
 		}
 

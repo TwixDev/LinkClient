@@ -1,18 +1,21 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.item;
 
-public class ItemBook extends Item {
-	/**
-	 * Checks isDamagable and if it cannot be stacked
-	 */
-	public boolean isItemTool(ItemStack stack) {
-		return stack.stackSize == 1;
-	}
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
-	/**
-	 * Return the enchantability factor of the item, most of the time is based on
-	 * material.
-	 */
-	public int getItemEnchantability() {
-		return 1;
-	}
+public class ItemBook
+extends Item {
+    @Override
+    public boolean isItemTool(ItemStack stack) {
+        return stack.stackSize == 1;
+    }
+
+    @Override
+    public int getItemEnchantability() {
+        return 1;
+    }
 }
+

@@ -1,13 +1,11 @@
 package net.minecraft.entity.ai.attributes;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-
+import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 import net.minecraft.server.management.LowerStringMap;
 
 public abstract class BaseAttributeMap {
@@ -35,7 +33,8 @@ public abstract class BaseAttributeMap {
 			this.attributesByName.put(attribute.getAttributeUnlocalizedName(), iattributeinstance);
 			this.attributes.put(attribute, iattributeinstance);
 
-			for (IAttribute iattribute = attribute.func_180372_d(); iattribute != null; iattribute = iattribute.func_180372_d()) {
+			for (IAttribute iattribute = attribute.func_180372_d(); iattribute != null; iattribute = iattribute
+					.func_180372_d()) {
 				this.field_180377_c.put(iattribute, attribute);
 			}
 

@@ -1,22 +1,23 @@
+/*
+ * Decompiled with CFR 0.150.
+ * 
+ * Could not load the following classes:
+ *  org.lwjgl.opengl.GL11
+ *  org.lwjgl.opengl.GLContext
+ */
 package optfine;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.IntBuffer;
 import java.util.Iterator;
-
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLContext;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
@@ -30,6 +31,16 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import optfine.BetterGrass;
+import optfine.BetterSnow;
+import optfine.Config;
+import optfine.CustomColorizer;
+import optfine.CustomSky;
+import optfine.NaturalTextures;
+import optfine.RandomMobs;
+import optfine.TextureAnimations;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLContext;
 
 public class TextureUtils {
 	public static final String texGrassTop = "grass_top";
@@ -112,77 +123,69 @@ public class TextureUtils {
 	public static TextureAtlasSprite iconGlass;
 	public static TextureAtlasSprite iconGlassPaneTop;
 	public static final String SPRITE_LOCATION_PREFIX = "minecraft:blocks/";
-	private static IntBuffer staticBuffer = GLAllocation.createDirectIntBuffer(256);
+	private static IntBuffer staticBuffer;
 
 	public static void update() {
-		TextureMap texturemap = getTextureMapBlocks();
-
+		TextureMap texturemap = TextureUtils.getTextureMapBlocks();
 		if (texturemap != null) {
-			String s = "minecraft:blocks/";
-			iconGrassTop = texturemap.getSpriteSafe(s + "grass_top");
-			iconGrassSide = texturemap.getSpriteSafe(s + "grass_side");
-			iconGrassSideOverlay = texturemap.getSpriteSafe(s + "grass_side_overlay");
-			iconSnow = texturemap.getSpriteSafe(s + "snow");
-			iconGrassSideSnowed = texturemap.getSpriteSafe(s + "grass_side_snowed");
-			iconMyceliumSide = texturemap.getSpriteSafe(s + "mycelium_side");
-			iconMyceliumTop = texturemap.getSpriteSafe(s + "mycelium_top");
-			iconWaterStill = texturemap.getSpriteSafe(s + "water_still");
-			iconWaterFlow = texturemap.getSpriteSafe(s + "water_flow");
-			iconLavaStill = texturemap.getSpriteSafe(s + "lava_still");
-			iconLavaFlow = texturemap.getSpriteSafe(s + "lava_flow");
-			iconFireLayer0 = texturemap.getSpriteSafe(s + "fire_layer_0");
-			iconFireLayer1 = texturemap.getSpriteSafe(s + "fire_layer_1");
-			iconPortal = texturemap.getSpriteSafe(s + "portal");
-			iconGlass = texturemap.getSpriteSafe(s + "glass");
-			iconGlassPaneTop = texturemap.getSpriteSafe(s + "glass_pane_top");
+			String s = SPRITE_LOCATION_PREFIX;
+			iconGrassTop = texturemap.getSpriteSafe(s + texGrassTop);
+			iconGrassSide = texturemap.getSpriteSafe(s + texGrassSide);
+			iconGrassSideOverlay = texturemap.getSpriteSafe(s + texGrassSideOverlay);
+			iconSnow = texturemap.getSpriteSafe(s + texSnow);
+			iconGrassSideSnowed = texturemap.getSpriteSafe(s + texGrassSideSnowed);
+			iconMyceliumSide = texturemap.getSpriteSafe(s + texMyceliumSide);
+			iconMyceliumTop = texturemap.getSpriteSafe(s + texMyceliumTop);
+			iconWaterStill = texturemap.getSpriteSafe(s + texWaterStill);
+			iconWaterFlow = texturemap.getSpriteSafe(s + texWaterFlow);
+			iconLavaStill = texturemap.getSpriteSafe(s + texLavaStill);
+			iconLavaFlow = texturemap.getSpriteSafe(s + texLavaFlow);
+			iconFireLayer0 = texturemap.getSpriteSafe(s + texFireLayer0);
+			iconFireLayer1 = texturemap.getSpriteSafe(s + texFireLayer1);
+			iconPortal = texturemap.getSpriteSafe(s + texPortal);
+			iconGlass = texturemap.getSpriteSafe(s + texGlass);
+			iconGlassPaneTop = texturemap.getSpriteSafe(s + texGlassPaneTop);
 		}
 	}
 
-	public static BufferedImage fixTextureDimensions(String p_fixTextureDimensions_0_, BufferedImage p_fixTextureDimensions_1_) {
-		if (p_fixTextureDimensions_0_.startsWith("/mob/zombie") || p_fixTextureDimensions_0_.startsWith("/mob/pigzombie")) {
-			int i = p_fixTextureDimensions_1_.getWidth();
-			int j = p_fixTextureDimensions_1_.getHeight();
-
-			if (i == j * 2) {
-				BufferedImage bufferedimage = new BufferedImage(i, j * 2, 2);
-				Graphics2D graphics2d = bufferedimage.createGraphics();
-				graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-				graphics2d.drawImage(p_fixTextureDimensions_1_, 0, 0, i, j, (ImageObserver) null);
-				return bufferedimage;
-			}
+	public static BufferedImage fixTextureDimensions(String p_fixTextureDimensions_0_,
+			BufferedImage p_fixTextureDimensions_1_) {
+		int j;
+		int i;
+		if ((p_fixTextureDimensions_0_.startsWith("/mob/zombie")
+				|| p_fixTextureDimensions_0_.startsWith("/mob/pigzombie"))
+				&& (i = p_fixTextureDimensions_1_.getWidth()) == (j = p_fixTextureDimensions_1_.getHeight()) * 2) {
+			BufferedImage bufferedimage = new BufferedImage(i, j * 2, 2);
+			Graphics2D graphics2d = bufferedimage.createGraphics();
+			graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			graphics2d.drawImage(p_fixTextureDimensions_1_, 0, 0, i, j, null);
+			return bufferedimage;
 		}
-
 		return p_fixTextureDimensions_1_;
 	}
 
 	public static int ceilPowerOfTwo(int p_ceilPowerOfTwo_0_) {
 		int i;
-
 		for (i = 1; i < p_ceilPowerOfTwo_0_; i *= 2) {
-			;
 		}
-
 		return i;
 	}
 
 	public static int getPowerOfTwo(int p_getPowerOfTwo_0_) {
 		int i = 1;
-		int j;
-
-		for (j = 0; i < p_getPowerOfTwo_0_; ++j) {
+		int j = 0;
+		while (i < p_getPowerOfTwo_0_) {
 			i *= 2;
+			++j;
 		}
-
 		return j;
 	}
 
 	public static int twoToPower(int p_twoToPower_0_) {
 		int i = 1;
-
 		for (int j = 0; j < p_twoToPower_0_; ++j) {
 			i *= 2;
 		}
-
 		return i;
 	}
 
@@ -190,29 +193,28 @@ public class TextureUtils {
 	}
 
 	public static ITextureObject getTexture(String p_getTexture_0_) {
-		return getTexture(new ResourceLocation(p_getTexture_0_));
+		return TextureUtils.getTexture(new ResourceLocation(p_getTexture_0_));
 	}
 
 	public static ITextureObject getTexture(ResourceLocation p_getTexture_0_) {
 		ITextureObject itextureobject = Config.getTextureManager().getTexture(p_getTexture_0_);
-
 		if (itextureobject != null) {
 			return itextureobject;
-		} else if (!Config.hasResource(p_getTexture_0_)) {
-			return null;
-		} else {
-			SimpleTexture simpletexture = new SimpleTexture(p_getTexture_0_);
-			Config.getTextureManager().loadTexture(p_getTexture_0_, simpletexture);
-			return simpletexture;
 		}
+		if (!Config.hasResource(p_getTexture_0_)) {
+			return null;
+		}
+		SimpleTexture simpletexture = new SimpleTexture(p_getTexture_0_);
+		Config.getTextureManager().loadTexture(p_getTexture_0_, simpletexture);
+		return simpletexture;
 	}
 
 	public static void resourcesReloaded(IResourceManager p_resourcesReloaded_0_) {
-		if (getTextureMapBlocks() != null) {
+		if (TextureUtils.getTextureMapBlocks() != null) {
 			Config.dbg("*** Reloading custom textures ***");
 			CustomSky.reset();
 			TextureAnimations.reset();
-			update();
+			TextureUtils.update();
 			NaturalTextures.update();
 			BetterGrass.update();
 			BetterSnow.update();
@@ -231,32 +233,38 @@ public class TextureUtils {
 
 	public static void registerResourceListener() {
 		IResourceManager iresourcemanager = Config.getResourceManager();
-
 		if (iresourcemanager instanceof IReloadableResourceManager) {
 			IReloadableResourceManager ireloadableresourcemanager = (IReloadableResourceManager) iresourcemanager;
 			IResourceManagerReloadListener iresourcemanagerreloadlistener = new IResourceManagerReloadListener() {
+
+				@Override
 				public void onResourceManagerReload(IResourceManager resourceManager) {
 					TextureUtils.resourcesReloaded(resourceManager);
 				}
 			};
 			ireloadableresourcemanager.registerReloadListener(iresourcemanagerreloadlistener);
 		}
-
 		ITickableTextureObject itickabletextureobject = new ITickableTextureObject() {
+
+			@Override
 			public void tick() {
 				TextureAnimations.updateCustomAnimations();
 			}
 
+			@Override
 			public void loadTexture(IResourceManager resourceManager) throws IOException {
 			}
 
+			@Override
 			public int getGlTextureId() {
 				return 0;
 			}
 
+			@Override
 			public void setBlurMipmap(boolean p_174936_1_, boolean p_174936_2_) {
 			}
 
+			@Override
 			public void restoreLastBlurMipmap() {
 			}
 		};
@@ -266,33 +274,29 @@ public class TextureUtils {
 
 	public static String fixResourcePath(String p_fixResourcePath_0_, String p_fixResourcePath_1_) {
 		String s = "assets/minecraft/";
-
 		if (p_fixResourcePath_0_.startsWith(s)) {
 			p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(s.length());
 			return p_fixResourcePath_0_;
-		} else if (p_fixResourcePath_0_.startsWith("./")) {
+		}
+		if (p_fixResourcePath_0_.startsWith("./")) {
 			p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(2);
-
 			if (!p_fixResourcePath_1_.endsWith("/")) {
 				p_fixResourcePath_1_ = p_fixResourcePath_1_ + "/";
 			}
-
 			p_fixResourcePath_0_ = p_fixResourcePath_1_ + p_fixResourcePath_0_;
 			return p_fixResourcePath_0_;
-		} else {
-			String s1 = "mcpatcher/";
-
-			if (p_fixResourcePath_0_.startsWith("~/")) {
-				p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(2);
-				p_fixResourcePath_0_ = s1 + p_fixResourcePath_0_;
-				return p_fixResourcePath_0_;
-			} else if (p_fixResourcePath_0_.startsWith("/")) {
-				p_fixResourcePath_0_ = s1 + p_fixResourcePath_0_.substring(1);
-				return p_fixResourcePath_0_;
-			} else {
-				return p_fixResourcePath_0_;
-			}
 		}
+		String s1 = "mcpatcher/";
+		if (p_fixResourcePath_0_.startsWith("~/")) {
+			p_fixResourcePath_0_ = p_fixResourcePath_0_.substring(2);
+			p_fixResourcePath_0_ = s1 + p_fixResourcePath_0_;
+			return p_fixResourcePath_0_;
+		}
+		if (p_fixResourcePath_0_.startsWith("/")) {
+			p_fixResourcePath_0_ = s1 + p_fixResourcePath_0_.substring(1);
+			return p_fixResourcePath_0_;
+		}
+		return p_fixResourcePath_0_;
 	}
 
 	public static String getBasePath(String p_getBasePath_0_) {
@@ -302,10 +306,10 @@ public class TextureUtils {
 
 	public static void applyAnisotropicLevel() {
 		if (GLContext.getCapabilities().GL_EXT_texture_filter_anisotropic) {
-			float f = GL11.glGetFloat(34047);
-			float f1 = (float) Config.getAnisotropicFilterLevel();
+			float f = GL11.glGetFloat((int) 34047);
+			float f1 = Config.getAnisotropicFilterLevel();
 			f1 = Math.min(f1, f);
-			GL11.glTexParameterf(GL11.GL_TEXTURE_2D, 34046, f1);
+			GL11.glTexParameterf((int) 3553, (int) 34046, (float) f1);
 		}
 	}
 
@@ -321,31 +325,28 @@ public class TextureUtils {
 	public static BufferedImage scaleToPowerOfTwo(BufferedImage p_scaleToPowerOfTwo_0_, int p_scaleToPowerOfTwo_1_) {
 		if (p_scaleToPowerOfTwo_0_ == null) {
 			return p_scaleToPowerOfTwo_0_;
-		} else {
-			int i = p_scaleToPowerOfTwo_0_.getWidth();
-			int j = p_scaleToPowerOfTwo_0_.getHeight();
-			int k = Math.max(i, p_scaleToPowerOfTwo_1_);
-			k = MathHelper.roundUpToPowerOfTwo(k);
-
-			if (k == i) {
-				return p_scaleToPowerOfTwo_0_;
-			} else {
-				int l = j * k / i;
-				BufferedImage bufferedimage = new BufferedImage(k, l, 2);
-				Graphics2D graphics2d = bufferedimage.createGraphics();
-				Object object = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-
-				if (k % i != 0) {
-					object = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
-				}
-
-				graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, object);
-				graphics2d.drawImage(p_scaleToPowerOfTwo_0_, 0, 0, k, l, (ImageObserver) null);
-				return bufferedimage;
-			}
 		}
+		int i = p_scaleToPowerOfTwo_0_.getWidth();
+		int j = p_scaleToPowerOfTwo_0_.getHeight();
+		int k = Math.max(i, p_scaleToPowerOfTwo_1_);
+		if ((k = MathHelper.roundUpToPowerOfTwo(k)) == i) {
+			return p_scaleToPowerOfTwo_0_;
+		}
+		int l = j * k / i;
+		BufferedImage bufferedimage = new BufferedImage(k, l, 2);
+		Graphics2D graphics2d = bufferedimage.createGraphics();
+		Object object = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+		if (k % i != 0) {
+			object = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+		}
+		graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, object);
+		graphics2d.drawImage(p_scaleToPowerOfTwo_0_, 0, 0, k, l, null);
+		return bufferedimage;
 	}
 
+	/*
+	 * WARNING - Removed try catching itself - possible behaviour change.
+	 */
 	public static Dimension getImageSize(InputStream p_getImageSize_0_, String p_getImageSize_1_) {
 		Iterator iterator = ImageIO.getImageReadersBySuffix(p_getImageSize_1_);
 
@@ -371,5 +372,9 @@ public class TextureUtils {
 
 			return null;
 		}
+	}
+
+	static {
+		staticBuffer = GLAllocation.createDirectIntBuffer(256);
 	}
 }

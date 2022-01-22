@@ -1,7 +1,6 @@
 package net.minecraft.entity.monster;
 
 import java.util.Calendar;
-
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -42,7 +41,8 @@ import net.minecraft.world.WorldProviderHell;
 
 public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 	private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
-	private EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2D, false);
+	private EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.2D,
+			false);
 
 	public EntitySkeleton(World worldIn) {
 		super(worldIn);
@@ -182,7 +182,8 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 			if (d0 * d0 + d1 * d1 >= 2500.0D) {
 				entityplayer.triggerAchievement(AchievementList.snipeSkeleton);
 			}
-		} else if (cause.getEntity() instanceof EntityCreeper && ((EntityCreeper) cause.getEntity()).getPowered() && ((EntityCreeper) cause.getEntity()).isAIEnabled()) {
+		} else if (cause.getEntity() instanceof EntityCreeper && ((EntityCreeper) cause.getEntity()).getPowered()
+				&& ((EntityCreeper) cause.getEntity()).isAIEnabled()) {
 			((EntityCreeper) cause.getEntity()).func_175493_co();
 			this.entityDropItem(new ItemStack(Items.skull, 1, this.getSkeletonType() == 1 ? 1 : 0), 0.0F);
 		}
@@ -259,7 +260,8 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 			Calendar calendar = this.worldObj.getCurrentDate();
 
 			if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && this.rand.nextFloat() < 0.25F) {
-				this.setCurrentItemOrArmor(4, new ItemStack(this.rand.nextFloat() < 0.1F ? Blocks.lit_pumpkin : Blocks.pumpkin));
+				this.setCurrentItemOrArmor(4,
+						new ItemStack(this.rand.nextFloat() < 0.1F ? Blocks.lit_pumpkin : Blocks.pumpkin));
 				this.equipmentDropChances[4] = 0.0F;
 			}
 		}
@@ -286,10 +288,12 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 	 * Attack the specified entity using a ranged attack.
 	 */
 	public void attackEntityWithRangedAttack(EntityLivingBase p_82196_1_, float p_82196_2_) {
-		EntityArrow entityarrow = new EntityArrow(this.worldObj, this, p_82196_1_, 1.6F, (float) (14 - this.worldObj.getDifficulty().getDifficultyId() * 4));
+		EntityArrow entityarrow = new EntityArrow(this.worldObj, this, p_82196_1_, 1.6F,
+				(float) (14 - this.worldObj.getDifficulty().getDifficultyId() * 4));
 		int i = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, this.getHeldItem());
 		int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, this.getHeldItem());
-		entityarrow.setDamage((double) (p_82196_2_ * 2.0F) + this.rand.nextGaussian() * 0.25D + (double) ((float) this.worldObj.getDifficulty().getDifficultyId() * 0.11F));
+		entityarrow.setDamage((double) (p_82196_2_ * 2.0F) + this.rand.nextGaussian() * 0.25D
+				+ (double) ((float) this.worldObj.getDifficulty().getDifficultyId() * 0.11F));
 
 		if (i > 0) {
 			entityarrow.setDamage(entityarrow.getDamage() + (double) i * 0.5D + 0.5D);
@@ -299,7 +303,8 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob {
 			entityarrow.setKnockbackStrength(j);
 		}
 
-		if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, this.getHeldItem()) > 0 || this.getSkeletonType() == 1) {
+		if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, this.getHeldItem()) > 0
+				|| this.getSkeletonType() == 1) {
 			entityarrow.setFire(100);
 		}
 

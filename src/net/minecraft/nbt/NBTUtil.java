@@ -1,10 +1,8 @@
 package net.minecraft.nbt;
 
-import java.util.UUID;
-
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-
+import java.util.UUID;
 import net.minecraft.util.StringUtils;
 
 public final class NBTUtil {
@@ -48,7 +46,8 @@ public final class NBTUtil {
 						String s3 = nbttagcompound1.getString("Value");
 
 						if (nbttagcompound1.hasKey("Signature", 8)) {
-							gameprofile.getProperties().put(s2, new Property(s2, s3, nbttagcompound1.getString("Signature")));
+							gameprofile.getProperties().put(s2,
+									new Property(s2, s3, nbttagcompound1.getString("Signature")));
 						} else {
 							gameprofile.getProperties().put(s2, new Property(s2, s3));
 						}

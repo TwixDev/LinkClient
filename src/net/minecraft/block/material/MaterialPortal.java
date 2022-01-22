@@ -1,29 +1,30 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.block.material;
 
-public class MaterialPortal extends Material {
-	public MaterialPortal(MapColor color) {
-		super(color);
-	}
+import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
 
-	/**
-	 * Returns true if the block is a considered solid. This is true by default.
-	 */
-	public boolean isSolid() {
-		return false;
-	}
+public class MaterialPortal
+extends Material {
+    public MaterialPortal(MapColor color) {
+        super(color);
+    }
 
-	/**
-	 * Will prevent grass from growing on dirt underneath and kill any grass below
-	 * it if it returns true
-	 */
-	public boolean blocksLight() {
-		return false;
-	}
+    @Override
+    public boolean isSolid() {
+        return false;
+    }
 
-	/**
-	 * Returns if this material is considered solid or not
-	 */
-	public boolean blocksMovement() {
-		return false;
-	}
+    @Override
+    public boolean blocksLight() {
+        return false;
+    }
+
+    @Override
+    public boolean blocksMovement() {
+        return false;
+    }
 }
+

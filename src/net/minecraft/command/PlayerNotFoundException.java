@@ -1,11 +1,18 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.command;
 
-public class PlayerNotFoundException extends CommandException {
-	public PlayerNotFoundException() {
-		this("commands.generic.player.notFound", new Object[0]);
-	}
+import net.minecraft.command.CommandException;
 
-	public PlayerNotFoundException(String message, Object... replacements) {
-		super(message, replacements);
-	}
+public class PlayerNotFoundException
+extends CommandException {
+    public PlayerNotFoundException() {
+        this("commands.generic.player.notFound", new Object[0]);
+    }
+
+    public PlayerNotFoundException(String message, Object ... replacements) {
+        super(message, replacements);
+    }
 }
+

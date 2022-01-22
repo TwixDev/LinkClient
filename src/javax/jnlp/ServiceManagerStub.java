@@ -4,8 +4,8 @@ package javax.jnlp;
 
 public interface ServiceManagerStub {
 
-  public Object lookup(String name) throws UnavailableServiceException;
-  public String[] getServiceNames();
+  public java.lang.Object lookup(java.lang.String name) throws UnavailableServiceException;
+  public java.lang.String[] getServiceNames();
 
 }
 

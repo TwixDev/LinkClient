@@ -1,15 +1,13 @@
 package net.minecraft.block.properties;
 
-import java.util.Collection;
-import java.util.Map;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
+import java.util.Collection;
+import java.util.Map;
 import net.minecraft.util.IStringSerializable;
 
 public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends PropertyHelper<T> {
@@ -46,15 +44,18 @@ public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends Prope
 		return create(name, clazz, Predicates.<T>alwaysTrue());
 	}
 
-	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, Predicate<T> filter) {
+	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz,
+			Predicate<T> filter) {
 		return create(name, clazz, Collections2.<T>filter(Lists.newArrayList(clazz.getEnumConstants()), filter));
 	}
 
-	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, T... values) {
+	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz,
+			T... values) {
 		return create(name, clazz, Lists.newArrayList(values));
 	}
 
-	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, Collection<T> values) {
+	public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz,
+			Collection<T> values) {
 		return new PropertyEnum(name, clazz, values);
 	}
 }

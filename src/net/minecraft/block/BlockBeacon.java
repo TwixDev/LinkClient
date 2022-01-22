@@ -1,5 +1,10 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.block;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -22,81 +27,64 @@ import net.minecraft.world.chunk.Chunk;
 public class BlockBeacon extends BlockContainer {
 	public BlockBeacon() {
 		super(Material.glass, MapColor.diamondColor);
-		this.setHardness(3.0F);
+		this.setHardness(3.0f);
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
-	/**
-	 * Returns a new instance of a block's tile entity class. Called on placing the
-	 * block.
-	 */
+	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityBeacon();
 	}
 
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote) {
 			return true;
-		} else {
-			TileEntity tileentity = worldIn.getTileEntity(pos);
-
-			if (tileentity instanceof TileEntityBeacon) {
-				playerIn.displayGUIChest((TileEntityBeacon) tileentity);
-				playerIn.triggerAchievement(StatList.field_181730_N);
-			}
-
-			return true;
 		}
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+		if (tileentity instanceof TileEntityBeacon) {
+			playerIn.displayGUIChest((TileEntityBeacon) tileentity);
+			playerIn.triggerAchievement(StatList.field_181730_N);
+		}
+		return true;
 	}
 
-	/**
-	 * Used to determine ambient occlusion and culling when rebuilding chunks for
-	 * render
-	 */
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 
+	@Override
 	public boolean isFullCube() {
 		return false;
 	}
 
-	/**
-	 * The type of render function called. 3 for standard block models, 2 for
-	 * TESR's, 1 for liquids, -1 is no render
-	 */
+	@Override
 	public int getRenderType() {
 		return 3;
 	}
 
-	/**
-	 * Called by ItemBlocks after a block is set in the world, to allow post-place
-	 * logic
-	 */
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer,
+			ItemStack stack) {
+		TileEntity tileentity;
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-
-		if (stack.hasDisplayName()) {
-			TileEntity tileentity = worldIn.getTileEntity(pos);
-
-			if (tileentity instanceof TileEntityBeacon) {
-				((TileEntityBeacon) tileentity).setName(stack.getDisplayName());
-			}
+		if (stack.hasDisplayName() && (tileentity = worldIn.getTileEntity(pos)) instanceof TileEntityBeacon) {
+			((TileEntityBeacon) tileentity).setName(stack.getDisplayName());
 		}
 	}
 
-	/**
-	 * Called when a neighboring block changes.
-	 */
+	@Override
 	public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
-
 		if (tileentity instanceof TileEntityBeacon) {
 			((TileEntityBeacon) tileentity).updateBeacon();
 			worldIn.addBlockEvent(pos, this, 1, 0);
 		}
 	}
 
+	@Override
 	public EnumWorldBlockLayer getBlockLayer() {
 		return EnumWorldBlockLayer.CUTOUT;
 	}

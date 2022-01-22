@@ -1,4 +1,11 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.dispenser;
 
-public interface ILocatableSource extends ILocation {
+import net.minecraft.dispenser.ILocation;
+
+public interface ILocatableSource
+extends ILocation {
 }
+

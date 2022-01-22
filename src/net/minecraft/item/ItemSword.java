@@ -1,7 +1,6 @@
 package net.minecraft.item;
 
 import com.google.common.collect.Multimap;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,7 +13,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class ItemSword extends Item {
-	private float attackDamage;
+	public float attackDamage;
 	private final Item.ToolMaterial material;
 
 	public ItemSword(Item.ToolMaterial material) {
@@ -38,7 +37,8 @@ public class ItemSword extends Item {
 			return 15.0F;
 		} else {
 			Material material = block.getMaterial();
-			return material != Material.plants && material != Material.vine && material != Material.coral && material != Material.leaves && material != Material.gourd ? 1.0F : 1.5F;
+			return material != Material.plants && material != Material.vine && material != Material.coral
+					&& material != Material.leaves && material != Material.gourd ? 1.0F : 1.5F;
 		}
 	}
 
@@ -55,7 +55,8 @@ public class ItemSword extends Item {
 	 * Called when a Block is destroyed using this Item. Return true to trigger the
 	 * "Use Item" statistic.
 	 */
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos,
+			EntityLivingBase playerIn) {
 		if ((double) blockIn.getBlockHardness(worldIn, pos) != 0.0D) {
 			stack.damageItem(2, playerIn);
 		}
@@ -125,7 +126,8 @@ public class ItemSword extends Item {
 
 	public Multimap<String, AttributeModifier> getItemAttributeModifiers() {
 		Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers();
-		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", (double) this.attackDamage, 0));
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+				new AttributeModifier(itemModifierUUID, "Weapon modifier", (double) this.attackDamage, 0));
 		return multimap;
 	}
 }

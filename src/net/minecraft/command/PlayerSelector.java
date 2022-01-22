@@ -1,21 +1,19 @@
 package net.minecraft.command;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -54,7 +52,8 @@ public class PlayerSelector {
 	 * arguments.
 	 */
 	private static final Pattern keyValueListPattern = Pattern.compile("\\G(\\w+)=([-!]?[\\w-]*)(?:$|,)");
-	private static final Set<String> WORLD_BINDING_ARGS = Sets.newHashSet(new String[] { "x", "y", "z", "dx", "dy", "dz", "rm", "r" });
+	private static final Set<String> WORLD_BINDING_ARGS = Sets
+			.newHashSet(new String[] { "x", "y", "z", "dx", "dy", "dz", "rm", "r" });
 
 	/**
 	 * Returns the one player that matches the given at-token. Returns null if more
@@ -64,7 +63,8 @@ public class PlayerSelector {
 		return (EntityPlayerMP) matchOneEntity(sender, token, EntityPlayerMP.class);
 	}
 
-	public static <T extends Entity> T matchOneEntity(ICommandSender sender, String token, Class<? extends T> targetClass) {
+	public static <T extends Entity> T matchOneEntity(ICommandSender sender, String token,
+			Class<? extends T> targetClass) {
 		List<T> list = matchEntities(sender, token, targetClass);
 		return (T) (list.size() == 1 ? (Entity) list.get(0) : null);
 	}
@@ -85,7 +85,8 @@ public class PlayerSelector {
 		}
 	}
 
-	public static <T extends Entity> List<T> matchEntities(ICommandSender sender, String token, Class<? extends T> targetClass) {
+	public static <T extends Entity> List<T> matchEntities(ICommandSender sender, String token,
+			Class<? extends T> targetClass) {
 		Matcher matcher = tokenPattern.matcher(token);
 
 		if (matcher.matches() && sender.canCommandSenderUseCommand(1, "@")) {
@@ -133,12 +134,14 @@ public class PlayerSelector {
 		return list;
 	}
 
-	private static <T extends Entity> boolean isEntityTypeValid(ICommandSender commandSender, Map<String, String> params) {
+	private static <T extends Entity> boolean isEntityTypeValid(ICommandSender commandSender,
+			Map<String, String> params) {
 		String s = func_179651_b(params, "type");
 		s = s != null && s.startsWith("!") ? s.substring(1) : s;
 
 		if (s != null && !EntityList.isStringValidEntityName(s)) {
-			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("commands.generic.entity.invalidType", new Object[] { s });
+			ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation(
+					"commands.generic.entity.invalidType", new Object[] { s });
 			chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
 			commandSender.addChatMessage(chatcomponenttranslation);
 			return false;
@@ -191,7 +194,8 @@ public class PlayerSelector {
 						return false;
 					} else {
 						EntityPlayerMP entityplayermp = (EntityPlayerMP) p_apply_1_;
-						return (i <= -1 || entityplayermp.experienceLevel >= i) && (j <= -1 || entityplayermp.experienceLevel <= j);
+						return (i <= -1 || entityplayermp.experienceLevel >= i)
+								&& (j <= -1 || entityplayermp.experienceLevel <= j);
 					}
 				}
 			});
@@ -272,7 +276,8 @@ public class PlayerSelector {
 							return false;
 						}
 
-						String s1 = p_apply_1_ instanceof EntityPlayerMP ? p_apply_1_.getName() : p_apply_1_.getUniqueID().toString();
+						String s1 = p_apply_1_ instanceof EntityPlayerMP ? p_apply_1_.getName()
+								: p_apply_1_.getUniqueID().toString();
 
 						if (!scoreboard.entityHasObjective(s1, scoreobjective)) {
 							return false;
@@ -366,7 +371,8 @@ public class PlayerSelector {
 		return list;
 	}
 
-	private static <T extends Entity> List<T> filterResults(Map<String, String> params, Class<? extends T> entityClass, List<Predicate<Entity>> inputList, String type, World worldIn, BlockPos position) {
+	private static <T extends Entity> List<T> filterResults(Map<String, String> params, Class<? extends T> entityClass,
+			List<Predicate<Entity>> inputList, String type, World worldIn, BlockPos position) {
 		List<T> list = Lists.<T>newArrayList();
 		String s = func_179651_b(params, "type");
 		s = s != null && s.startsWith("!") ? s.substring(1) : s;
@@ -386,7 +392,10 @@ public class PlayerSelector {
 
 			if (!params.containsKey("dx") && !params.containsKey("dy") && !params.containsKey("dz")) {
 				if (l >= 0) {
-					AxisAlignedBB axisalignedbb1 = new AxisAlignedBB((double) (position.getX() - l), (double) (position.getY() - l), (double) (position.getZ() - l), (double) (position.getX() + l + 1), (double) (position.getY() + l + 1), (double) (position.getZ() + l + 1));
+					AxisAlignedBB axisalignedbb1 = new AxisAlignedBB((double) (position.getX() - l),
+							(double) (position.getY() - l), (double) (position.getZ() - l),
+							(double) (position.getX() + l + 1), (double) (position.getY() + l + 1),
+							(double) (position.getZ() + l + 1));
 
 					if (flag && flag2 && !flag1) {
 						list.addAll(worldIn.<T>getPlayers(entityClass, predicate1));
@@ -406,7 +415,12 @@ public class PlayerSelector {
 				if (flag && flag2 && !flag1) {
 					Predicate<Entity> predicate2 = new Predicate<Entity>() {
 						public boolean apply(Entity p_apply_1_) {
-							return p_apply_1_.posX >= axisalignedbb.minX && p_apply_1_.posY >= axisalignedbb.minY && p_apply_1_.posZ >= axisalignedbb.minZ ? p_apply_1_.posX < axisalignedbb.maxX && p_apply_1_.posY < axisalignedbb.maxY && p_apply_1_.posZ < axisalignedbb.maxZ : false;
+							return p_apply_1_.posX >= axisalignedbb.minX && p_apply_1_.posY >= axisalignedbb.minY
+									&& p_apply_1_.posZ >= axisalignedbb.minZ
+											? p_apply_1_.posX < axisalignedbb.maxX
+													&& p_apply_1_.posY < axisalignedbb.maxY
+													&& p_apply_1_.posZ < axisalignedbb.maxZ
+											: false;
 						}
 					};
 					list.addAll(worldIn.<T>getPlayers(entityClass, Predicates.<T>and(predicate1, predicate2)));
@@ -425,7 +439,9 @@ public class PlayerSelector {
 		return list;
 	}
 
-	private static <T extends Entity> List<T> func_179658_a(List<T> p_179658_0_, Map<String, String> p_179658_1_, ICommandSender p_179658_2_, Class<? extends T> p_179658_3_, String p_179658_4_, final BlockPos p_179658_5_) {
+	private static <T extends Entity> List<T> func_179658_a(List<T> p_179658_0_, Map<String, String> p_179658_1_,
+			ICommandSender p_179658_2_, Class<? extends T> p_179658_3_, String p_179658_4_,
+			final BlockPos p_179658_5_) {
 		int i = parseIntWithDefault(p_179658_1_, "c", !p_179658_4_.equals("a") && !p_179658_4_.equals("e") ? 1 : 0);
 
 		if (!p_179658_4_.equals("p") && !p_179658_4_.equals("a") && !p_179658_4_.equals("e")) {
@@ -435,14 +451,17 @@ public class PlayerSelector {
 		} else if (p_179658_5_ != null) {
 			Collections.sort((List<T>) p_179658_0_, new Comparator<Entity>() {
 				public int compare(Entity p_compare_1_, Entity p_compare_2_) {
-					return ComparisonChain.start().compare(p_compare_1_.getDistanceSq(p_179658_5_), p_compare_2_.getDistanceSq(p_179658_5_)).result();
+					return ComparisonChain.start()
+							.compare(p_compare_1_.getDistanceSq(p_179658_5_), p_compare_2_.getDistanceSq(p_179658_5_))
+							.result();
 				}
 			});
 		}
 
 		Entity entity = p_179658_2_.getCommandSenderEntity();
 
-		if (entity != null && p_179658_3_.isAssignableFrom(entity.getClass()) && i == 1 && ((List) p_179658_0_).contains(entity) && !"r".equals(p_179658_4_)) {
+		if (entity != null && p_179658_3_.isAssignableFrom(entity.getClass()) && i == 1
+				&& ((List) p_179658_0_).contains(entity) && !"r".equals(p_179658_4_)) {
 			p_179658_0_ = Lists.newArrayList((T) entity);
 		}
 
@@ -457,7 +476,8 @@ public class PlayerSelector {
 		return (List) p_179658_0_;
 	}
 
-	private static AxisAlignedBB func_179661_a(BlockPos p_179661_0_, int p_179661_1_, int p_179661_2_, int p_179661_3_) {
+	private static AxisAlignedBB func_179661_a(BlockPos p_179661_0_, int p_179661_1_, int p_179661_2_,
+			int p_179661_3_) {
 		boolean flag = p_179661_1_ < 0;
 		boolean flag1 = p_179661_2_ < 0;
 		boolean flag2 = p_179661_3_ < 0;
@@ -485,7 +505,9 @@ public class PlayerSelector {
 	}
 
 	private static BlockPos func_179664_b(Map<String, String> p_179664_0_, BlockPos p_179664_1_) {
-		return new BlockPos(parseIntWithDefault(p_179664_0_, "x", p_179664_1_.getX()), parseIntWithDefault(p_179664_0_, "y", p_179664_1_.getY()), parseIntWithDefault(p_179664_0_, "z", p_179664_1_.getZ()));
+		return new BlockPos(parseIntWithDefault(p_179664_0_, "x", p_179664_1_.getX()),
+				parseIntWithDefault(p_179664_0_, "y", p_179664_1_.getY()),
+				parseIntWithDefault(p_179664_0_, "z", p_179664_1_.getZ()));
 	}
 
 	private static boolean func_179665_h(Map<String, String> p_179665_0_) {
@@ -499,7 +521,9 @@ public class PlayerSelector {
 	}
 
 	private static int parseIntWithDefault(Map<String, String> p_179653_0_, String p_179653_1_, int p_179653_2_) {
-		return p_179653_0_.containsKey(p_179653_1_) ? MathHelper.parseIntWithDefault((String) p_179653_0_.get(p_179653_1_), p_179653_2_) : p_179653_2_;
+		return p_179653_0_.containsKey(p_179653_1_)
+				? MathHelper.parseIntWithDefault((String) p_179653_0_.get(p_179653_1_), p_179653_2_)
+				: p_179653_2_;
 	}
 
 	private static String func_179651_b(Map<String, String> p_179651_0_, String p_179651_1_) {
@@ -511,7 +535,8 @@ public class PlayerSelector {
 
 		for (String s : p_96560_0_.keySet()) {
 			if (s.startsWith("score_") && s.length() > "score_".length()) {
-				map.put(s.substring("score_".length()), Integer.valueOf(MathHelper.parseIntWithDefault((String) p_96560_0_.get(s), 1)));
+				map.put(s.substring("score_".length()),
+						Integer.valueOf(MathHelper.parseIntWithDefault((String) p_96560_0_.get(s), 1)));
 			}
 		}
 

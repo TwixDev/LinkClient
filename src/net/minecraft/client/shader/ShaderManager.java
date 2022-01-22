@@ -1,14 +1,5 @@
 package net.minecraft.client.shader;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -16,7 +7,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.ITextureObject;
@@ -25,6 +19,9 @@ import net.minecraft.client.util.JsonBlendingMode;
 import net.minecraft.client.util.JsonException;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ShaderManager {
 	private static final Logger logger = LogManager.getLogger();
@@ -118,7 +115,8 @@ public class ShaderManager {
 				}
 			}
 
-			this.field_148016_p = JsonBlendingMode.func_148110_a(JsonUtils.getJsonObject(jsonobject, "blend", (JsonObject) null));
+			this.field_148016_p = JsonBlendingMode
+					.func_148110_a(JsonUtils.getJsonObject(jsonobject, "blend", (JsonObject) null));
 			this.useFaceCulling = JsonUtils.getBoolean(jsonobject, "cull", true);
 			this.vertexShaderLoader = ShaderLoader.loadShader(resourceManager, ShaderLoader.ShaderType.VERTEX, s);
 			this.fragmentShaderLoader = ShaderLoader.loadShader(resourceManager, ShaderLoader.ShaderType.FRAGMENT, s1);
@@ -194,7 +192,9 @@ public class ShaderManager {
 
 				if (j != -1) {
 					GlStateManager.bindTexture(j);
-					OpenGlHelper.glUniform1i(OpenGlHelper.glGetUniformLocation(this.program, (CharSequence) this.samplerNames.get(i)), i);
+					OpenGlHelper.glUniform1i(
+							OpenGlHelper.glGetUniformLocation(this.program, (CharSequence) this.samplerNames.get(i)),
+							i);
 				}
 			}
 		}
@@ -212,7 +212,9 @@ public class ShaderManager {
 	 * gets a shader uniform for the name given. null if not found.
 	 */
 	public ShaderUniform getShaderUniform(String p_147991_1_) {
-		return this.mappedShaderUniforms.containsKey(p_147991_1_) ? (ShaderUniform) this.mappedShaderUniforms.get(p_147991_1_) : null;
+		return this.mappedShaderUniforms.containsKey(p_147991_1_)
+				? (ShaderUniform) this.mappedShaderUniforms.get(p_147991_1_)
+				: null;
 	}
 
 	/**
@@ -220,7 +222,9 @@ public class ShaderManager {
 	 * not-null value
 	 */
 	public ShaderUniform getShaderUniformOrDefault(String p_147984_1_) {
-		return (ShaderUniform) (this.mappedShaderUniforms.containsKey(p_147984_1_) ? (ShaderUniform) this.mappedShaderUniforms.get(p_147984_1_) : defaultShaderUniform);
+		return (ShaderUniform) (this.mappedShaderUniforms.containsKey(p_147984_1_)
+				? (ShaderUniform) this.mappedShaderUniforms.get(p_147984_1_)
+				: defaultShaderUniform);
 	}
 
 	/**
@@ -235,7 +239,8 @@ public class ShaderManager {
 			int k = OpenGlHelper.glGetUniformLocation(this.program, s);
 
 			if (k == -1) {
-				logger.warn("Shader " + this.programFilename + "could not find sampler named " + s + " in the specified shader program.");
+				logger.warn("Shader " + this.programFilename + "could not find sampler named " + s
+						+ " in the specified shader program.");
 				this.shaderSamplers.remove(s);
 				this.samplerNames.remove(j);
 				--j;
@@ -293,7 +298,8 @@ public class ShaderManager {
 		JsonArray jsonarray = JsonUtils.getJsonArray(jsonobject, "values");
 
 		if (jsonarray.size() != j && jsonarray.size() > 1) {
-			throw new JsonException("Invalid amount of values specified (expected " + j + ", found " + jsonarray.size() + ")");
+			throw new JsonException(
+					"Invalid amount of values specified (expected " + j + ", found " + jsonarray.size() + ")");
 		} else {
 			int k = 0;
 

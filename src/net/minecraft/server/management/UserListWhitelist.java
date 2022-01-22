@@ -1,44 +1,51 @@
+/*
+ * Decompiled with CFR 0.150.
+ * 
+ * Could not load the following classes:
+ *  com.google.gson.JsonObject
+ *  com.mojang.authlib.GameProfile
+ */
 package net.minecraft.server.management;
-
-import java.io.File;
 
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
+import java.io.File;
+import net.minecraft.server.management.UserList;
+import net.minecraft.server.management.UserListEntry;
+import net.minecraft.server.management.UserListWhitelistEntry;
 
-public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEntry> {
-	public UserListWhitelist(File p_i1132_1_) {
-		super(p_i1132_1_);
-	}
+public class UserListWhitelist
+extends UserList<GameProfile, UserListWhitelistEntry> {
+    public UserListWhitelist(File p_i1132_1_) {
+        super(p_i1132_1_);
+    }
 
-	protected UserListEntry<GameProfile> createEntry(JsonObject entryData) {
-		return new UserListWhitelistEntry(entryData);
-	}
+    @Override
+    protected UserListEntry<GameProfile> createEntry(JsonObject entryData) {
+        return new UserListWhitelistEntry(entryData);
+    }
 
-	public String[] getKeys() {
-		String[] astring = new String[this.getValues().size()];
-		int i = 0;
+    @Override
+    public String[] getKeys() {
+        String[] astring = new String[this.getValues().size()];
+        int i = 0;
+        for (UserListWhitelistEntry userlistwhitelistentry : this.getValues().values()) {
+            astring[i++] = ((GameProfile)userlistwhitelistentry.getValue()).getName();
+        }
+        return astring;
+    }
 
-		for (UserListWhitelistEntry userlistwhitelistentry : this.getValues().values()) {
-			astring[i++] = ((GameProfile) userlistwhitelistentry.getValue()).getName();
-		}
+    @Override
+    protected String getObjectKey(GameProfile obj) {
+        return obj.getId().toString();
+    }
 
-		return astring;
-	}
-
-	/**
-	 * Gets the key value for the given object
-	 */
-	protected String getObjectKey(GameProfile obj) {
-		return obj.getId().toString();
-	}
-
-	public GameProfile func_152706_a(String p_152706_1_) {
-		for (UserListWhitelistEntry userlistwhitelistentry : this.getValues().values()) {
-			if (p_152706_1_.equalsIgnoreCase(((GameProfile) userlistwhitelistentry.getValue()).getName())) {
-				return (GameProfile) userlistwhitelistentry.getValue();
-			}
-		}
-
-		return null;
-	}
+    public GameProfile func_152706_a(String p_152706_1_) {
+        for (UserListWhitelistEntry userlistwhitelistentry : this.getValues().values()) {
+            if (!p_152706_1_.equalsIgnoreCase(((GameProfile)userlistwhitelistentry.getValue()).getName())) continue;
+            return (GameProfile)userlistwhitelistentry.getValue();
+        }
+        return null;
+    }
 }
+

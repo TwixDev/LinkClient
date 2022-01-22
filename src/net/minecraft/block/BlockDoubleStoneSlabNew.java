@@ -1,7 +1,15 @@
+/*
+ * Decompiled with CFR 0.150.
+ */
 package net.minecraft.block;
 
-public class BlockDoubleStoneSlabNew extends BlockStoneSlabNew {
-	public boolean isDouble() {
-		return true;
-	}
+import net.minecraft.block.BlockStoneSlabNew;
+
+public class BlockDoubleStoneSlabNew
+extends BlockStoneSlabNew {
+    @Override
+    public boolean isDouble() {
+        return true;
+    }
 }
+
