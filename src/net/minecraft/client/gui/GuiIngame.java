@@ -1,11 +1,14 @@
 package net.minecraft.client.gui;
 
+import com.darkmagician6.eventapi.EventManager;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+
+import me.superskidder.events.EventRender2D;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -161,6 +164,8 @@ public class GuiIngame extends Gui
             }
         }
 
+        EventManager.call(new EventRender2D(partialTicks));
+
         if (this.mc.playerController.isSpectator())
         {
             this.spectatorGui.renderTooltip(scaledresolution, partialTicks);
@@ -169,6 +174,7 @@ public class GuiIngame extends Gui
         {
             this.renderTooltip(scaledresolution, partialTicks);
         }
+
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(icons);
