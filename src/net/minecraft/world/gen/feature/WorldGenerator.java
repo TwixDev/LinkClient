@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.world.gen.feature;
 
 import java.util.Random;
@@ -8,28 +5,39 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class WorldGenerator {
+public abstract class WorldGenerator
+{
+    /**
+     * Sets wither or not the generator should notify blocks of blocks it changes. When the world is first generated,
+     * this is false, when saplings grow, this is true.
+     */
     private final boolean doBlockNotify;
 
-    public WorldGenerator() {
+    public WorldGenerator()
+    {
         this(false);
     }
 
-    public WorldGenerator(boolean notify) {
+    public WorldGenerator(boolean notify)
+    {
         this.doBlockNotify = notify;
     }
 
-    public abstract boolean generate(World var1, Random var2, BlockPos var3);
+    public abstract boolean generate(World worldIn, Random rand, BlockPos position);
 
-    public void func_175904_e() {
+    public void func_175904_e()
+    {
     }
 
-    protected void setBlockAndNotifyAdequately(World worldIn, BlockPos pos, IBlockState state) {
-        if (this.doBlockNotify) {
+    protected void setBlockAndNotifyAdequately(World worldIn, BlockPos pos, IBlockState state)
+    {
+        if (this.doBlockNotify)
+        {
             worldIn.setBlockState(pos, state, 3);
-        } else {
+        }
+        else
+        {
             worldIn.setBlockState(pos, state, 2);
         }
     }
 }
-

@@ -1,15 +1,10 @@
-/*
- * Decompiled with CFR 0.150.
- * 
- * Could not load the following classes:
- *  com.google.common.collect.Maps
- */
 package net.minecraft.client.audio;
 
 import com.google.common.collect.Maps;
 import java.util.Map;
 
-public enum SoundCategory {
+public enum SoundCategory
+{
     MASTER("master", 0),
     MUSIC("music", 1),
     RECORDS("record", 2),
@@ -20,38 +15,42 @@ public enum SoundCategory {
     PLAYERS("player", 7),
     AMBIENT("ambient", 8);
 
-    private static final Map<String, SoundCategory> NAME_CATEGORY_MAP;
-    private static final Map<Integer, SoundCategory> ID_CATEGORY_MAP;
+    private static final Map<String, SoundCategory> NAME_CATEGORY_MAP = Maps.<String, SoundCategory>newHashMap();
+    private static final Map<Integer, SoundCategory> ID_CATEGORY_MAP = Maps.<Integer, SoundCategory>newHashMap();
     private final String categoryName;
     private final int categoryId;
 
-    private SoundCategory(String name, int id) {
+    private SoundCategory(String name, int id)
+    {
         this.categoryName = name;
         this.categoryId = id;
     }
 
-    public String getCategoryName() {
+    public String getCategoryName()
+    {
         return this.categoryName;
     }
 
-    public int getCategoryId() {
+    public int getCategoryId()
+    {
         return this.categoryId;
     }
 
-    public static SoundCategory getCategory(String name) {
-        return NAME_CATEGORY_MAP.get(name);
+    public static SoundCategory getCategory(String name)
+    {
+        return (SoundCategory)NAME_CATEGORY_MAP.get(name);
     }
 
     static {
-        NAME_CATEGORY_MAP = Maps.newHashMap();
-        ID_CATEGORY_MAP = Maps.newHashMap();
-        for (SoundCategory soundcategory : SoundCategory.values()) {
-            if (NAME_CATEGORY_MAP.containsKey(soundcategory.getCategoryName()) || ID_CATEGORY_MAP.containsKey(soundcategory.getCategoryId())) {
-                throw new Error("Clash in Sound Category ID & Name pools! Cannot insert " + (Object)((Object)soundcategory));
+        for (SoundCategory soundcategory : values())
+        {
+            if (NAME_CATEGORY_MAP.containsKey(soundcategory.getCategoryName()) || ID_CATEGORY_MAP.containsKey(Integer.valueOf(soundcategory.getCategoryId())))
+            {
+                throw new Error("Clash in Sound Category ID & Name pools! Cannot insert " + soundcategory);
             }
+
             NAME_CATEGORY_MAP.put(soundcategory.getCategoryName(), soundcategory);
-            ID_CATEGORY_MAP.put(soundcategory.getCategoryId(), soundcategory);
+            ID_CATEGORY_MAP.put(Integer.valueOf(soundcategory.getCategoryId()), soundcategory);
         }
     }
 }
-

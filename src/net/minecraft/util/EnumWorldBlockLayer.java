@@ -1,9 +1,7 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.util;
 
-public enum EnumWorldBlockLayer {
+public enum EnumWorldBlockLayer
+{
     SOLID("Solid"),
     CUTOUT_MIPPED("Mipped Cutout"),
     CUTOUT("Cutout"),
@@ -11,12 +9,13 @@ public enum EnumWorldBlockLayer {
 
     private final String layerName;
 
-    private EnumWorldBlockLayer(String layerNameIn) {
+    private EnumWorldBlockLayer(String layerNameIn)
+    {
         this.layerName = layerNameIn;
     }
 
-    public String toString() {
+    public String toString()
+    {
         return this.layerName;
     }
 }
-

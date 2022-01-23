@@ -1,14 +1,7 @@
-/*
- * Decompiled with CFR 0.150.
- * 
- * Could not load the following classes:
- *  com.google.common.collect.Maps
- */
 package net.minecraft.entity;
 
 import com.google.common.collect.Maps;
 import java.util.HashMap;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -42,14 +35,17 @@ import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
 
-public class EntitySpawnPlacementRegistry {
-    private static final HashMap<Class, EntityLiving.SpawnPlacementType> ENTITY_PLACEMENTS = Maps.newHashMap();
+public class EntitySpawnPlacementRegistry
+{
+    private static final HashMap<Class, EntityLiving.SpawnPlacementType> ENTITY_PLACEMENTS = Maps.<Class, EntityLiving.SpawnPlacementType>newHashMap();
 
-    public static EntityLiving.SpawnPlacementType getPlacementForEntity(Class entityClass) {
-        return ENTITY_PLACEMENTS.get(entityClass);
+    public static EntityLiving.SpawnPlacementType getPlacementForEntity(Class entityClass)
+    {
+        return (EntityLiving.SpawnPlacementType)ENTITY_PLACEMENTS.get(entityClass);
     }
 
-    static {
+    static
+    {
         ENTITY_PLACEMENTS.put(EntityBat.class, EntityLiving.SpawnPlacementType.ON_GROUND);
         ENTITY_PLACEMENTS.put(EntityChicken.class, EntityLiving.SpawnPlacementType.ON_GROUND);
         ENTITY_PLACEMENTS.put(EntityCow.class, EntityLiving.SpawnPlacementType.ON_GROUND);
@@ -84,4 +80,3 @@ public class EntitySpawnPlacementRegistry {
         ENTITY_PLACEMENTS.put(EntityZombie.class, EntityLiving.SpawnPlacementType.ON_GROUND);
     }
 }
-

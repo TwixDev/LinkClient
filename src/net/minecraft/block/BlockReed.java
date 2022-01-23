@@ -1,11 +1,8 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.block;
 
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -19,120 +16,162 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockReed
-extends Block {
+public class BlockReed extends Block
+{
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
 
-    protected BlockReed() {
+    protected BlockReed()
+    {
         super(Material.plants);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
-        float f = 0.375f;
-        this.setBlockBounds(0.5f - f, 0.0f, 0.5f - f, 0.5f + f, 1.0f, 0.5f + f);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)));
+        float f = 0.375F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 1.0F, 0.5F + f);
         this.setTickRandomly(true);
     }
 
-    @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        if ((worldIn.getBlockState(pos.down()).getBlock() == Blocks.reeds || this.checkForDrop(worldIn, pos, state)) && worldIn.isAirBlock(pos.up())) {
-            int i = 1;
-            while (worldIn.getBlockState(pos.down(i)).getBlock() == this) {
-                ++i;
-            }
-            if (i < 3) {
-                int j = state.getValue(AGE);
-                if (j == 15) {
-                    worldIn.setBlockState(pos.up(), this.getDefaultState());
-                    worldIn.setBlockState(pos, state.withProperty(AGE, 0), 4);
-                } else {
-                    worldIn.setBlockState(pos, state.withProperty(AGE, j + 1), 4);
+    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+    {
+        if (worldIn.getBlockState(pos.down()).getBlock() == Blocks.reeds || this.checkForDrop(worldIn, pos, state))
+        {
+            if (worldIn.isAirBlock(pos.up()))
+            {
+                int i;
+
+                for (i = 1; worldIn.getBlockState(pos.down(i)).getBlock() == this; ++i)
+                {
+                    ;
+                }
+
+                if (i < 3)
+                {
+                    int j = ((Integer)state.getValue(AGE)).intValue();
+
+                    if (j == 15)
+                    {
+                        worldIn.setBlockState(pos.up(), this.getDefaultState());
+                        worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(0)), 4);
+                    }
+                    else
+                    {
+                        worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(j + 1)), 4);
+                    }
                 }
             }
         }
     }
 
-    @Override
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
+    {
         Block block = worldIn.getBlockState(pos.down()).getBlock();
-        if (block == this) {
+
+        if (block == this)
+        {
             return true;
         }
-        if (block != Blocks.grass && block != Blocks.dirt && block != Blocks.sand) {
+        else if (block != Blocks.grass && block != Blocks.dirt && block != Blocks.sand)
+        {
             return false;
         }
-        for (Object enumfacing0 : EnumFacing.Plane.HORIZONTAL) {
-            EnumFacing enumfacing = (EnumFacing)enumfacing0;
-            if (worldIn.getBlockState(pos.offset(enumfacing).down()).getBlock().getMaterial() != Material.water) continue;
-            return true;
+        else
+        {
+            for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL)
+            {
+                if (worldIn.getBlockState(pos.offset(enumfacing).down()).getBlock().getMaterial() == Material.water)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
-        return false;
     }
 
-    @Override
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+    /**
+     * Called when a neighboring block changes.
+     */
+    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
+    {
         this.checkForDrop(worldIn, pos, state);
     }
 
-    protected final boolean checkForDrop(World worldIn, BlockPos pos, IBlockState state) {
-        if (this.canBlockStay(worldIn, pos)) {
+    protected final boolean checkForDrop(World worldIn, BlockPos pos, IBlockState state)
+    {
+        if (this.canBlockStay(worldIn, pos))
+        {
             return true;
         }
-        this.dropBlockAsItem(worldIn, pos, state, 0);
-        worldIn.setBlockToAir(pos);
-        return false;
+        else
+        {
+            this.dropBlockAsItem(worldIn, pos, state, 0);
+            worldIn.setBlockToAir(pos);
+            return false;
+        }
     }
 
-    public boolean canBlockStay(World worldIn, BlockPos pos) {
+    public boolean canBlockStay(World worldIn, BlockPos pos)
+    {
         return this.canPlaceBlockAt(worldIn, pos);
     }
 
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+    {
         return null;
     }
 
-    @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     */
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
         return Items.reeds;
     }
 
-    @Override
-    public boolean isOpaqueCube() {
+    /**
+     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+     */
+    public boolean isOpaqueCube()
+    {
         return false;
     }
 
-    @Override
-    public boolean isFullCube() {
+    public boolean isFullCube()
+    {
         return false;
     }
 
-    @Override
-    public Item getItem(World worldIn, BlockPos pos) {
+    public Item getItem(World worldIn, BlockPos pos)
+    {
         return Items.reeds;
     }
 
-    @Override
-    public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+    public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass)
+    {
         return worldIn.getBiomeGenForCoords(pos).getGrassColorAtPos(pos);
     }
 
-    @Override
-    public EnumWorldBlockLayer getBlockLayer() {
+    public EnumWorldBlockLayer getBlockLayer()
+    {
         return EnumWorldBlockLayer.CUTOUT;
     }
 
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(AGE, meta);
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
     }
 
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(AGE);
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(IBlockState state)
+    {
+        return ((Integer)state.getValue(AGE)).intValue();
     }
 
-    @Override
-    protected BlockState createBlockState() {
-        return new BlockState(this, AGE);
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[] {AGE});
     }
 }
-

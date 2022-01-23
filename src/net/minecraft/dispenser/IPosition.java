@@ -1,13 +1,10 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.dispenser;
 
-public interface IPosition {
-    public double getX();
+public interface IPosition
+{
+    double getX();
 
-    public double getY();
+    double getY();
 
-    public double getZ();
+    double getZ();
 }
-

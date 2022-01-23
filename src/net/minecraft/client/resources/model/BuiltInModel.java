@@ -1,56 +1,52 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.client.resources.model;
 
 import java.util.List;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.util.EnumFacing;
 
-public class BuiltInModel
-implements IBakedModel {
+public class BuiltInModel implements IBakedModel
+{
     private ItemCameraTransforms cameraTransforms;
 
-    public BuiltInModel(ItemCameraTransforms p_i46086_1_) {
+    public BuiltInModel(ItemCameraTransforms p_i46086_1_)
+    {
         this.cameraTransforms = p_i46086_1_;
     }
 
-    @Override
-    public List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_) {
+    public List<BakedQuad> getFaceQuads(EnumFacing facing)
+    {
         return null;
     }
 
-    @Override
-    public List<BakedQuad> getGeneralQuads() {
+    public List<BakedQuad> getGeneralQuads()
+    {
         return null;
     }
 
-    @Override
-    public boolean isAmbientOcclusion() {
+    public boolean isAmbientOcclusion()
+    {
         return false;
     }
 
-    @Override
-    public boolean isGui3d() {
+    public boolean isGui3d()
+    {
         return true;
     }
 
-    @Override
-    public boolean isBuiltInRenderer() {
+    public boolean isBuiltInRenderer()
+    {
         return true;
     }
 
-    @Override
-    public TextureAtlasSprite getParticleTexture() {
+    public TextureAtlasSprite getParticleTexture()
+    {
         return null;
     }
 
-    @Override
-    public ItemCameraTransforms getItemCameraTransforms() {
+    public ItemCameraTransforms getItemCameraTransforms()
+    {
         return this.cameraTransforms;
     }
 }
-

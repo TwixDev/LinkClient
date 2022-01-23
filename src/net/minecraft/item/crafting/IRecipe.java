@@ -1,21 +1,27 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.item.crafting;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public interface IRecipe {
-    public boolean matches(InventoryCrafting var1, World var2);
+public interface IRecipe
+{
+    /**
+     * Used to check if a recipe matches current crafting inventory
+     */
+    boolean matches(InventoryCrafting inv, World worldIn);
 
-    public ItemStack getCraftingResult(InventoryCrafting var1);
+    /**
+     * Returns an Item that is the result of this recipe
+     */
+    ItemStack getCraftingResult(InventoryCrafting inv);
 
-    public int getRecipeSize();
+    /**
+     * Returns the size of the recipe area
+     */
+    int getRecipeSize();
 
-    public ItemStack getRecipeOutput();
+    ItemStack getRecipeOutput();
 
-    public ItemStack[] getRemainingItems(InventoryCrafting var1);
+    ItemStack[] getRemainingItems(InventoryCrafting inv);
 }
-

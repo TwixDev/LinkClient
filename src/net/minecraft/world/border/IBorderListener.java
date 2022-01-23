@@ -1,23 +1,18 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.world.border;
 
-import net.minecraft.world.border.WorldBorder;
+public interface IBorderListener
+{
+    void onSizeChanged(WorldBorder border, double newSize);
 
-public interface IBorderListener {
-    public void onSizeChanged(WorldBorder var1, double var2);
+    void onTransitionStarted(WorldBorder border, double oldSize, double newSize, long time);
 
-    public void onTransitionStarted(WorldBorder var1, double var2, double var4, long var6);
+    void onCenterChanged(WorldBorder border, double x, double z);
 
-    public void onCenterChanged(WorldBorder var1, double var2, double var4);
+    void onWarningTimeChanged(WorldBorder border, int newTime);
 
-    public void onWarningTimeChanged(WorldBorder var1, int var2);
+    void onWarningDistanceChanged(WorldBorder border, int newDistance);
 
-    public void onWarningDistanceChanged(WorldBorder var1, int var2);
+    void onDamageAmountChanged(WorldBorder border, double newAmount);
 
-    public void onDamageAmountChanged(WorldBorder var1, double var2);
-
-    public void onDamageBufferChanged(WorldBorder var1, double var2);
+    void onDamageBufferChanged(WorldBorder border, double newSize);
 }
-

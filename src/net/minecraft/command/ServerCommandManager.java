@@ -1,46 +1,5 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.command;
 
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandBlockData;
-import net.minecraft.command.CommandClearInventory;
-import net.minecraft.command.CommandClone;
-import net.minecraft.command.CommandCompare;
-import net.minecraft.command.CommandDebug;
-import net.minecraft.command.CommandDefaultGameMode;
-import net.minecraft.command.CommandDifficulty;
-import net.minecraft.command.CommandEffect;
-import net.minecraft.command.CommandEnchant;
-import net.minecraft.command.CommandEntityData;
-import net.minecraft.command.CommandExecuteAt;
-import net.minecraft.command.CommandFill;
-import net.minecraft.command.CommandGameMode;
-import net.minecraft.command.CommandGameRule;
-import net.minecraft.command.CommandGive;
-import net.minecraft.command.CommandHandler;
-import net.minecraft.command.CommandHelp;
-import net.minecraft.command.CommandKill;
-import net.minecraft.command.CommandParticle;
-import net.minecraft.command.CommandPlaySound;
-import net.minecraft.command.CommandReplaceItem;
-import net.minecraft.command.CommandServerKick;
-import net.minecraft.command.CommandSetPlayerTimeout;
-import net.minecraft.command.CommandSetSpawnpoint;
-import net.minecraft.command.CommandShowSeed;
-import net.minecraft.command.CommandSpreadPlayers;
-import net.minecraft.command.CommandStats;
-import net.minecraft.command.CommandTime;
-import net.minecraft.command.CommandTitle;
-import net.minecraft.command.CommandToggleDownfall;
-import net.minecraft.command.CommandTrigger;
-import net.minecraft.command.CommandWeather;
-import net.minecraft.command.CommandWorldBorder;
-import net.minecraft.command.CommandXP;
-import net.minecraft.command.IAdminCommand;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.command.server.CommandAchievement;
 import net.minecraft.command.server.CommandBanIp;
 import net.minecraft.command.server.CommandBanPlayer;
@@ -73,11 +32,12 @@ import net.minecraft.network.rcon.RConConsoleSource;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 
-public class ServerCommandManager
-extends CommandHandler
-implements IAdminCommand {
-    public ServerCommandManager() {
+public class ServerCommandManager extends CommandHandler implements IAdminCommand
+{
+    public ServerCommandManager()
+    {
         this.registerCommand(new CommandTime());
         this.registerCommand(new CommandGameMode());
         this.registerCommand(new CommandDifficulty());
@@ -121,7 +81,9 @@ implements IAdminCommand {
         this.registerCommand(new CommandWorldBorder());
         this.registerCommand(new CommandTitle());
         this.registerCommand(new CommandEntityData());
-        if (MinecraftServer.getServer().isDedicatedServer()) {
+
+        if (MinecraftServer.getServer().isDedicatedServer())
+        {
             this.registerCommand(new CommandOp());
             this.registerCommand(new CommandDeOp());
             this.registerCommand(new CommandStop());
@@ -137,42 +99,64 @@ implements IAdminCommand {
             this.registerCommand(new CommandListPlayers());
             this.registerCommand(new CommandWhitelist());
             this.registerCommand(new CommandSetPlayerTimeout());
-        } else {
+        }
+        else
+        {
             this.registerCommand(new CommandPublishLocalServer());
         }
+
         CommandBase.setAdminCommander(this);
     }
 
-    @Override
-    public void notifyOperators(ICommandSender sender, ICommand command, int flags, String msgFormat, Object ... msgParams) {
+    /**
+     * Send an informative message to the server operators
+     */
+    public void notifyOperators(ICommandSender sender, ICommand command, int flags, String msgFormat, Object... msgParams)
+    {
         boolean flag = true;
         MinecraftServer minecraftserver = MinecraftServer.getServer();
-        if (!sender.sendCommandFeedback()) {
+
+        if (!sender.sendCommandFeedback())
+        {
             flag = false;
         }
-        ChatComponentTranslation ichatcomponent = new ChatComponentTranslation("chat.type.admin", sender.getName(), new ChatComponentTranslation(msgFormat, msgParams));
+
+        IChatComponent ichatcomponent = new ChatComponentTranslation("chat.type.admin", new Object[] {sender.getName(), new ChatComponentTranslation(msgFormat, msgParams)});
         ichatcomponent.getChatStyle().setColor(EnumChatFormatting.GRAY);
-        ichatcomponent.getChatStyle().setItalic(true);
-        if (flag) {
-            for (EntityPlayer entityPlayer : minecraftserver.getConfigurationManager().func_181057_v()) {
-                boolean flag2;
-                if (entityPlayer == sender || !minecraftserver.getConfigurationManager().canSendCommands(entityPlayer.getGameProfile()) || !command.canCommandSenderUseCommand(sender)) continue;
-                boolean flag1 = sender instanceof MinecraftServer && MinecraftServer.getServer().func_183002_r();
-                boolean bl = flag2 = sender instanceof RConConsoleSource && MinecraftServer.getServer().func_181034_q();
-                if (!flag1 && !flag2 && (sender instanceof RConConsoleSource || sender instanceof MinecraftServer)) continue;
-                entityPlayer.addChatMessage(ichatcomponent);
+        ichatcomponent.getChatStyle().setItalic(Boolean.valueOf(true));
+
+        if (flag)
+        {
+            for (EntityPlayer entityplayer : minecraftserver.getConfigurationManager().getPlayerList())
+            {
+                if (entityplayer != sender && minecraftserver.getConfigurationManager().canSendCommands(entityplayer.getGameProfile()) && command.canCommandSenderUseCommand(sender))
+                {
+                    boolean flag1 = sender instanceof MinecraftServer && MinecraftServer.getServer().shouldBroadcastConsoleToOps();
+                    boolean flag2 = sender instanceof RConConsoleSource && MinecraftServer.getServer().shouldBroadcastRconToOps();
+
+                    if (flag1 || flag2 || !(sender instanceof RConConsoleSource) && !(sender instanceof MinecraftServer))
+                    {
+                        entityplayer.addChatMessage(ichatcomponent);
+                    }
+                }
             }
         }
-        if (sender != minecraftserver && minecraftserver.worldServers[0].getGameRules().getBoolean("logAdminCommands")) {
+
+        if (sender != minecraftserver && minecraftserver.worldServers[0].getGameRules().getBoolean("logAdminCommands"))
+        {
             minecraftserver.addChatMessage(ichatcomponent);
         }
+
         boolean flag3 = minecraftserver.worldServers[0].getGameRules().getBoolean("sendCommandFeedback");
-        if (sender instanceof CommandBlockLogic) {
+
+        if (sender instanceof CommandBlockLogic)
+        {
             flag3 = ((CommandBlockLogic)sender).shouldTrackOutput();
         }
-        if ((flags & 1) != 1 && flag3 || sender instanceof MinecraftServer) {
+
+        if ((flags & 1) != 1 && flag3 || sender instanceof MinecraftServer)
+        {
             sender.addChatMessage(new ChatComponentTranslation(msgFormat, msgParams));
         }
     }
 }
-

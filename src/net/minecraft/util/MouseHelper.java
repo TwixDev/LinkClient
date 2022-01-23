@@ -1,33 +1,38 @@
-/*
- * Decompiled with CFR 0.150.
- * 
- * Could not load the following classes:
- *  org.lwjgl.input.Mouse
- *  org.lwjgl.opengl.Display
- */
 package net.minecraft.util;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-public class MouseHelper {
+public class MouseHelper
+{
+    /** Mouse delta X this frame */
     public int deltaX;
+
+    /** Mouse delta Y this frame */
     public int deltaY;
 
-    public void grabMouseCursor() {
-        Mouse.setGrabbed((boolean)true);
+    /**
+     * Grabs the mouse cursor it doesn't move and isn't seen.
+     */
+    public void grabMouseCursor()
+    {
+        Mouse.setGrabbed(true);
         this.deltaX = 0;
         this.deltaY = 0;
     }
 
-    public void ungrabMouseCursor() {
-        Mouse.setCursorPosition((int)(Display.getWidth() / 2), (int)(Display.getHeight() / 2));
-        Mouse.setGrabbed((boolean)false);
+    /**
+     * Ungrabs the mouse cursor so it can be moved and set it to the center of the screen
+     */
+    public void ungrabMouseCursor()
+    {
+        Mouse.setCursorPosition(Display.getWidth() / 2, Display.getHeight() / 2);
+        Mouse.setGrabbed(false);
     }
 
-    public void mouseXYChange() {
+    public void mouseXYChange()
+    {
         this.deltaX = Mouse.getDX();
         this.deltaY = Mouse.getDY();
     }
 }
-

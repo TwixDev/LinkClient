@@ -1,19 +1,17 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.scoreboard;
 
-import net.minecraft.scoreboard.IScoreObjectiveCriteria;
-import net.minecraft.scoreboard.Scoreboard;
-
-public class ScoreObjective {
+public class ScoreObjective
+{
     private final Scoreboard theScoreboard;
     private final String name;
+
+    /** The ScoreObjectiveCriteria for this objetive */
     private final IScoreObjectiveCriteria objectiveCriteria;
     private IScoreObjectiveCriteria.EnumRenderType renderType;
     private String displayName;
 
-    public ScoreObjective(Scoreboard theScoreboardIn, String nameIn, IScoreObjectiveCriteria objectiveCriteriaIn) {
+    public ScoreObjective(Scoreboard theScoreboardIn, String nameIn, IScoreObjectiveCriteria objectiveCriteriaIn)
+    {
         this.theScoreboard = theScoreboardIn;
         this.name = nameIn;
         this.objectiveCriteria = objectiveCriteriaIn;
@@ -21,34 +19,40 @@ public class ScoreObjective {
         this.renderType = objectiveCriteriaIn.getRenderType();
     }
 
-    public Scoreboard getScoreboard() {
+    public Scoreboard getScoreboard()
+    {
         return this.theScoreboard;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return this.name;
     }
 
-    public IScoreObjectiveCriteria getCriteria() {
+    public IScoreObjectiveCriteria getCriteria()
+    {
         return this.objectiveCriteria;
     }
 
-    public String getDisplayName() {
+    public String getDisplayName()
+    {
         return this.displayName;
     }
 
-    public void setDisplayName(String nameIn) {
+    public void setDisplayName(String nameIn)
+    {
         this.displayName = nameIn;
-        this.theScoreboard.func_96532_b(this);
+        this.theScoreboard.onObjectiveDisplayNameChanged(this);
     }
 
-    public IScoreObjectiveCriteria.EnumRenderType getRenderType() {
+    public IScoreObjectiveCriteria.EnumRenderType getRenderType()
+    {
         return this.renderType;
     }
 
-    public void setRenderType(IScoreObjectiveCriteria.EnumRenderType type) {
+    public void setRenderType(IScoreObjectiveCriteria.EnumRenderType type)
+    {
         this.renderType = type;
-        this.theScoreboard.func_96532_b(this);
+        this.theScoreboard.onObjectiveDisplayNameChanged(this);
     }
 }
-

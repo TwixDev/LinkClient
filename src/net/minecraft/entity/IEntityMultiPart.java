@@ -1,15 +1,12 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.entity;
 
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public interface IEntityMultiPart {
-    public World getWorld();
+public interface IEntityMultiPart
+{
+    World getWorld();
 
-    public boolean attackEntityFromPart(EntityDragonPart var1, DamageSource var2, float var3);
+    boolean attackEntityFromPart(EntityDragonPart dragonPart, DamageSource source, float p_70965_3_);
 }
-

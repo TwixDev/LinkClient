@@ -1,16 +1,13 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.world.biome;
 
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenMushroomIsland
-extends BiomeGenBase {
-    public BiomeGenMushroomIsland(int p_i1984_1_) {
-        super(p_i1984_1_);
+public class BiomeGenMushroomIsland extends BiomeGenBase
+{
+    public BiomeGenMushroomIsland(int id)
+    {
+        super(id);
         this.theBiomeDecorator.treesPerChunk = -100;
         this.theBiomeDecorator.flowersPerChunk = -100;
         this.theBiomeDecorator.grassPerChunk = -100;
@@ -23,4 +20,3 @@ extends BiomeGenBase {
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityMooshroom.class, 8, 4, 8));
     }
 }
-

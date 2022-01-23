@@ -1,17 +1,13 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.world.biome;
 
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.biome.BiomeEndDecorator;
-import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenEnd
-extends BiomeGenBase {
-    public BiomeGenEnd(int p_i1990_1_) {
-        super(p_i1990_1_);
+public class BiomeGenEnd extends BiomeGenBase
+{
+    public BiomeGenEnd(int id)
+    {
+        super(id);
         this.spawnableMonsterList.clear();
         this.spawnableCreatureList.clear();
         this.spawnableWaterCreatureList.clear();
@@ -22,9 +18,11 @@ extends BiomeGenBase {
         this.theBiomeDecorator = new BiomeEndDecorator();
     }
 
-    @Override
-    public int getSkyColorByTemp(float p_76731_1_) {
+    /**
+     * takes temperature, returns color
+     */
+    public int getSkyColorByTemp(float p_76731_1_)
+    {
         return 0;
     }
 }
-

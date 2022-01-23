@@ -1,18 +1,21 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.inventory;
 
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
-public interface ISidedInventory
-extends IInventory {
-    public int[] getSlotsForFace(EnumFacing var1);
+public interface ISidedInventory extends IInventory
+{
+    int[] getSlotsForFace(EnumFacing side);
 
-    public boolean canInsertItem(int var1, ItemStack var2, EnumFacing var3);
+    /**
+     * Returns true if automation can insert the given item in the given slot from the given side. Args: slot, item,
+     * side
+     */
+    boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction);
 
-    public boolean canExtractItem(int var1, ItemStack var2, EnumFacing var3);
+    /**
+     * Returns true if automation can extract the given item in the given slot from the given side. Args: slot, item,
+     * side
+     */
+    boolean canExtractItem(int index, ItemStack stack, EnumFacing direction);
 }
-

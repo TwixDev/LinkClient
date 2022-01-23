@@ -1,42 +1,66 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IWorldNameable;
 
-public interface IInventory
-extends IWorldNameable {
-    public int getSizeInventory();
+public interface IInventory extends IWorldNameable
+{
+    /**
+     * Returns the number of slots in the inventory.
+     */
+    int getSizeInventory();
 
-    public ItemStack getStackInSlot(int var1);
+    /**
+     * Returns the stack in the given slot.
+     */
+    ItemStack getStackInSlot(int index);
 
-    public ItemStack decrStackSize(int var1, int var2);
+    /**
+     * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
+     */
+    ItemStack decrStackSize(int index, int count);
 
-    public ItemStack removeStackFromSlot(int var1);
+    /**
+     * Removes a stack from the given slot and returns it.
+     */
+    ItemStack removeStackFromSlot(int index);
 
-    public void setInventorySlotContents(int var1, ItemStack var2);
+    /**
+     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
+     */
+    void setInventorySlotContents(int index, ItemStack stack);
 
-    public int getInventoryStackLimit();
+    /**
+     * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be extended.
+     */
+    int getInventoryStackLimit();
 
-    public void markDirty();
+    /**
+     * For tile entities, ensures the chunk containing the tile entity is saved to disk later - the game won't think it
+     * hasn't changed and skip it.
+     */
+    void markDirty();
 
-    public boolean isUseableByPlayer(EntityPlayer var1);
+    /**
+     * Do not make give this method the name canInteractWith because it clashes with Container
+     */
+    boolean isUseableByPlayer(EntityPlayer player);
 
-    public void openInventory(EntityPlayer var1);
+    void openInventory(EntityPlayer player);
 
-    public void closeInventory(EntityPlayer var1);
+    void closeInventory(EntityPlayer player);
 
-    public boolean isItemValidForSlot(int var1, ItemStack var2);
+    /**
+     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
+     */
+    boolean isItemValidForSlot(int index, ItemStack stack);
 
-    public int getField(int var1);
+    int getField(int id);
 
-    public void setField(int var1, int var2);
+    void setField(int id, int value);
 
-    public int getFieldCount();
+    int getFieldCount();
 
-    public void clear();
+    void clear();
 }
-

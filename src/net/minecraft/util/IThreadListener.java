@@ -1,16 +1,10 @@
-/*
- * Decompiled with CFR 0.150.
- * 
- * Could not load the following classes:
- *  com.google.common.util.concurrent.ListenableFuture
- */
 package net.minecraft.util;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
-public interface IThreadListener {
-    public ListenableFuture<Object> addScheduledTask(Runnable var1);
+public interface IThreadListener
+{
+    ListenableFuture<Object> addScheduledTask(Runnable runnableToSchedule);
 
-    public boolean isCallingFromMinecraftThread();
+    boolean isCallingFromMinecraftThread();
 }
-

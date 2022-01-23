@@ -1,15 +1,13 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.profiler;
 
-import net.minecraft.profiler.PlayerUsageSnooper;
+public interface IPlayerUsage
+{
+    void addServerStatsToSnooper(PlayerUsageSnooper playerSnooper);
 
-public interface IPlayerUsage {
-    public void addServerStatsToSnooper(PlayerUsageSnooper var1);
+    void addServerTypeToSnooper(PlayerUsageSnooper playerSnooper);
 
-    public void addServerTypeToSnooper(PlayerUsageSnooper var1);
-
-    public boolean isSnooperEnabled();
+    /**
+     * Returns whether snooping is enabled or not.
+     */
+    boolean isSnooperEnabled();
 }
-

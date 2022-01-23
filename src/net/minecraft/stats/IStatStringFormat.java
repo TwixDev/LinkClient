@@ -1,9 +1,11 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.stats;
 
-public interface IStatStringFormat {
-    public String formatString(String var1);
+public interface IStatStringFormat
+{
+    /**
+     * Formats the strings based on 'IStatStringFormat' interface.
+     *  
+     * @param str The String to format
+     */
+    String formatString(String str);
 }
-

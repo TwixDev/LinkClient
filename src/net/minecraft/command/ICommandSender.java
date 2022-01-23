@@ -1,34 +1,60 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.command;
 
-import net.minecraft.command.CommandResultStats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public interface ICommandSender {
-    public String getName();
+public interface ICommandSender
+{
+    /**
+     * Get the name of this object. For players this returns their username
+     */
+    String getName();
 
-    public IChatComponent getDisplayName();
+    /**
+     * Get the formatted ChatComponent that will be used for the sender's username in chat
+     */
+    IChatComponent getDisplayName();
 
-    public void addChatMessage(IChatComponent var1);
+    /**
+     * Send a chat message to the CommandSender
+     */
+    void addChatMessage(IChatComponent component);
 
-    public boolean canCommandSenderUseCommand(int var1, String var2);
+    /**
+     * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
+     */
+    boolean canCommandSenderUseCommand(int permLevel, String commandName);
 
-    public BlockPos getPosition();
+    /**
+     * Get the position in the world. <b>{@code null} is not allowed!</b> If you are not an entity in the world, return
+     * the coordinates 0, 0, 0
+     */
+    BlockPos getPosition();
 
-    public Vec3 getPositionVector();
+    /**
+     * Get the position vector. <b>{@code null} is not allowed!</b> If you are not an entity in the world, return 0.0D,
+     * 0.0D, 0.0D
+     */
+    Vec3 getPositionVector();
 
-    public World getEntityWorld();
+    /**
+     * Get the world, if available. <b>{@code null} is not allowed!</b> If you are not an entity in the world, return
+     * the overworld
+     */
+    World getEntityWorld();
 
-    public Entity getCommandSenderEntity();
+    /**
+     * Returns the entity associated with the command sender. MAY BE NULL!
+     */
+    Entity getCommandSenderEntity();
 
-    public boolean sendCommandFeedback();
+    /**
+     * Returns true if the command sender should be sent feedback about executed commands
+     */
+    boolean sendCommandFeedback();
 
-    public void setCommandStat(CommandResultStats.Type var1, int var2);
+    void setCommandStat(CommandResultStats.Type type, int amount);
 }
-

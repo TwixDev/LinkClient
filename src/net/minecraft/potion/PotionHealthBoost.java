@@ -1,25 +1,23 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.potion;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 
-public class PotionHealthBoost
-extends Potion {
-    public PotionHealthBoost(int potionID, ResourceLocation location, boolean badEffect, int potionColor) {
+public class PotionHealthBoost extends Potion
+{
+    public PotionHealthBoost(int potionID, ResourceLocation location, boolean badEffect, int potionColor)
+    {
         super(potionID, location, badEffect, potionColor);
     }
 
-    @Override
-    public void removeAttributesModifiersFromEntity(EntityLivingBase entityLivingBaseIn, BaseAttributeMap p_111187_2_, int amplifier) {
+    public void removeAttributesModifiersFromEntity(EntityLivingBase entityLivingBaseIn, BaseAttributeMap p_111187_2_, int amplifier)
+    {
         super.removeAttributesModifiersFromEntity(entityLivingBaseIn, p_111187_2_, amplifier);
-        if (entityLivingBaseIn.getHealth() > entityLivingBaseIn.getMaxHealth()) {
+
+        if (entityLivingBaseIn.getHealth() > entityLivingBaseIn.getMaxHealth())
+        {
             entityLivingBaseIn.setHealth(entityLivingBaseIn.getMaxHealth());
         }
     }
 }
-

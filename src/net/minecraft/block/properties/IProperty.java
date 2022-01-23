@@ -1,17 +1,17 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.block.properties;
 
 import java.util.Collection;
 
-public interface IProperty<T extends Comparable<T>> {
-    public String getName();
+public interface IProperty<T extends Comparable<T>>
+{
+    String getName();
 
-    public Collection<T> getAllowedValues();
+    Collection<T> getAllowedValues();
 
-    public Class<T> getValueClass();
+    Class<T> getValueClass();
 
-    public String getName(T var1);
+    /**
+     * Get the name for the given value.
+     */
+    String getName(T value);
 }
-

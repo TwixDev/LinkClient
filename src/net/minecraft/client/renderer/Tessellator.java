@@ -1,31 +1,41 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.client.renderer;
 
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.WorldVertexBufferUploader;
+import net.optifine.SmartAnimations;
 
-public class Tessellator {
+public class Tessellator
+{
     private WorldRenderer worldRenderer;
     private WorldVertexBufferUploader vboUploader = new WorldVertexBufferUploader();
-    private static final Tessellator instance = new Tessellator(0x200000);
 
-    public static Tessellator getInstance() {
+    /** The static instance of the Tessellator. */
+    private static final Tessellator instance = new Tessellator(2097152);
+
+    public static Tessellator getInstance()
+    {
         return instance;
     }
 
-    public Tessellator(int bufferSize) {
+    public Tessellator(int bufferSize)
+    {
         this.worldRenderer = new WorldRenderer(bufferSize);
     }
 
-    public void draw() {
+    /**
+     * Draws the data set up in this tessellator and resets the state to prepare for new drawing.
+     */
+    public void draw()
+    {
+        if (this.worldRenderer.animatedSprites != null)
+        {
+            SmartAnimations.spritesRendered(this.worldRenderer.animatedSprites);
+        }
+
         this.worldRenderer.finishDrawing();
-        this.vboUploader.func_181679_a(this.worldRenderer);
+        this.vboUploader.draw(this.worldRenderer);
     }
 
-    public WorldRenderer getWorldRenderer() {
+    public WorldRenderer getWorldRenderer()
+    {
         return this.worldRenderer;
     }
 }
-

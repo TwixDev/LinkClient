@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.client.player.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,39 +6,48 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.IInteractionObject;
 
-public class LocalBlockIntercommunication
-implements IInteractionObject {
+public class LocalBlockIntercommunication implements IInteractionObject
+{
     private String guiID;
     private IChatComponent displayName;
 
-    public LocalBlockIntercommunication(String guiIdIn, IChatComponent displayNameIn) {
+    public LocalBlockIntercommunication(String guiIdIn, IChatComponent displayNameIn)
+    {
         this.guiID = guiIdIn;
         this.displayName = displayNameIn;
     }
 
-    @Override
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+    {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public String getName() {
+    /**
+     * Get the name of this object. For players this returns their username
+     */
+    public String getName()
+    {
         return this.displayName.getUnformattedText();
     }
 
-    @Override
-    public boolean hasCustomName() {
+    /**
+     * Returns true if this thing is named
+     */
+    public boolean hasCustomName()
+    {
         return true;
     }
 
-    @Override
-    public String getGuiID() {
+    public String getGuiID()
+    {
         return this.guiID;
     }
 
-    @Override
-    public IChatComponent getDisplayName() {
+    /**
+     * Get the formatted ChatComponent that will be used for the sender's username in chat
+     */
+    public IChatComponent getDisplayName()
+    {
         return this.displayName;
     }
 }
-

@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.world.demo;
 
 import net.minecraft.profiler.Profiler;
@@ -11,14 +8,14 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 
-public class DemoWorldServer
-extends WorldServer {
-    private static final long demoWorldSeed = "North Carolina".hashCode();
-    public static final WorldSettings demoWorldSettings = new WorldSettings(demoWorldSeed, WorldSettings.GameType.SURVIVAL, true, false, WorldType.DEFAULT).enableBonusChest();
+public class DemoWorldServer extends WorldServer
+{
+    private static final long demoWorldSeed = (long)"North Carolina".hashCode();
+    public static final WorldSettings demoWorldSettings = (new WorldSettings(demoWorldSeed, WorldSettings.GameType.SURVIVAL, true, false, WorldType.DEFAULT)).enableBonusChest();
 
-    public DemoWorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo worldInfoIn, int dimensionId, Profiler profilerIn) {
+    public DemoWorldServer(MinecraftServer server, ISaveHandler saveHandlerIn, WorldInfo worldInfoIn, int dimensionId, Profiler profilerIn)
+    {
         super(server, saveHandlerIn, worldInfoIn, dimensionId, profilerIn);
         this.worldInfo.populateFromWorldSettings(demoWorldSettings);
     }
 }
-

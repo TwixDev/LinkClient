@@ -1,20 +1,17 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.tileentity;
 
-import net.minecraft.tileentity.TileEntityDispenser;
-
-public class TileEntityDropper
-extends TileEntityDispenser {
-    @Override
-    public String getName() {
+public class TileEntityDropper extends TileEntityDispenser
+{
+    /**
+     * Get the name of this object. For players this returns their username
+     */
+    public String getName()
+    {
         return this.hasCustomName() ? this.customName : "container.dropper";
     }
 
-    @Override
-    public String getGuiID() {
+    public String getGuiID()
+    {
         return "minecraft:dropper";
     }
 }
-

@@ -1,11 +1,7 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.block;
 
 import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRedstoneDiode;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
@@ -21,114 +17,140 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockRedstoneRepeater
-extends BlockRedstoneDiode {
+public class BlockRedstoneRepeater extends BlockRedstoneDiode
+{
     public static final PropertyBool LOCKED = PropertyBool.create("locked");
     public static final PropertyInteger DELAY = PropertyInteger.create("delay", 1, 4);
 
-    protected BlockRedstoneRepeater(boolean powered) {
+    protected BlockRedstoneRepeater(boolean powered)
+    {
         super(powered);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DELAY, 1).withProperty(LOCKED, false));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DELAY, Integer.valueOf(1)).withProperty(LOCKED, Boolean.valueOf(false)));
     }
 
-    @Override
-    public String getLocalizedName() {
+    /**
+     * Gets the localized name of this block. Used for the statistics page.
+     */
+    public String getLocalizedName()
+    {
         return StatCollector.translateToLocal("item.diode.name");
     }
 
-    @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return state.withProperty(LOCKED, this.isLocked(worldIn, pos, state));
+    /**
+     * Get the actual Block state of this Block at the given position. This applies properties not visible in the
+     * metadata, such as fence connections.
+     */
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+    {
+        return state.withProperty(LOCKED, Boolean.valueOf(this.isLocked(worldIn, pos, state)));
     }
 
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (!playerIn.capabilities.allowEdit) {
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
+    {
+        if (!playerIn.capabilities.allowEdit)
+        {
             return false;
         }
-        worldIn.setBlockState(pos, state.cycleProperty(DELAY), 3);
-        return true;
+        else
+        {
+            worldIn.setBlockState(pos, state.cycleProperty(DELAY), 3);
+            return true;
+        }
     }
 
-    @Override
-    protected int getDelay(IBlockState state) {
-        return state.getValue(DELAY) * 2;
+    protected int getDelay(IBlockState state)
+    {
+        return ((Integer)state.getValue(DELAY)).intValue() * 2;
     }
 
-    @Override
-    protected IBlockState getPoweredState(IBlockState unpoweredState) {
-        Integer integer = unpoweredState.getValue(DELAY);
-        Boolean obool = unpoweredState.getValue(LOCKED);
-        EnumFacing enumfacing = unpoweredState.getValue(FACING);
+    protected IBlockState getPoweredState(IBlockState unpoweredState)
+    {
+        Integer integer = (Integer)unpoweredState.getValue(DELAY);
+        Boolean obool = (Boolean)unpoweredState.getValue(LOCKED);
+        EnumFacing enumfacing = (EnumFacing)unpoweredState.getValue(FACING);
         return Blocks.powered_repeater.getDefaultState().withProperty(FACING, enumfacing).withProperty(DELAY, integer).withProperty(LOCKED, obool);
     }
 
-    @Override
-    protected IBlockState getUnpoweredState(IBlockState poweredState) {
-        Integer integer = poweredState.getValue(DELAY);
-        Boolean obool = poweredState.getValue(LOCKED);
-        EnumFacing enumfacing = poweredState.getValue(FACING);
+    protected IBlockState getUnpoweredState(IBlockState poweredState)
+    {
+        Integer integer = (Integer)poweredState.getValue(DELAY);
+        Boolean obool = (Boolean)poweredState.getValue(LOCKED);
+        EnumFacing enumfacing = (EnumFacing)poweredState.getValue(FACING);
         return Blocks.unpowered_repeater.getDefaultState().withProperty(FACING, enumfacing).withProperty(DELAY, integer).withProperty(LOCKED, obool);
     }
 
-    @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     */
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
         return Items.repeater;
     }
 
-    @Override
-    public Item getItem(World worldIn, BlockPos pos) {
+    public Item getItem(World worldIn, BlockPos pos)
+    {
         return Items.repeater;
     }
 
-    @Override
-    public boolean isLocked(IBlockAccess worldIn, BlockPos pos, IBlockState state) {
+    public boolean isLocked(IBlockAccess worldIn, BlockPos pos, IBlockState state)
+    {
         return this.getPowerOnSides(worldIn, pos, state) > 0;
     }
 
-    @Override
-    protected boolean canPowerSide(Block blockIn) {
-        return BlockRedstoneRepeater.isRedstoneRepeaterBlockID(blockIn);
+    protected boolean canPowerSide(Block blockIn)
+    {
+        return isRedstoneRepeaterBlockID(blockIn);
     }
 
-    @Override
-    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        if (this.isRepeaterPowered) {
-            EnumFacing enumfacing = state.getValue(FACING);
-            double d0 = (double)((float)pos.getX() + 0.5f) + (double)(rand.nextFloat() - 0.5f) * 0.2;
-            double d1 = (double)((float)pos.getY() + 0.4f) + (double)(rand.nextFloat() - 0.5f) * 0.2;
-            double d2 = (double)((float)pos.getZ() + 0.5f) + (double)(rand.nextFloat() - 0.5f) * 0.2;
-            float f = -5.0f;
-            if (rand.nextBoolean()) {
-                f = state.getValue(DELAY) * 2 - 1;
+    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+    {
+        if (this.isRepeaterPowered)
+        {
+            EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
+            double d0 = (double)((float)pos.getX() + 0.5F) + (double)(rand.nextFloat() - 0.5F) * 0.2D;
+            double d1 = (double)((float)pos.getY() + 0.4F) + (double)(rand.nextFloat() - 0.5F) * 0.2D;
+            double d2 = (double)((float)pos.getZ() + 0.5F) + (double)(rand.nextFloat() - 0.5F) * 0.2D;
+            float f = -5.0F;
+
+            if (rand.nextBoolean())
+            {
+                f = (float)(((Integer)state.getValue(DELAY)).intValue() * 2 - 1);
             }
-            double d3 = (f /= 16.0f) * (float)enumfacing.getFrontOffsetX();
-            double d4 = f * (float)enumfacing.getFrontOffsetZ();
-            worldIn.spawnParticle(EnumParticleTypes.REDSTONE, d0 + d3, d1, d2 + d4, 0.0, 0.0, 0.0, new int[0]);
+
+            f = f / 16.0F;
+            double d3 = (double)(f * (float)enumfacing.getFrontOffsetX());
+            double d4 = (double)(f * (float)enumfacing.getFrontOffsetZ());
+            worldIn.spawnParticle(EnumParticleTypes.REDSTONE, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
         }
     }
 
-    @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
         super.breakBlock(worldIn, pos, state);
         this.notifyNeighbors(worldIn, pos, state);
     }
 
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(LOCKED, false).withProperty(DELAY, 1 + (meta >> 2));
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta)).withProperty(LOCKED, Boolean.valueOf(false)).withProperty(DELAY, Integer.valueOf(1 + (meta >> 2)));
     }
 
-    @Override
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(IBlockState state)
+    {
         int i = 0;
-        i |= state.getValue(FACING).getHorizontalIndex();
-        return i |= state.getValue(DELAY) - 1 << 2;
+        i = i | ((EnumFacing)state.getValue(FACING)).getHorizontalIndex();
+        i = i | ((Integer)state.getValue(DELAY)).intValue() - 1 << 2;
+        return i;
     }
 
-    @Override
-    protected BlockState createBlockState() {
-        return new BlockState(this, FACING, DELAY, LOCKED);
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[] {FACING, DELAY, LOCKED});
     }
 }
-

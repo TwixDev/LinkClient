@@ -1,16 +1,11 @@
-/*
- * Decompiled with CFR 0.150.
- * 
- * Could not load the following classes:
- *  com.google.gson.JsonDeserializer
- */
 package net.minecraft.client.resources.data;
 
 import com.google.gson.JsonDeserializer;
-import net.minecraft.client.resources.data.IMetadataSection;
 
-public interface IMetadataSectionSerializer<T extends IMetadataSection>
-extends JsonDeserializer<T> {
-    public String getSectionName();
+public interface IMetadataSectionSerializer<T extends IMetadataSection> extends JsonDeserializer<T>
+{
+    /**
+     * The name of this section type as it appears in JSON.
+     */
+    String getSectionName();
 }
-

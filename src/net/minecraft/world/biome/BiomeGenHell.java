@@ -1,17 +1,14 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.world.biome;
 
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntityMagmaCube;
 import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenHell
-extends BiomeGenBase {
-    public BiomeGenHell(int p_i1981_1_) {
-        super(p_i1981_1_);
+public class BiomeGenHell extends BiomeGenBase
+{
+    public BiomeGenHell(int id)
+    {
+        super(id);
         this.spawnableMonsterList.clear();
         this.spawnableCreatureList.clear();
         this.spawnableWaterCreatureList.clear();
@@ -21,4 +18,3 @@ extends BiomeGenBase {
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityMagmaCube.class, 1, 4, 4));
     }
 }
-

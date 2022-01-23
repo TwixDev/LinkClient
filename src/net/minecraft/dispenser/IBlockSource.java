@@ -1,27 +1,19 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.dispenser;
 
-import net.minecraft.dispenser.ILocatableSource;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 
-public interface IBlockSource
-extends ILocatableSource {
-    @Override
-    public double getX();
+public interface IBlockSource extends ILocatableSource
+{
+    double getX();
 
-    @Override
-    public double getY();
+    double getY();
 
-    @Override
-    public double getZ();
+    double getZ();
 
-    public BlockPos getBlockPos();
+    BlockPos getBlockPos();
 
-    public int getBlockMetadata();
+    int getBlockMetadata();
 
-    public <T extends TileEntity> T getBlockTileEntity();
+    <T extends TileEntity> T getBlockTileEntity();
 }
-

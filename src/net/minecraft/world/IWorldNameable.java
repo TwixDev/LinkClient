@@ -1,15 +1,21 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.world;
 
 import net.minecraft.util.IChatComponent;
 
-public interface IWorldNameable {
-    public String getName();
+public interface IWorldNameable
+{
+    /**
+     * Get the name of this object. For players this returns their username
+     */
+    String getName();
 
-    public boolean hasCustomName();
+    /**
+     * Returns true if this thing is named
+     */
+    boolean hasCustomName();
 
-    public IChatComponent getDisplayName();
+    /**
+     * Get the formatted ChatComponent that will be used for the sender's username in chat
+     */
+    IChatComponent getDisplayName();
 }
-

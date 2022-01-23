@@ -1,54 +1,69 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.entity.item;
 
-import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntityMinecartEmpty
-extends EntityMinecart {
-    public EntityMinecartEmpty(World worldIn) {
+public class EntityMinecartEmpty extends EntityMinecart
+{
+    public EntityMinecartEmpty(World worldIn)
+    {
         super(worldIn);
     }
 
-    public EntityMinecartEmpty(World worldIn, double p_i1723_2_, double p_i1723_4_, double p_i1723_6_) {
-        super(worldIn, p_i1723_2_, p_i1723_4_, p_i1723_6_);
+    public EntityMinecartEmpty(World worldIn, double x, double y, double z)
+    {
+        super(worldIn, x, y, z);
     }
 
-    @Override
-    public boolean interactFirst(EntityPlayer playerIn) {
-        if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != playerIn) {
+    /**
+     * First layer of player interaction
+     */
+    public boolean interactFirst(EntityPlayer playerIn)
+    {
+        if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != playerIn)
+        {
             return true;
         }
-        if (this.riddenByEntity != null && this.riddenByEntity != playerIn) {
+        else if (this.riddenByEntity != null && this.riddenByEntity != playerIn)
+        {
             return false;
         }
-        if (!this.worldObj.isRemote) {
-            playerIn.mountEntity(this);
+        else
+        {
+            if (!this.worldObj.isRemote)
+            {
+                playerIn.mountEntity(this);
+            }
+
+            return true;
         }
-        return true;
     }
 
-    @Override
-    public void onActivatorRailPass(int x, int y, int z, boolean receivingPower) {
-        if (receivingPower) {
-            if (this.riddenByEntity != null) {
-                this.riddenByEntity.mountEntity(null);
+    /**
+     * Called every tick the minecart is on an activator rail. Args: x, y, z, is the rail receiving power
+     */
+    public void onActivatorRailPass(int x, int y, int z, boolean receivingPower)
+    {
+        if (receivingPower)
+        {
+            if (this.riddenByEntity != null)
+            {
+                this.riddenByEntity.mountEntity((Entity)null);
             }
-            if (this.getRollingAmplitude() == 0) {
+
+            if (this.getRollingAmplitude() == 0)
+            {
                 this.setRollingDirection(-this.getRollingDirection());
                 this.setRollingAmplitude(10);
-                this.setDamage(50.0f);
+                this.setDamage(50.0F);
                 this.setBeenAttacked();
             }
         }
     }
 
-    @Override
-    public EntityMinecart.EnumMinecartType getMinecartType() {
+    public EntityMinecart.EnumMinecartType getMinecartType()
+    {
         return EntityMinecart.EnumMinecartType.RIDEABLE;
     }
 }
-

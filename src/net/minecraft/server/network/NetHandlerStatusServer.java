@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.server.network;
 
 import net.minecraft.network.NetworkManager;
@@ -13,36 +10,42 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
-public class NetHandlerStatusServer
-implements INetHandlerStatusServer {
-    private static final IChatComponent field_183007_a = new ChatComponentText("Status request has been handled.");
+public class NetHandlerStatusServer implements INetHandlerStatusServer
+{
+    private static final IChatComponent EXIT_MESSAGE = new ChatComponentText("Status request has been handled.");
     private final MinecraftServer server;
     private final NetworkManager networkManager;
-    private boolean field_183008_d;
+    private boolean handled;
 
-    public NetHandlerStatusServer(MinecraftServer serverIn, NetworkManager netManager) {
+    public NetHandlerStatusServer(MinecraftServer serverIn, NetworkManager netManager)
+    {
         this.server = serverIn;
         this.networkManager = netManager;
     }
 
-    @Override
-    public void onDisconnect(IChatComponent reason) {
+    /**
+     * Invoked when disconnecting, the parameter is a ChatComponent describing the reason for termination
+     */
+    public void onDisconnect(IChatComponent reason)
+    {
     }
 
-    @Override
-    public void processServerQuery(C00PacketServerQuery packetIn) {
-        if (this.field_183008_d) {
-            this.networkManager.closeChannel(field_183007_a);
-        } else {
-            this.field_183008_d = true;
+    public void processServerQuery(C00PacketServerQuery packetIn)
+    {
+        if (this.handled)
+        {
+            this.networkManager.closeChannel(EXIT_MESSAGE);
+        }
+        else
+        {
+            this.handled = true;
             this.networkManager.sendPacket(new S00PacketServerInfo(this.server.getServerStatusResponse()));
         }
     }
 
-    @Override
-    public void processPing(C01PacketPing packetIn) {
+    public void processPing(C01PacketPing packetIn)
+    {
         this.networkManager.sendPacket(new S01PacketPong(packetIn.getClientTime()));
-        this.networkManager.closeChannel(field_183007_a);
+        this.networkManager.closeChannel(EXIT_MESSAGE);
     }
 }
-

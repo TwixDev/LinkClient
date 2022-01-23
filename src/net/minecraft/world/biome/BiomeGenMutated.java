@@ -1,24 +1,18 @@
-/*
- * Decompiled with CFR 0.150.
- * 
- * Could not load the following classes:
- *  com.google.common.collect.Lists
- */
 package net.minecraft.world.biome;
 
 import com.google.common.collect.Lists;
 import java.util.Random;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
-public class BiomeGenMutated
-extends BiomeGenBase {
+public class BiomeGenMutated extends BiomeGenBase
+{
     protected BiomeGenBase baseBiome;
 
-    public BiomeGenMutated(int id, BiomeGenBase biome) {
+    public BiomeGenMutated(int id, BiomeGenBase biome)
+    {
         super(id);
         this.baseBiome = biome;
         this.func_150557_a(biome.color, true);
@@ -39,53 +33,58 @@ extends BiomeGenBase {
         this.spawnableWaterCreatureList = Lists.newArrayList(biome.spawnableWaterCreatureList);
         this.temperature = biome.temperature;
         this.rainfall = biome.rainfall;
-        this.minHeight = biome.minHeight + 0.1f;
-        this.maxHeight = biome.maxHeight + 0.2f;
+        this.minHeight = biome.minHeight + 0.1F;
+        this.maxHeight = biome.maxHeight + 0.2F;
     }
 
-    @Override
-    public void decorate(World worldIn, Random rand, BlockPos pos) {
+    public void decorate(World worldIn, Random rand, BlockPos pos)
+    {
         this.baseBiome.theBiomeDecorator.decorate(worldIn, rand, this, pos);
     }
 
-    @Override
-    public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_) {
-        this.baseBiome.genTerrainBlocks(worldIn, rand, chunkPrimerIn, p_180622_4_, p_180622_5_, p_180622_6_);
+    public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal)
+    {
+        this.baseBiome.genTerrainBlocks(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
     }
 
-    @Override
-    public float getSpawningChance() {
+    /**
+     * returns the chance a creature has to spawn.
+     */
+    public float getSpawningChance()
+    {
         return this.baseBiome.getSpawningChance();
     }
 
-    @Override
-    public WorldGenAbstractTree genBigTreeChance(Random rand) {
+    public WorldGenAbstractTree genBigTreeChance(Random rand)
+    {
         return this.baseBiome.genBigTreeChance(rand);
     }
 
-    @Override
-    public int getFoliageColorAtPos(BlockPos pos) {
+    public int getFoliageColorAtPos(BlockPos pos)
+    {
         return this.baseBiome.getFoliageColorAtPos(pos);
     }
 
-    @Override
-    public int getGrassColorAtPos(BlockPos pos) {
+    public int getGrassColorAtPos(BlockPos pos)
+    {
         return this.baseBiome.getGrassColorAtPos(pos);
     }
 
-    @Override
-    public Class<? extends BiomeGenBase> getBiomeClass() {
+    public Class <? extends BiomeGenBase > getBiomeClass()
+    {
         return this.baseBiome.getBiomeClass();
     }
 
-    @Override
-    public boolean isEqualTo(BiomeGenBase biome) {
+    /**
+     * returns true if the biome specified is equal to this biome
+     */
+    public boolean isEqualTo(BiomeGenBase biome)
+    {
         return this.baseBiome.isEqualTo(biome);
     }
 
-    @Override
-    public BiomeGenBase.TempCategory getTempCategory() {
+    public BiomeGenBase.TempCategory getTempCategory()
+    {
         return this.baseBiome.getTempCategory();
     }
 }
-

@@ -1,34 +1,35 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.entity.ai.attributes;
 
 import java.util.Collection;
 import java.util.UUID;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttribute;
 
-public interface IAttributeInstance {
-    public IAttribute getAttribute();
+public interface IAttributeInstance
+{
+    /**
+     * Get the Attribute this is an instance of
+     */
+    IAttribute getAttribute();
 
-    public double getBaseValue();
+    double getBaseValue();
 
-    public void setBaseValue(double var1);
+    void setBaseValue(double baseValue);
 
-    public Collection<AttributeModifier> getModifiersByOperation(int var1);
+    Collection<AttributeModifier> getModifiersByOperation(int operation);
 
-    public Collection<AttributeModifier> func_111122_c();
+    Collection<AttributeModifier> func_111122_c();
 
-    public boolean hasModifier(AttributeModifier var1);
+    boolean hasModifier(AttributeModifier modifier);
 
-    public AttributeModifier getModifier(UUID var1);
+    /**
+     * Returns attribute modifier, if any, by the given UUID
+     */
+    AttributeModifier getModifier(UUID uuid);
 
-    public void applyModifier(AttributeModifier var1);
+    void applyModifier(AttributeModifier modifier);
 
-    public void removeModifier(AttributeModifier var1);
+    void removeModifier(AttributeModifier modifier);
 
-    public void removeAllModifiers();
+    void removeAllModifiers();
 
-    public double getAttributeValue();
+    double getAttributeValue();
 }
-

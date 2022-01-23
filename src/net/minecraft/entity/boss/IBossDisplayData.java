@@ -1,15 +1,15 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.entity.boss;
 
 import net.minecraft.util.IChatComponent;
 
-public interface IBossDisplayData {
-    public float getMaxHealth();
+public interface IBossDisplayData
+{
+    float getMaxHealth();
 
-    public float getHealth();
+    float getHealth();
 
-    public IChatComponent getDisplayName();
+    /**
+     * Get the formatted ChatComponent that will be used for the sender's username in chat
+     */
+    IChatComponent getDisplayName();
 }
-

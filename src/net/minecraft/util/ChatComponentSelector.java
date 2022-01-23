@@ -1,53 +1,69 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.util;
 
-import net.minecraft.util.ChatComponentStyle;
-import net.minecraft.util.IChatComponent;
-
-public class ChatComponentSelector
-extends ChatComponentStyle {
+public class ChatComponentSelector extends ChatComponentStyle
+{
+    /**
+     * The selector used to find the matching entities of this text component
+     */
     private final String selector;
 
-    public ChatComponentSelector(String selectorIn) {
+    public ChatComponentSelector(String selectorIn)
+    {
         this.selector = selectorIn;
     }
 
-    public String getSelector() {
+    /**
+     * Gets the selector of this component, in plain text.
+     */
+    public String getSelector()
+    {
         return this.selector;
     }
 
-    @Override
-    public String getUnformattedTextForChat() {
+    /**
+     * Gets the text of this component, without any special formatting codes added, for chat.  TODO: why is this two
+     * different methods?
+     */
+    public String getUnformattedTextForChat()
+    {
         return this.selector;
     }
 
-    @Override
-    public ChatComponentSelector createCopy() {
+    /**
+     * Creates a copy of this component.  Almost a deep copy, except the style is shallow-copied.
+     */
+    public ChatComponentSelector createCopy()
+    {
         ChatComponentSelector chatcomponentselector = new ChatComponentSelector(this.selector);
         chatcomponentselector.setChatStyle(this.getChatStyle().createShallowCopy());
-        for (IChatComponent ichatcomponent : this.getSiblings()) {
+
+        for (IChatComponent ichatcomponent : this.getSiblings())
+        {
             chatcomponentselector.appendSibling(ichatcomponent.createCopy());
         }
+
         return chatcomponentselector;
     }
 
-    @Override
-    public boolean equals(Object p_equals_1_) {
-        if (this == p_equals_1_) {
+    public boolean equals(Object p_equals_1_)
+    {
+        if (this == p_equals_1_)
+        {
             return true;
         }
-        if (!(p_equals_1_ instanceof ChatComponentSelector)) {
+        else if (!(p_equals_1_ instanceof ChatComponentSelector))
+        {
             return false;
         }
-        ChatComponentSelector chatcomponentselector = (ChatComponentSelector)p_equals_1_;
-        return this.selector.equals(chatcomponentselector.selector) && super.equals(p_equals_1_);
+        else
+        {
+            ChatComponentSelector chatcomponentselector = (ChatComponentSelector)p_equals_1_;
+            return this.selector.equals(chatcomponentselector.selector) && super.equals(p_equals_1_);
+        }
     }
 
-    @Override
-    public String toString() {
-        return "SelectorComponent{pattern='" + this.selector + '\'' + ", siblings=" + this.siblings + ", style=" + this.getChatStyle() + '}';
+    public String toString()
+    {
+        return "SelectorComponent{pattern=\'" + this.selector + '\'' + ", siblings=" + this.siblings + ", style=" + this.getChatStyle() + '}';
     }
 }
-

@@ -1,9 +1,9 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.stats;
 
-public interface IStatType {
-    public String format(int var1);
+public interface IStatType
+{
+    /**
+     * Formats a given stat for human consumption.
+     */
+    String format(int number);
 }
-

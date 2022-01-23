@@ -1,11 +1,18 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.util;
 
-public class Vector3d {
-    public double field_181059_a = 0.0;
-    public double field_181060_b = 0.0;
-    public double field_181061_c = 0.0;
-}
+public class Vector3d
+{
+    /** The X coordinate */
+    public double x;
 
+    /** The Y coordinate */
+    public double y;
+
+    /** The Z coordinate */
+    public double z;
+
+    public Vector3d()
+    {
+        this.x = this.y = this.z = 0.0D;
+    }
+}

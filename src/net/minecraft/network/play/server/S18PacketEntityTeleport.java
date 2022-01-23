@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.network.play.server;
 
 import java.io.IOException;
@@ -10,8 +7,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
 
-public class S18PacketEntityTeleport
-implements Packet<INetHandlerPlayClient> {
+public class S18PacketEntityTeleport implements Packet<INetHandlerPlayClient>
+{
     private int entityId;
     private int posX;
     private int posY;
@@ -20,20 +17,23 @@ implements Packet<INetHandlerPlayClient> {
     private byte pitch;
     private boolean onGround;
 
-    public S18PacketEntityTeleport() {
+    public S18PacketEntityTeleport()
+    {
     }
 
-    public S18PacketEntityTeleport(Entity entityIn) {
+    public S18PacketEntityTeleport(Entity entityIn)
+    {
         this.entityId = entityIn.getEntityId();
-        this.posX = MathHelper.floor_double(entityIn.posX * 32.0);
-        this.posY = MathHelper.floor_double(entityIn.posY * 32.0);
-        this.posZ = MathHelper.floor_double(entityIn.posZ * 32.0);
-        this.yaw = (byte)(entityIn.rotationYaw * 256.0f / 360.0f);
-        this.pitch = (byte)(entityIn.rotationPitch * 256.0f / 360.0f);
+        this.posX = MathHelper.floor_double(entityIn.posX * 32.0D);
+        this.posY = MathHelper.floor_double(entityIn.posY * 32.0D);
+        this.posZ = MathHelper.floor_double(entityIn.posZ * 32.0D);
+        this.yaw = (byte)((int)(entityIn.rotationYaw * 256.0F / 360.0F));
+        this.pitch = (byte)((int)(entityIn.rotationPitch * 256.0F / 360.0F));
         this.onGround = entityIn.onGround;
     }
 
-    public S18PacketEntityTeleport(int entityIdIn, int posXIn, int posYIn, int posZIn, byte yawIn, byte pitchIn, boolean onGroundIn) {
+    public S18PacketEntityTeleport(int entityIdIn, int posXIn, int posYIn, int posZIn, byte yawIn, byte pitchIn, boolean onGroundIn)
+    {
         this.entityId = entityIdIn;
         this.posX = posXIn;
         this.posY = posYIn;
@@ -43,8 +43,11 @@ implements Packet<INetHandlerPlayClient> {
         this.onGround = onGroundIn;
     }
 
-    @Override
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(PacketBuffer buf) throws IOException
+    {
         this.entityId = buf.readVarIntFromBuffer();
         this.posX = buf.readInt();
         this.posY = buf.readInt();
@@ -54,8 +57,11 @@ implements Packet<INetHandlerPlayClient> {
         this.onGround = buf.readBoolean();
     }
 
-    @Override
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(PacketBuffer buf) throws IOException
+    {
         buf.writeVarIntToBuffer(this.entityId);
         buf.writeInt(this.posX);
         buf.writeInt(this.posY);
@@ -65,37 +71,46 @@ implements Packet<INetHandlerPlayClient> {
         buf.writeBoolean(this.onGround);
     }
 
-    @Override
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(INetHandlerPlayClient handler)
+    {
         handler.handleEntityTeleport(this);
     }
 
-    public int getEntityId() {
+    public int getEntityId()
+    {
         return this.entityId;
     }
 
-    public int getX() {
+    public int getX()
+    {
         return this.posX;
     }
 
-    public int getY() {
+    public int getY()
+    {
         return this.posY;
     }
 
-    public int getZ() {
+    public int getZ()
+    {
         return this.posZ;
     }
 
-    public byte getYaw() {
+    public byte getYaw()
+    {
         return this.yaw;
     }
 
-    public byte getPitch() {
+    public byte getPitch()
+    {
         return this.pitch;
     }
 
-    public boolean getOnGround() {
+    public boolean getOnGround()
+    {
         return this.onGround;
     }
 }
-

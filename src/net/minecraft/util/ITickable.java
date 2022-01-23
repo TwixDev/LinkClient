@@ -1,9 +1,9 @@
-/*
- * Decompiled with CFR 0.150.
- */
 package net.minecraft.util;
 
-public interface ITickable {
-    public void update();
+public interface ITickable
+{
+    /**
+     * Like the old updateEntity(), except more generic.
+     */
+    void update();
 }
-
